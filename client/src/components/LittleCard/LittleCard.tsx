@@ -3,7 +3,7 @@ import "./Littlecard.css";
 type CinemaProps = {
   title: string;
   vote_average: number;
-  release_date: number;
+  release_date: string;
   overview: string;
   poster_path: string;
 };
