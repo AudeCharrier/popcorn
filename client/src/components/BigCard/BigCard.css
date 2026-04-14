@@ -1,0 +1,47 @@
+.BigCard {
+  background: var(--card-background);
+  display: flex;
+  flex-direction: row;
+  width: 70vw;
+  border-radius: 10px;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  .BigCardDivImg {
+    display: flex;
+    justify-content: center;
+    img {
+      width: 25vw;
+      margin-top: 5vh;
+      margin-bottom: 5vh;
+      margin-left: 5vh;
+      margin-right: 5vh;
+    }
+  }
+  .BigCardDivText {
+    margin-left: 5vh;
+    margin-right: 5vh;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    color: var(--text-color-main);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    h1 {
+      font-family: var(--main-font);
+      font-weight: 400;
+      font-style: normal;
+      font-size: 3em;
+    }
+    span {
+      font-family: var(--main-font);
+      font-weight: 400;
+      font-style: normal;
+      font-size: 1.2em;
+      color: var(--text-color-secondary);
+    }
+    p {
+      font-family: var(--second-font);
+      font-size: 1.2em;
+    }
+  }
+}
