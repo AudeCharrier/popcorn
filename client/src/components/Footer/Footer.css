@@ -1,0 +1,40 @@
+.footer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.688);
+  padding: 20px;
+}
+
+.footer-copy {
+  color: white;
+  text-align: center;
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.footer-logo-link {
+  position: absolute;
+  right: 120px;
+  display: flex;
+  gap: 15px;
+}
+
+.logo-footer {
+  max-width: 40px;
+}
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+  }
+
+  .footer-logo-link {
+    position: static;
+    margin-top: 10px;
+    justify-content: center;
+  }
+
+  .logo-footer {
+    max-width: 30px;
+  }
+}

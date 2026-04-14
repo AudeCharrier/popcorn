@@ -69,10 +69,6 @@
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  .navbar {
-    padding: 10px;
-  }
-
   .nav-logo {
     height: 50px;
   }
@@ -85,11 +81,9 @@
 
   .nav-search {
     margin-left: auto;
-    width: 30%;
   }
 
   .nav-sch {
-    width: 90%;
     font-size: 16px;
   }
 }
@@ -97,7 +91,6 @@
   .navbar {
     flex-wrap: wrap;
     justify-content: space-around;
-    padding: 10px 10px;
   }
 
   .menu-toggle {
@@ -126,7 +119,6 @@
     font-size: 16px;
   }
   .nav-search-item {
-    width: 100%;
     display: flex;
     justify-content: center;
   }
