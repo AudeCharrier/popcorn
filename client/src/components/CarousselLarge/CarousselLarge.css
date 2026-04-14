@@ -1,42 +1,39 @@
 .caroussel-container {
   background: linear-gradient(#0b0b0b 57%, #525151);
-  padding: 70px 40px;
+  padding: 30px 20px;
   color: white;
   max-width: 2000px;
   margin: 300px auto 0;
-  opacity: 10%;
+ 
 }
 
 .caroussel-titre {
   color: white;
-  font-size: px;
   margin-bottom: 40px;
   text-transform: uppercase;
   text-align: left;
   font-family: Ultra, serif;
   font-style: normal;
-  margin-top: -100px;
+  margin-top: -80px;
 }
 
 .caroussel-center {
   display: flex;
-  gap: 50px;
-  overflow: hidden;
+  gap: 16px;
+  overflow: visible;
   justify-content: center;
+  padding: 80px;
 }
 
 .caroussel-item {
   width: 200px;
   height: 300px;
   flex-shrink: 0;
+  margin :50px
+  
 }
 
-.caroussel-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 4px;
-}
+
 
 .placeholder {
   background-color: #121212;
