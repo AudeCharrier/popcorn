@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 
 // Import the main app component
 import App from "./App";
+import FilmsSeries from "./pages/FilmsSeries/FilmsSeries";
 import Home from "./pages/Home/Home";
 
 // Import additional components for new routes
@@ -21,11 +22,18 @@ import Home from "./pages/Home/Home";
 // You can add more routes as you build out your app!
 const router = createBrowserRouter([
   {
+    //path: "/", // The root path
+    // element: <App />, // Renders the App component for the home page
     element: <App />,
+    id: "app",
     children: [
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/films-series",
+        element: <FilmsSeries />,
       },
     ],
   },
