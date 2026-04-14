@@ -1,5 +1,5 @@
 import "./CarousselLarge.css";
-import LittleCard from "../LittleCard/LittleCard";
+// import LittleCard from "../LittleCard/LittleCard";
 
 type CarouselItem = {
   id: number;
@@ -28,7 +28,7 @@ function CarousselLarge({
           : Array.from({ length: 6 }, (_, i) => `placeholder-${i}`).map(
               (key) => (
                 <div key={key} className="caroussel-item">
-                  <LittleCard />
+                  {/* <LittleCard /> */}
                 </div>
               ),
             )}
