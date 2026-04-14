@@ -31,14 +31,14 @@ function BigCard() {
       },
     };
 
-    fetch("https://api.themoviedb.org/3/movie/12?language=fr-FR", options)
+    fetch("https://api.themoviedb.org/3/movie/1226863?language=fr-FR", options)
       .then((res) => res.json())
       .then((data) => {
         setMovie(data);
       })
       .catch((err) => console.error("Erreur API:", err));
     fetch(
-      "https://api.themoviedb.org/3/movie/12/credits?language=fr-FR",
+      "https://api.themoviedb.org/3/movie/1226863/credits?language=fr-FR",
       options,
     )
       .then((res) => res.json())
