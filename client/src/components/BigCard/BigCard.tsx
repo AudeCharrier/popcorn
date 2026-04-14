@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./BigCard.css";
+import CharacterCard from "../CharacterCard/CharacterCard";
 
 interface Movie {
   poster_path: string;
@@ -10,11 +11,17 @@ interface Movie {
   runtime: number;
   overview: string;
 }
+interface CastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string;
+}
 
 function BigCard() {
   const IMG_URL = "https://image.tmdb.org/t/p/w500";
   const [movie, setMovie] = useState<Movie | null>(null);
-
+  const [cast, setCast] = useState<CastMember[]>([]);
   useEffect(() => {
     const options = {
       method: "GET",
@@ -24,12 +31,21 @@ function BigCard() {
       },
     };
 
-    fetch("https://api.themoviedb.org/3/movie/12?language=fr-FR", options)
+    fetch("https://api.themoviedb.org/3/movie/11?language=fr-FR", options)
       .then((res) => res.json())
       .then((data) => {
         setMovie(data);
       })
       .catch((err) => console.error("Erreur API:", err));
+    fetch(
+      "https://api.themoviedb.org/3/movie/11/credits?language=fr-FR",
+      options,
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setCast(data.cast.slice(0, 4));
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   if (!movie) {
@@ -59,6 +75,16 @@ function BigCard() {
           <span>Synopsis : </span>
           {movie.overview}
         </p>
+      </div>
+      <div className="BigCardDivCharacters">
+        {cast.map((actor) => (
+          <CharacterCard
+            key={actor.id}
+            name={actor.name}
+            character={actor.character}
+            profile_path={actor.profile_path}
+          />
+        ))}
       </div>
     </div>
   );
