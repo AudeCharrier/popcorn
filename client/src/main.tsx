@@ -5,11 +5,11 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import App from "./App";
 import FilmsSeries from "./pages/FilmsSeries/FilmsSeries";
 import Home from "./pages/Home/Home";
+import Rechercher from "./pages/Rechercher/Rechercher";
+import Seances from "./pages/Seances/Seances";
 
 const router = createBrowserRouter([
   {
-    //path: "/", // The root path
-    // element: <App />, // Renders the App component for the home page
     element: <App />,
     id: "app",
     children: [
@@ -18,8 +18,16 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/films-series",
+        path: "/films-series/",
         element: <FilmsSeries />,
+      },
+      {
+        path: "/rechercher/:id",
+        element: <Rechercher />,
+      },
+      {
+        path: "/seances",
+        element: <Seances />,
       },
     ],
   },
