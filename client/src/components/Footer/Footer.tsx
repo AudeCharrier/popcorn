@@ -14,7 +14,7 @@ function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img src={logoX} className="logo-col" alt="Logo X" />
+          <img src={logoX} className="logo-footer" alt="Logo X" />
         </a>
         <a
           href="https://www.facebook.com/?locale=fr_FR"
@@ -39,7 +39,7 @@ function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img src={logoTiktok} className="logo-col" alt="Logo Tiktok" />
+          <img src={logoTiktok} className="logo-footer" alt="Logo Tiktok" />
         </a>
       </div>
     </footer>
