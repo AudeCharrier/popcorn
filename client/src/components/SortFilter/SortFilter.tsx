@@ -3,21 +3,41 @@ import "./SortFilter.css";
 
 function SortFilter() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOverlay, setIsOverlay] = useState(true);
 
   return (
     <>
       <button
         type="button"
-        className="overlay"
-        onClick={() => setIsOpen(true)}
-        onKeyUp={() => setIsOpen(true)}
+        className={isOverlay ? "overlay overlay-open" : "overlay"}
+        onClick={() => {
+          setIsOpen(true);
+          setIsOverlay(false);
+        }}
+        onKeyUp={() => {
+          setIsOpen(true);
+          setIsOverlay(false);
+        }}
       >
         <p className="overlay-title">Trier</p>
         <p className="overlay-title">Filtrer</p>
       </button>
 
-      <aside className={isOpen ? "search-aside open" : "search-aside"}>
-        <button type="button" className="close-mobile-menu">
+      <aside
+        className={isOpen ? "search-aside search-aside-open" : "search-aside"}
+      >
+        <button
+          type="button"
+          className="close-mobile-menu"
+          onClick={() => {
+            setIsOpen(false);
+            setIsOverlay(true);
+          }}
+          onKeyUp={() => {
+            setIsOpen(false);
+            setIsOverlay(true);
+          }}
+        >
           X
         </button>
         <details>
