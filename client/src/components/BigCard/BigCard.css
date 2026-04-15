@@ -4,8 +4,6 @@
   grid-template-columns: 1fr 1fr;
   width: 70vw;
   border-radius: 10px;
-  margin-top: 10vh;
-  margin-bottom: 10vh;
   .BigCardDivImg {
     display: flex;
     justify-content: center;
