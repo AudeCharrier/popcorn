@@ -42,8 +42,8 @@ function Rechercher() {
   const [movies, setMovies] = useState<MediaItem[]>([]);
   const [series, setSeries] = useState<MediaItem[]>([]);
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [searchMovies, setSearchMovies] = useState<SearchResult[]>([]);
-  const [filterMovies, setFilterMovies] = useState<SearchResult[]>([]);
+  const [_searchMovies, _setSearchMovies] = useState<SearchResult[]>([]);
+  const [_filterMovies, _setFilterMovies] = useState<SearchResult[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
