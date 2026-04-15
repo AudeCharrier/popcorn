@@ -209,17 +209,17 @@ type Genre = {
 or là on veut garder l'ordre decroissant
 donc on fait b-a < 0 -> b < a -> il inverse pas et on reste bien decroissant*/
 
-function sortCroisant(array: Movie[]) {
-  return array.sort((a, b) => a.vote_average - b.vote_average);
+function _sortCroissant(arrayMedias: Movie[]) {
+  return arrayMedias.sort((a, b) => a.vote_average - b.vote_average);
+}
+/* 
+console.log(sortCroissant(movies)) */
+
+function _sortDecroissant(arrayMedias: Movie[]) {
+  return arrayMedias.sort((a, b) => b.vote_average - a.vote_average);
 }
 
-console.log(sortCroisant(movies));
-
-function sortDecroisant(array: Movie[]) {
-  return array.sort((a, b) => b.vote_average - a.vote_average);
-}
-
-console.log(sortDecroisant(movies));
+/* console.log(sortDecroissant(movies)) */
 
 //je dois récup ce qui est affiché dans grdi-cards : classe .Rechercher
 //quand on clique sur un bouton croissant/decr de trier,
@@ -228,26 +228,49 @@ console.log(sortDecroisant(movies));
 
 //STRING
 
-function sortCroisantString(array: Movie[]) {
+/* function sortCroisantString(array) {
   return array.sort((a, b) => a.release_date.localeCompare(b.release_date));
 }
+ 
+/* console.log(sortCroisantString(movies)) */
 
-console.log(sortCroisantString(movies));
-
-function sortDecroisantString(array: Movie[]) {
+/* function sortDecroisantString(array) {
   return array.sort((a, b) => b.release_date.localeCompare(a.release_date));
 }
 
-console.log(sortDecroisantString(movies));
+console.log(sortDecroisantString(movies))   */
 
 //FILTER
 
 //GENRES
 
-function filterGenres(array: Movie[]) {
-  return array.filter((element) =>
-    element.genres.map((genre) => genre.id).includes(5),
+type GenresId = number[];
+
+const idGenresToFilter = [5, 6]; //extraits des checkbox genres checked
+
+function filterGenres(arrayMedias: Movie[], arrayGenresId: GenresId) {
+  return arrayMedias.filter((element) =>
+    element.genres.some((genre) => arrayGenresId.includes(genre.id)),
   );
 }
 
-console.log(filterGenres(movies));
+console.log(filterGenres(movies, idGenresToFilter));
+
+//idme pour types : associer un id 1 ou 2 aux checkbox films/series... actualiser useparams ?
+
+//qqn fait une recherche sans préciser films séries (ou en cochant les 2)
+//ON PART DE RESULTATS MOVIES + SERIES
+
+//fetch api movies => setMovies (toutes les infos api) et setMoviesResults (selon filtres)     + fetch api series => series (toutes les infos api)  et seriesResults
+//dans le .map, il faut faire un usestate : {searchMovies}.map
+//on setSearchMovies avec la valeur moviesResults (idem avec setSearchSeries   seriesResults)
+//afficher les littlecards pour moviesResults puis pour seriesResults
+
+//l'utilisateur filtre seulement les séries : il a checked séries (ou décheck films)
+//la fonction sera :
+//filtre films --> prend dans movies (toutes infos api)
+//return : si checked : affiche avec setMoviesResults // sinon : setMoviesResults à vide (break)
+//donc : la fonction a les données filtrées, mais ça s'affiche seulement si c coché/décoché. elle ne recalcule pas
+// est ce que setmoviesresults, si ça change, ça changera automatiquement le contenu de searchmovies pour l'affichage (régi par un autre set)?
+
+//fct filterTypes() {
