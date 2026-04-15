@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./Rechercher.css";
 import { useParams } from "react-router";
 import LittleCard from "../../components/LittleCard/LittleCard";
+import SortFilter from "../../components/SortFilter/SortFilter";
 
 type Movie = {
   id: number;
@@ -52,42 +53,48 @@ function Rechercher() {
 
   if (id === "1") {
     return (
-      <div className="Rechercher">
-        {movies.map((item) => (
-          <LittleCard
-            key={item.id}
-            title={item.title || item.name || ""}
-            vote_average={item.vote_average}
-            release_date={
-              item.release_date?.split("-")?.reverse().join("/") ||
-              item.first_air_date?.split("-").reverse().join("/")
-            }
-            overview={item.overview.slice(0, 200)}
-            poster_path={item.poster_path}
-          />
-        ))}
-      </div>
+      <section className="container">
+        <SortFilter />
+        <div className="Rechercher">
+          {movies.map((item) => (
+            <LittleCard
+              key={item.id}
+              title={item.title || item.name || ""}
+              vote_average={item.vote_average}
+              release_date={
+                item.release_date?.split("-")?.reverse().join("/") ||
+                item.first_air_date?.split("-").reverse().join("/")
+              }
+              overview={item.overview.slice(0, 200)}
+              poster_path={item.poster_path}
+            />
+          ))}
+        </div>
+      </section>
     );
   }
 
   if (id === "2") {
     return (
-      <div className="Rechercher">
-        {series.map((item) => (
-          <LittleCard
-            key={item.id}
-            title={item.title || item.name || ""}
-            vote_average={item.vote_average}
-            release_date={
-              item.release_date?.split("-").reverse().join("/") ||
-              item.first_air_date?.split("-").reverse().join("/") ||
-              ""
-            }
-            overview={item.overview.slice(0, 200)}
-            poster_path={item.poster_path}
-          />
-        ))}
-      </div>
+      <section className="container">
+        <SortFilter />
+        <div className="Rechercher">
+          {series.map((item) => (
+            <LittleCard
+              key={item.id}
+              title={item.title || item.name || ""}
+              vote_average={item.vote_average}
+              release_date={
+                item.release_date?.split("-").reverse().join("/") ||
+                item.first_air_date?.split("-").reverse().join("/") ||
+                ""
+              }
+              overview={item.overview.slice(0, 200)}
+              poster_path={item.poster_path}
+            />
+          ))}
+        </div>
+      </section>
     );
   }
 
