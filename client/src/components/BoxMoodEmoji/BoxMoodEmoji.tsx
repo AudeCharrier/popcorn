@@ -1,17 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "./BoxMoodEmoji.css";
-
-// IMAGES
 import action from "../../assets/images/emoji-action.png";
 import animation from "../../assets/images/emoji-animation.png";
+// IMAGES
 import rire from "../../assets/images/emoji-comedie.png";
 import drame from "../../assets/images/emoji-drame.png";
 import fun from "../../assets/images/emoji-fun.png";
 import guerre from "../../assets/images/emoji-guerre.png";
 import romance from "../../assets/images/emoji-romance.png";
 import scifi from "../../assets/images/emoji-science-fiction.png";
-import prof from "../../assets/images/Simon.png";
 
 type Mood = {
   id: number;
@@ -50,15 +47,13 @@ const moods: Mood[] = [
     color: "#7B61FF",
     path: "/movies/scifi",
   },
-
   {
     id: 5,
-    image: prof,
-    label: "Legend",
-    color: "#0B1D3A",
-    path: "/movies/legend",
+    image: action,
+    label: "Action",
+    color: "#00BFFF",
+    path: "/movies/action",
   },
-
   {
     id: 6,
     image: drame,
@@ -79,13 +74,6 @@ const moods: Mood[] = [
     label: "Fun",
     color: "#FFA500",
     path: "/movies/aventure",
-  },
-  {
-    id: 9,
-    image: action,
-    label: "Action",
-    color: "#00BFFF",
-    path: "/movies/action",
   },
 ];
 

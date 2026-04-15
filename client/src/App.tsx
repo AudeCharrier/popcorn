@@ -1,8 +1,16 @@
+import { Outlet } from "react-router";
+import Navbar from "./components/Navbar/Navbar";
 import "./App.css";
-import BoxMoodEmoji from "./components/BoxMoodEmoji/BoxMoodEmoji";
+import Footer from "./components/Footer/Footer";
 
 function App() {
-  return <BoxMoodEmoji />;
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
+  );
 }
 
 export default App;

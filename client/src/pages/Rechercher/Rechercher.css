@@ -1,0 +1,9 @@
+.Rechercher {
+  display: grid;
+  padding-left: 270px;
+  padding-right: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+}
+.container {
+  position: relative;
+}

@@ -1,0 +1,167 @@
+@import url("https://fonts.googleapis.com/css2?family=Carter+One&family=Lexend:wght@100..900&family=Limelight&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&family=Oi&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playfair:ital,opsz,wght@1,5..1200,300..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Space+Grotesk:wght@300..700&family=Ultra&display=swap");
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.card {
+  width: 300px;
+  height: 420px;
+  position: relative;
+  perspective: 1500px;
+  margin: 2rem auto;
+}
+
+.card__side {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transition: transform 0.6s ease;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.card__side--front {
+  background-color: #000000;
+}
+
+.card__side--back {
+  background-color: #212121;
+  transform: rotateY(180deg);
+}
+
+.card:hover .card__side--front {
+  transform: rotateY(-180deg);
+}
+
+.card:hover .card__side--back {
+  transform: rotateY(0deg);
+}
+
+.card__description {
+  width: 100%;
+  height: 100%;
+}
+
+.card__side--front .card__description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.card__side--front img {
+  width: 100%;
+  height: 318px;
+  object-fit: contain;
+  display: block;
+}
+
+.card__side--front h2 {
+  font-size: 1.4rem;
+  color: #ffffff;
+}
+
+.card__side--front p {
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.card__side--back .card__description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  align-items: center;
+  color: white;
+}
+
+.card__side--back p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.card__side--back button {
+  border: none;
+  padding: 5px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #28b485;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.card__side--back button:hover {
+  transform: scale(1.05);
+}
+
+/*Button*/
+
+.card__side--back.button {
+  --red: #ff0033;
+  width: 120px;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  position: relative;
+  border-radius: 0.6em;
+  overflow: hidden;
+  transition: all 0.3s;
+  line-height: 1.4em;
+  border: 2px solid var(--red);
+  background: linear-gradient(
+    to right,
+    rgba(255, 0, 51, 0.1) 1%,
+    transparent 40%,
+    transparent 60%,
+    rgba(255, 0, 51, 0.1) 100%
+  );
+  color: white;
+  box-shadow:
+    inset 0 0 10px rgba(255, 0, 51, 0.6),
+    0 0 12px 4px rgba(255, 0, 51, 0.3);
+}
+
+.card__side--back.button:hover {
+  color: #ffb3c1;
+  box-shadow:
+    inset 0 0 15px rgba(255, 0, 51, 0.9),
+    0 0 20px 6px rgba(255, 0, 51, 0.6);
+}
+
+/* effet lumière */
+.card__side--back.button::before {
+  content: "";
+  position: absolute;
+  left: -4em;
+  width: 4em;
+  height: 100%;
+  top: 0;
+
+  transition: transform 0.4s ease-in-out;
+
+  background: linear-gradient(
+    to right,
+    transparent 1%,
+    rgba(255, 0, 51, 0.4) 50%,
+    transparent 100%
+  );
+}
+
+.card__side--back.button:hover::before {
+  transform: translateX(15em);
+}
