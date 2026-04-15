@@ -1,10 +1,24 @@
 import { useState } from "react";
 import Logo from "../../assets/images/Logo.png";
 import "./Navbar.css";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const value = search.trim();
+
+    if (!value) return;
+
+    navigate(`/rechercher/${encodeURIComponent(value)}`);
+    setSearch("");
+    setOpen(false);
+  };
 
   return (
     <div className="navbar">
@@ -12,6 +26,7 @@ function Navbar() {
         <img src={Logo} className="nav-logo" alt="Logo" />
         <h1>POPCORN</h1>
       </Link>
+
       <button
         className="menu-toggle"
         onClick={() => setOpen(!open)}
@@ -19,6 +34,7 @@ function Navbar() {
       >
         {open ? "✕" : "☰"}
       </button>
+
       <nav>
         <ul className={`nav-ul ${open ? "active" : ""}`}>
           <li>
@@ -26,20 +42,29 @@ function Navbar() {
               FILMS
             </Link>
           </li>
+
           <li>
             <Link to="/rechercher/2" className="nav-li">
               SERIES
             </Link>
           </li>
+
           <li>
             <Link to="/seances" className="nav-li">
               SEANCES
             </Link>
           </li>
+
           <li className="nav-search-item">
-            <form className="nav-search">
-              <input className="nav-sch" placeholder="Rechercher..." />
-              <button className="nav-button" type="button">
+            <form className="nav-search" onSubmit={handleSubmit}>
+              <input
+                className="nav-sch"
+                placeholder="Rechercher..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+
+              <button type="submit" className="nav-button">
                 🔍︎
               </button>
             </form>
