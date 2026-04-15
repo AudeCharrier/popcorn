@@ -1,11 +1,15 @@
+import { Outlet } from "react-router";
+import Navbar from "./components/Navbar/Navbar";
 import "./App.css";
-import CarousselLarge from "./components/CarousselLarge/CarousselLarge";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
-    <div className="App">
-      <CarousselLarge titre="COUPS DE COEUR" />
-    </div>
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
   );
 }
 

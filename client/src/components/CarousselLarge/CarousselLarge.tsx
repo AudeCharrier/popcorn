@@ -6,7 +6,7 @@ type CarouselItem = {
   id: number;
   title: string;
   vote_average: number;
-  release_date: number;
+  release_date: string;
   overview: string;
   poster_path: string;
 };
@@ -29,7 +29,7 @@ function CarousselLarge({
           id: i,
           title: "Titre",
           vote_average: 0,
-          release_date: 0,
+          release_date: "N/A",
           overview: "Aucune description",
           poster_path: "",
         }));

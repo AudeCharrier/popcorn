@@ -1,0 +1,89 @@
+.BigCard {
+  background: var(--card-background);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 70vw;
+  border-radius: 10px;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  .BigCardDivImg {
+    display: flex;
+    justify-content: center;
+    img {
+      max-height: 73vh;
+      width: 30vw;
+      margin-top: 5vh;
+      margin-bottom: 5vh;
+    }
+  }
+  .BigCardDivText {
+    margin-left: 5vh;
+    margin-right: 5vh;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    color: var(--text-color-main);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    h1 {
+      font-family: var(--main-font);
+      font-weight: 400;
+      font-style: normal;
+      font-size: 3em;
+    }
+    span {
+      font-family: var(--main-font);
+      font-weight: 400;
+      font-style: normal;
+      font-size: 1.2em;
+      color: var(--text-color-secondary);
+    }
+    p {
+      font-family: var(--second-font);
+      font-size: 1.2em;
+    }
+  }
+  .BigCardDivCharacters {
+    display: flex;
+    justify-content: space-evenly;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    margin-top: 2vh;
+    margin-bottom: 10vh;
+  }
+}
+@media (max-width: 1024px) {
+  .BigCard {
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    .BigCardDivImg {
+      img {
+        max-height: none;
+        width: 80vw;
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+      }
+    }
+    .BigCardDivText {
+      margin-left: 5vh;
+      margin-right: 5vh;
+      h1 {
+        font-size: 2em;
+      }
+      span {
+        font-size: 1em;
+      }
+      p {
+        font-size: 1em;
+      }
+    }
+    .BigCardDivCharacters {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      justify-items: center;
+      margin-top: 5vh;
+      margin-bottom: 5vh;
+    }
+  }
+}

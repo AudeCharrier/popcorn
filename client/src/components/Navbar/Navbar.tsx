@@ -22,12 +22,12 @@ function Navbar() {
       <nav>
         <ul className={`nav-ul ${open ? "active" : ""}`}>
           <li>
-            <Link to="/films" className="nav-li">
+            <Link to="/rechercher/1" className="nav-li">
               FILMS
             </Link>
           </li>
           <li>
-            <Link to="/series" className="nav-li">
+            <Link to="/rechercher/2" className="nav-li">
               SERIES
             </Link>
           </li>
