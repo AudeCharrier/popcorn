@@ -82,14 +82,17 @@ export default function BoxMoodEmoji() {
 
   return (
     <div className="mood-container">
-      <h3>FILMS PAR AMBIANCE</h3>
+      <h3 className="mood-title">FILMS PAR AMBIANCE</h3>
 
       <div className="mood-box">
         {moods.map((mood, index) => (
           <Link
             key={mood.id}
             to={mood.path}
-            className={`mood-circle ${active === index ? "active" : ""}`}
+            className={`mood-circle 
+              ${active === index ? "active" : ""} 
+              ${mood.label === "Legend" ? "mood-special" : ""}
+            `}
             style={{ backgroundColor: mood.color }}
             onClick={() => setActive(index)}
           >

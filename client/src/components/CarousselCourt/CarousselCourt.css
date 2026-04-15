@@ -1,0 +1,54 @@
+.caroussel-court-container {
+  background: linear-gradient(#0b0b0b 57%, #525151);
+  margin: 20vh;
+  color: white;
+  width: 45vw;
+}
+
+.caroussel-court-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.caroussel-court-overflow {
+  overflow: hidden;
+  height: 30rem;
+}
+
+.caroussel-court-center {
+  display: flex;
+  gap: 50px;
+  transition: transform 0.4s ease-in-out;
+}
+
+.caroussel-court-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.caroussel-court-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.caroussel-court-button-left {
+  left: 5px;
+}
+
+.caroussel-court-button-right {
+  right: 5px;
+}
