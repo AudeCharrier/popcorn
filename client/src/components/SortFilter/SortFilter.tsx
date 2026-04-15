@@ -2,6 +2,22 @@ import { useState } from "react";
 import "./SortFilter.css";
 
 function SortFilter() {
+  const sortOptions = [
+    { name: "Popularité" },
+    { name: "Date de sortie" },
+    { name: "Note" },
+  ];
+  const genres = [
+    { name: "Comédie" },
+    { name: "Action" },
+    { name: "Romance" },
+    { name: "Sci-Fi" },
+    { name: "Drame" },
+    { name: "Animation" },
+    { name: "Guerre" },
+    { name: "Aventure" },
+  ];
+  const types = [{ name: "Films" }, { name: "Séries" }];
   const [isOpen, setIsOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(true);
 
@@ -43,39 +59,19 @@ function SortFilter() {
         <details>
           <summary className="sort-filter-title">Trier</summary>
           <div className="sort-options-container">
-            <div className="sort-option">
-              <span>Popularité</span>
-              <div className="sort-buttons-container">
-                <button type="button" className="sort-button">
-                  ↑
-                </button>
-                <button type="button" className="sort-button">
-                  ↓
-                </button>
+            {sortOptions.map((option) => (
+              <div className="sort-option" key={option.name}>
+                <span>{option.name}</span>
+                <div className="sort-buttons-container">
+                  <button type="button" className="sort-button">
+                    ↑
+                  </button>
+                  <button type="button" className="sort-button">
+                    ↓
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="sort-option">
-              <span>Date de sortie</span>
-              <div className="sort-buttons-container">
-                <button type="button" className="sort-button">
-                  ↑
-                </button>
-                <button type="button" className="sort-button">
-                  ↓
-                </button>
-              </div>
-            </div>
-            <div className="sort-option">
-              <span>Note</span>
-              <div className="sort-buttons-container">
-                <button type="button" className="sort-button">
-                  ↑
-                </button>
-                <button type="button" className="sort-button">
-                  ↓
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
         </details>
 
@@ -87,92 +83,32 @@ function SortFilter() {
             <details>
               <summary className="sort-filter-title">Genres</summary>
               <div className="filter-list">
-                <label>
-                  <input
-                    type="checkbox"
-                    value="comédie"
-                    className="search-checkbox"
-                  />{" "}
-                  Comédie
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="action"
-                    className="search-checkbox"
-                  />{" "}
-                  Action
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="romance"
-                    className="search-checkbox"
-                  />{" "}
-                  Romance
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Sci-Fi"
-                    className="search-checkbox"
-                  />{" "}
-                  Sci-Fi
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Drame"
-                    className="search-checkbox"
-                  />{" "}
-                  Drame
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="animation"
-                    className="search-checkbox"
-                  />{" "}
-                  Animation
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="guerre"
-                    className="search-checkbox"
-                  />{" "}
-                  Guerre
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Aventure"
-                    className="search-checkbox"
-                  />{" "}
-                  Aventure
-                </label>
+                {genres.map((genre) => (
+                  <label key={genre.name}>
+                    <input
+                      type="checkbox"
+                      value={genre.name}
+                      className="search-checkbox"
+                    />{" "}
+                    {genre.name}
+                  </label>
+                ))}
               </div>
             </details>
 
             <details>
               <summary className="sort-filter-title">Types</summary>
               <div className="filter-list">
-                <label>
-                  <input
-                    type="checkbox"
-                    value="films"
-                    className="search-checkbox"
-                  />{" "}
-                  Films
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="series"
-                    className="search-checkbox"
-                  />{" "}
-                  Séries
-                </label>
+                {types.map((type) => (
+                  <label key={type.name}>
+                    <input
+                      type="checkbox"
+                      value={type.name}
+                      className="search-checkbox"
+                    />{" "}
+                    {type.name}
+                  </label>
+                ))}
               </div>
             </details>
           </div>
