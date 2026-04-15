@@ -258,19 +258,25 @@ console.log(filterGenres(movies, idGenresToFilter));
 
 //idme pour types : associer un id 1 ou 2 aux checkbox films/series... actualiser useparams ?
 
+//fetch api movies => setMovies (toutes les infos api)
+
 //qqn fait une recherche sans préciser films séries (ou en cochant les 2)
-//ON PART DE RESULTATS MOVIES + SERIES
+//ON PART DE RESULTATS MOVIES + SERIES : results  (avec set)
+//dans le .map, il faut faire un usestate : {affichage}.map
+//set affichage -> results
 
-//fetch api movies => setMovies (toutes les infos api) et setMoviesResults (selon filtres)     + fetch api series => series (toutes les infos api)  et seriesResults
-//dans le .map, il faut faire un usestate : {searchMovies}.map
-//on setSearchMovies avec la valeur moviesResults (idem avec setSearchSeries   seriesResults)
-//afficher les littlecards pour moviesResults puis pour seriesResults
+//l'utilisateur filtre seulement un type de media : il a checked (ou uncheck l'autre)
 
-//l'utilisateur filtre seulement les séries : il a checked séries (ou décheck films)
-//la fonction sera :
-//filtre films --> prend dans movies (toutes infos api)
-//return : si checked : affiche avec setMoviesResults // sinon : setMoviesResults à vide (break)
-//donc : la fonction a les données filtrées, mais ça s'affiche seulement si c coché/décoché. elle ne recalcule pas
-// est ce que setmoviesresults, si ça change, ça changera automatiquement le contenu de searchmovies pour l'affichage (régi par un autre set)?
+//au check, actvier la fonction :
+//fonction ??:
+//--> prend dans results (ou movies ? quand il fera rech faut partir de movies)
+// et filtre : item.media_type === "movie" -> setfiltermovies //si aucun -> setfitlermovies à vide ?
+//si filtre-films checked :
+//return -> setaffichage ->filtermovies
+//si filtre-films uncheck :
+//return ->  setfiltermovies à vide
 
-//fct filterTypes() {
+//code a améliorer
+
+//IDEAL
+// la fonction a les données filtrées, mais ça s'affiche seulement si c coché/décoché. elle ne recalcule pas
