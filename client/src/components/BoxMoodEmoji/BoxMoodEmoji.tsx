@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import "./BoxMoodEmoji.css";
 
 // IMAGES
 import action from "../../assets/images/emoji-action.png";
@@ -49,13 +50,15 @@ const moods: Mood[] = [
     color: "#7B61FF",
     path: "/movies/scifi",
   },
+
   {
     id: 5,
     image: prof,
     label: "Legend",
-    color: "#D8A24A",
+    color: "#0B1D3A",
     path: "/movies/legend",
   },
+
   {
     id: 6,
     image: drame,
@@ -91,27 +94,23 @@ export default function BoxMoodEmoji() {
 
   return (
     <div className="mood-container">
-      <h3>FILMS PAR AMBIANCE</h3>
+      <h3 className="mood-title">FILMS PAR AMBIANCE</h3>
 
       <div className="mood-box">
-        {moods.map((mood, index) => {
-          const isActive = active === index;
-          const isProf = mood.id === 5; //
-
-          return (
-            <Link
-              key={mood.id}
-              to={mood.path}
-              className={`mood-circle ${isActive ? "active" : ""} ${
-                isProf ? "mood-special" : ""
-              }`}
-              style={{ backgroundColor: mood.color }}
-              onClick={() => setActive(index)}
-            >
-              <img src={mood.image} alt={mood.label} />
-            </Link>
-          );
-        })}
+        {moods.map((mood, index) => (
+          <Link
+            key={mood.id}
+            to={mood.path}
+            className={`mood-circle 
+              ${active === index ? "active" : ""} 
+              ${mood.label === "Legend" ? "mood-special" : ""}
+            `}
+            style={{ backgroundColor: mood.color }}
+            onClick={() => setActive(index)}
+          >
+            <img src={mood.image} alt={mood.label} />
+          </Link>
+        ))}
       </div>
     </div>
   );
