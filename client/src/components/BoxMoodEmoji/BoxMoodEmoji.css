@@ -1,0 +1,184 @@
+/* ===== CONTAINER ===== */
+
+.mood-container {
+  margin-top: 40px;
+  width: 100%;
+  text-align: center;
+}
+
+.mood-title {
+  margin-bottom: 20px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  color: #eee;
+}
+
+/* ===== BOX ===== */
+
+.mood-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+
+  padding: 30px 60px;
+
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 25px;
+
+  width: fit-content;
+  margin: 0 auto;
+
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+}
+
+/* ===== CIRCLE ===== */
+
+.mood-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  border: none;
+}
+
+.mood-circle img {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ===== HOVER ===== */
+
+.mood-circle:hover {
+  transform: scale(1.2) translateY(-5px);
+}
+
+/* ===== ACTIVE ===== */
+.mood-circle.active {
+  transform: scale(1.3);
+  box-shadow:
+    0 0 20px white,
+    0 0 50px currentColor;
+}
+
+/* ===== PROF SPECIAL ===== */
+
+.mood-special {
+  position: relative;
+  border-radius: 50%;
+  z-index: 2;
+
+  border: 3px solid #c0c0c0;
+
+  box-shadow:
+    0 0 10px #ffffff,
+    0 0 25px #d9d9d9,
+    0 0 50px #c0c0c0;
+}
+
+.mood-special img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.mood-special:hover {
+  transform: scale(1.7) translateY(-10px);
+
+  box-shadow:
+    0 0 20px #ffffff,
+    0 0 40px #e6e6e6,
+    0 0 80px #c0c0c0;
+}
+
+/* ⭐ ETOILE */
+
+.mood-special::after {
+  content: "★";
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  transform: translate(60%, -60%) scale(1);
+
+  font-size: 20px;
+
+  color: #e6e6e6;
+
+  text-shadow:
+    0 0 5px white,
+    0 0 10px silver,
+    0 0 20px white;
+
+  animation: sparkle 1.2s infinite alternate;
+
+  pointer-events: none;
+
+  z-index: 10;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* TABLETTE */
+
+@media (max-width: 1024px) {
+  .mood-box {
+    gap: 20px;
+    padding: 20px 30px;
+    flex-wrap: wrap;
+  }
+
+  .mood-circle {
+    width: 90px;
+    height: 90px;
+  }
+
+  .mood-circle img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .mood-box {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+    gap: 15px;
+    padding: 15px;
+    width: 100%;
+  }
+
+  .mood-box::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mood-circle {
+    flex: 0 0 auto;
+    width: 70px;
+    height: 70px;
+  }
+
+  .mood-circle img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .mood-special:hover {
+    transform: scale(1.3);
+  }
+}
