@@ -7,8 +7,30 @@
   margin-bottom: 10vh;
   gap: 5rem;
   color: var(--text-color-main);
+  .FilmsSeriesDivCinema {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    width: 60vw;
+    justify-content: center;
+    gap: 2rem;
+    padding-bottom: 3rem;
+    h3 {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      font-family: var(--second-font);
+    }
+    .FilmSeriesDivCinemaAllCards {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      justify-items: center;
+      gap: 4rem;
+      margin-left: 4rem;
+      margin-right: 4rem;
+    }
+  }
   .FilmsSeriesDivStream {
-    background: var(--card-background);
     display: grid;
     border-radius: 10px;
     width: 50vw;
@@ -37,6 +59,13 @@
 }
 @media (max-width: 1024px) {
   .FilmsSeries {
+    .FilmsSeriesDivCinema {
+      .FilmSeriesDivCinemaAllCards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 0;
+      }
+    }
     .FilmsSeriesDivStream {
       .FilmsSeriesDivStreamIcon {
         display: grid;
