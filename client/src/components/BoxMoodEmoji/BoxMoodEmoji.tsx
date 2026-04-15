@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
+// IMAGES
 import action from "../../assets/images/emoji-action.png";
 import animation from "../../assets/images/emoji-animation.png";
-// IMAGES
 import rire from "../../assets/images/emoji-comedie.png";
 import drame from "../../assets/images/emoji-drame.png";
 import fun from "../../assets/images/emoji-fun.png";
 import guerre from "../../assets/images/emoji-guerre.png";
 import romance from "../../assets/images/emoji-romance.png";
 import scifi from "../../assets/images/emoji-science-fiction.png";
+import prof from "../../assets/images/Simon.png";
 
 type Mood = {
   id: number;
@@ -49,10 +51,10 @@ const moods: Mood[] = [
   },
   {
     id: 5,
-    image: action,
-    label: "Action",
-    color: "#00BFFF",
-    path: "/movies/action",
+    image: prof,
+    label: "Legend",
+    color: "#D8A24A",
+    path: "/movies/legend",
   },
   {
     id: 6,
@@ -75,6 +77,13 @@ const moods: Mood[] = [
     color: "#FFA500",
     path: "/movies/aventure",
   },
+  {
+    id: 9,
+    image: action,
+    label: "Action",
+    color: "#00BFFF",
+    path: "/movies/action",
+  },
 ];
 
 export default function BoxMoodEmoji() {
@@ -85,17 +94,24 @@ export default function BoxMoodEmoji() {
       <h3>FILMS PAR AMBIANCE</h3>
 
       <div className="mood-box">
-        {moods.map((mood, index) => (
-          <Link
-            key={mood.id}
-            to={mood.path}
-            className={`mood-circle ${active === index ? "active" : ""}`}
-            style={{ backgroundColor: mood.color }}
-            onClick={() => setActive(index)}
-          >
-            <img src={mood.image} alt={mood.label} />
-          </Link>
-        ))}
+        {moods.map((mood, index) => {
+          const isActive = active === index;
+          const isProf = mood.id === 5; //
+
+          return (
+            <Link
+              key={mood.id}
+              to={mood.path}
+              className={`mood-circle ${isActive ? "active" : ""} ${
+                isProf ? "mood-special" : ""
+              }`}
+              style={{ backgroundColor: mood.color }}
+              onClick={() => setActive(index)}
+            >
+              <img src={mood.image} alt={mood.label} />
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
