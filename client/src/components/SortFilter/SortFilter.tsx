@@ -21,27 +21,36 @@ function SortFilter() {
   const mediaTypes = [{ name: "Films" }, { name: "Séries" }];
   const [isOpen, setIsOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(true);
-
   const [movieCheck, setMovieCheck] = useState(false);
+  const [serieCheck, setSerieCheck] = useState(false);
 
   const { results, setAffichage } = useContext(SearchContext);
 
   // FILTRE MOVIES
 
   // les deux actions (toggle le state et filtrer) dans la meme fct pour que ce soit synchrone entre les deux
-  function toggleMovieCheck() {
-    //onchange, on inverse true/false du moviecheck
-    const newValue = !movieCheck;
-    setMovieCheck(newValue);
+  function toggleMediaCheck(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value; //récupère value ="films" ou "séries" de l'input
 
-    //c'est inversé, ensuite on filtre
-    if (newValue) {
-      const filtered = results.filter(
-        (result) => result.media_type === "movie",
-      );
-      setAffichage(filtered);
+    //l'utilisateur a coché ou décoché -> on toggle le state
+    //il y a un ternaire dans la const, pour adapter la valeur
+    //si on est dans l'input de value films -> on toggle moviecheck : sinon on laisse moviecheck d'avant
+    const newMovieCheck = value === "Films" ? !movieCheck : movieCheck;
+    const newSerieCheck = value === "Séries" ? !serieCheck : serieCheck;
+
+    setMovieCheck(newMovieCheck);
+    setSerieCheck(newSerieCheck);
+
+    if (
+      //si les deux sont cochés ou décochés
+      (newMovieCheck && newSerieCheck) ||
+      (!newMovieCheck && !newSerieCheck)
+    ) {
+      setAffichage(results);
+    } else if (newMovieCheck) {
+      setAffichage(results.filter((r) => r.media_type === "movie"));
     } else {
-      setAffichage([]);
+      setAffichage(results.filter((r) => r.media_type === "tv"));
     }
   }
 
@@ -130,7 +139,7 @@ function SortFilter() {
                       type="checkbox"
                       value={mediaType.name}
                       className="search-checkbox"
-                      onChange={toggleMovieCheck}
+                      onChange={toggleMediaCheck}
                     />{" "}
                     {mediaType.name}
                   </label>

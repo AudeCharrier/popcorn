@@ -275,3 +275,21 @@ console.log(filterGenres(movies, idGenresToFilter));
 //return -> setaffichage ->filtermovies
 //si filtre-films uncheck :
 //return ->  setaffichage à vide
+
+/*
+si film
+  si checked
+  sinon
+si serie
+  si checked
+  sinon
+*/
+
+/*si film & serie checked OU film & serie unch
+
+si film checked & serie uncheck
+
+si film unch et serie checked
+
+
+*/
