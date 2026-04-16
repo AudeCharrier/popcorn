@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import action from "../../assets/images/emoji-action.png";
 import animation from "../../assets/images/emoji-animation.png";
 // IMAGES

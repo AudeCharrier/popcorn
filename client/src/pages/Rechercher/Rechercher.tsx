@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import "./Rechercher.css";
 import { useParams } from "react-router-dom";
+import defaultPoster from "../../assets/images/Logo.png";
 import LittleCard from "../../components/LittleCard/LittleCard";
 import SortFilter from "../../components/SortFilter/SortFilter";
-import defaultPoster from "../../assets/images/Logo.png";
+import SearchContext from "../../contexts/SearchContext";
 
 type MediaItem = {
   id: number;
@@ -89,6 +90,9 @@ function Rechercher() {
   const [movies, setMovies] = useState<MediaItem[]>([]);
   const [series, setSeries] = useState<MediaItem[]>([]);
   const [results, setResults] = useState<SearchResult[]>([]);
+
+  const [affichage, setAffichage] = useState<SearchResult[]>([]);
+
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -124,6 +128,7 @@ function Rechercher() {
     setMovies([]);
     setSeries([]);
     setResults([]);
+    setAffichage([]);
 
     if (id === "1") {
       fetch(
@@ -175,7 +180,8 @@ function Rechercher() {
           (item) => item.media_type === "movie" || item.media_type === "tv",
         );
 
-        setResults(filteredResults);
+        setResults(filteredResults); //on garde les resultats bruts de recherche
+        setAffichage(filteredResults); //on affiche : a cause de l'asynchrone, je ne peux pas initialiser ET lire results --> je remplis avec filteredresults
       })
       .catch((err) => {
         console.error(err);
@@ -292,44 +298,58 @@ function Rechercher() {
       <RevealOnScroll delay={100}>
         <h1 className="title-page">RECHERCHES</h1>
       </RevealOnScroll>
-      <section className="container">
-        <RevealOnScroll delay={200}>
-          <SortFilter />
-        </RevealOnScroll>
-        <div className="Rechercher">
-          {results.map((item, index) => (
-            <RevealOnScroll
-              key={`${item.media_type}-${item.id}`}
-              delay={300 + index * 80}
-            >
-              <LittleCard
-                id={item.id}
-                title={item.title || item.name || ""}
-                vote_average={item.vote_average}
-                release_date={formatDate(item)}
-                overview={item.overview.slice(0, 200)}
-                poster_path={getPoster(item.poster_path)}
-              />
+      {results.length === 0 ? (
+        <p>Aucun film ou série trouvé.</p>
+      ) : (
+        <>
+          <section className="container">
+            <RevealOnScroll delay={200}>
+              <SearchContext.Provider
+                value={{
+                  results: results,
+                  affichage: affichage,
+                  setAffichage: setAffichage,
+                }}
+              >
+                <SortFilter />
+              </SearchContext.Provider>
             </RevealOnScroll>
-          ))}
-        </div>
-      </section>
-      <section className="section-btn">
-        <button
-          className="button-preced"
-          type="button"
-          onClick={() => setPage((prev) => prev - 1)}
-        >
-          ‹ Précédent
-        </button>
-        <button
-          className="button-suiv"
-          type="button"
-          onClick={() => setPage((prev) => prev + 1)}
-        >
-          Suivant ›
-        </button>
-      </section>
+            <div className="Rechercher">
+              {affichage.map((item, index) => (
+                <RevealOnScroll
+                  key={`${item.media_type}-${item.id}`}
+                  delay={300 + index * 80}
+                >
+                  <LittleCard
+                    id={item.id}
+                    title={item.title || item.name || ""}
+                    vote_average={item.vote_average}
+                    release_date={formatDate(item)}
+                    overview={item.overview.slice(0, 200)}
+                    poster_path={getPoster(item.poster_path)}
+                  />
+                </RevealOnScroll>
+              ))}
+            </div>
+          </section>
+          <section className="section-btn">
+            <button
+              className="button-preced"
+              type="button"
+              onClick={() => setPage((prev) => prev - 1)}
+            >
+              ‹ Précédent
+            </button>
+            <button
+              className="button-suiv"
+              type="button"
+              onClick={() => setPage((prev) => prev + 1)}
+            >
+              Suivant ›
+            </button>
+          </section>
+        </>
+      )}
     </>
   );
 }
