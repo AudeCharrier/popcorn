@@ -5,8 +5,8 @@
   --second-font: "Source Sans 3", sans-serif;
   --text-color-main: rgb(255, 255, 255);
   --text-color-secondary: rgba(255, 0, 0, 0.6);
-  --card-background: linear-gradient(180deg, #000000 75%, #a3a1a1 100%);
-  --card-background-reverse: linear-gradient(0deg, #000000 25%, #a3a1a1 100%);
+  --card-background: linear-gradient(#0b0b0b 57%, #525151);
+  --card-background-reverse: linear-gradient(0deg, #0b0b0b 43%, #525151);
 }
 * {
   margin: 0;
