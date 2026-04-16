@@ -1,5 +1,5 @@
 import "./Littlecard.css";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 type CinemaProps = {
   id: number;
@@ -20,7 +20,7 @@ function LittleCard({
 }: CinemaProps) {
   const navigate = useNavigate();
   const handleSelectMovie = (id: number) => {
-    navigate("/films-series", {
+    navigate(`/films-series/${id}`, {
       state: { id },
     });
   };
