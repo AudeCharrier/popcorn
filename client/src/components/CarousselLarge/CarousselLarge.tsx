@@ -9,6 +9,7 @@ type CarouselItem = {
   release_date: string;
   overview: string;
   poster_path: string;
+  media_type: "movie" | "tv";
 };
 
 type CarousselProps = {
@@ -32,6 +33,7 @@ function CarousselLarge({
           release_date: "N/A",
           overview: "Aucune description",
           poster_path: "",
+          media_type: "movie" as const,
         }));
 
   const STEP = 250;
@@ -69,6 +71,7 @@ function CarousselLarge({
                 <LittleCard
                   id={item.id}
                   title={item.title}
+                  type={item.media_type}
                   vote_average={item.vote_average}
                   release_date={item.release_date}
                   overview={item.overview}

@@ -21,7 +21,7 @@ interface Cinema {
   lienSite: string;
 }
 
-function FilmsSeries() {
+function FilmsSeries({ type }: { type: "movie" | "tv" }) {
   const { movieId } = useParams<{ movieId: string }>();
   const [providers, setProviders] = useState<Provider[]>([]);
   const [isAtCinema, setIsAtCinema] = useState(false);
@@ -38,30 +38,31 @@ function FilmsSeries() {
       },
     };
 
+    if (type === "movie") {
+      fetch(
+        `https://api.themoviedb.org/3/movie/now_playing?language=fr-FR&region=FR`,
+        options,
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          const found = data.results.some(
+            (m: Movie) => m.id.toString() === movieId,
+          );
+          setIsAtCinema(found);
+        });
+    } else {
+      setIsAtCinema(false);
+    }
     fetch(
-      `https://api.themoviedb.org/3/movie/now_playing?language=fr-FR&region=FR`,
-      options,
-    )
-      .then((res) => res.json())
-      .then((data: { results: Movie[] }) => {
-        const found = data.results.some(
-          (m: Movie) => m.id.toString() === movieId,
-        );
-        setIsAtCinema(found);
-      })
-      .catch((err) => console.error("Erreur API Cinema:", err));
-
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/watch/providers`,
+      `https://api.themoviedb.org/3/${type}/${movieId}/watch/providers`,
       options,
     )
       .then((res) => res.json())
       .then((data) => {
         const streamingFR = data.results?.FR?.flatrate || [];
         setProviders(streamingFR);
-      })
-      .catch((err) => console.error("Erreur API Streaming:", err));
-  }, [movieId]);
+      });
+  }, [movieId, type]);
 
   useEffect(() => {
     if (isAtCinema) {
@@ -82,11 +83,11 @@ function FilmsSeries() {
 
   return (
     <div className="FilmsSeries">
-      <BigCard movieId={movieId} />
+      <BigCard movieId={movieId} type={type} />
 
       {isAtCinema ? (
         <div className="FilmsSeriesDivCinema">
-          <h3>Actuellement au cinéma</h3>
+          <h2>Actuellement au cinéma</h2>
           <div className="FilmSeriesDivCinemaAllCards">
             {cinema.map((cinema) => (
               <CinemaCard
@@ -101,7 +102,7 @@ function FilmsSeries() {
         </div>
       ) : (
         <div className="FilmsSeriesDivStream">
-          <h3>Disponible en streaming</h3>
+          <h2>Disponible en streaming</h2>
           <div className="FilmsSeriesDivStreamIcon">
             {providers.length > 0 ? (
               providers.map((provider) => (

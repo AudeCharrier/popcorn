@@ -6,7 +6,7 @@ import SortFilter from "../../components/SortFilter/SortFilter";
 
 type MediaItem = {
   id: number;
-  media_type?: "movie" | "tv";
+  media_type: "movie" | "tv";
   title?: string;
   name?: string;
   vote_average: number;
@@ -18,7 +18,7 @@ type MediaItem = {
 
 type SearchResult = {
   id: number;
-  media_type: "movie" | "tv" | "person";
+  media_type: "movie" | "tv";
   title?: string;
   name?: string;
   vote_average: number;
@@ -85,7 +85,11 @@ function Rechercher() {
       )
         .then((res) => res.json())
         .then((data: TmdbListResponse) => {
-          setMovies(data.results || []);
+          const moviesWithType = (data.results || []).map((item) => ({
+            ...item,
+            media_type: "movie" as const,
+          }));
+          setMovies(moviesWithType);
         })
         .catch((err) => {
           console.error(err);
@@ -105,7 +109,11 @@ function Rechercher() {
       )
         .then((res) => res.json())
         .then((data: TmdbListResponse) => {
-          setSeries(data.results || []);
+          const seriesWithType = (data.results || []).map((item) => ({
+            ...item,
+            media_type: "tv" as const,
+          }));
+          setSeries(seriesWithType);
         })
         .catch((err) => {
           console.error(err);
@@ -156,6 +164,7 @@ function Rechercher() {
             <LittleCard
               id={item.id}
               key={item.id}
+              type={item.media_type}
               title={item.title || item.name || ""}
               vote_average={item.vote_average}
               release_date={formatDate(item)}
@@ -177,6 +186,7 @@ function Rechercher() {
             <LittleCard
               id={item.id}
               key={item.id}
+              type={item.media_type}
               title={item.title || item.name || ""}
               vote_average={item.vote_average}
               release_date={formatDate(item)}
@@ -200,6 +210,7 @@ function Rechercher() {
             <LittleCard
               id={item.id}
               key={`${item.media_type}-${item.id}`}
+              type={item.media_type}
               title={item.title || item.name || ""}
               vote_average={item.vote_average}
               release_date={formatDate(item)}
