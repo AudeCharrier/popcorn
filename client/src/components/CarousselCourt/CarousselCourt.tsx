@@ -21,7 +21,7 @@ function CarousselCourt({ items = [] }: CarousselCourtProps) {
   const displayedItems =
     items.length > 0
       ? items
-      : Array.from({ length: 10 }, (_, i) => ({
+      : Array.from({ length: 3 }, (_, i) => ({
           id: i,
           title: "Titre",
           vote_average: 0,

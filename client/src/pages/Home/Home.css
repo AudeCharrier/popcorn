@@ -1,0 +1,58 @@
+.home-heart {
+  margin: 4vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-titles {
+  display: flex;
+  justify-content: center;
+  gap: 8rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  transform: translateX(10rem);
+}
+
+.titre-current {
+  width: 40%;
+  color: white;
+  text-transform: uppercase;
+  text-align: left;
+  font-family: Ultra, serif;
+  font-style: normal;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.home-current {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10rem;
+  margin-top: -15rem;
+}
+
+.home-current > * {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-current__block {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 480px) {
+  .home-current {
+    gap: 1rem;
+  }
+}
+
+@media screen and (min-width: 780px) {
+  .home-current {
+    gap: 1rem;
+  }
+}
