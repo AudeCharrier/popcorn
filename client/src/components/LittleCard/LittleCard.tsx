@@ -31,8 +31,12 @@ function LittleCard({
       <div className="card__side card__side--front card__side--front-1">
         <div className="card__description">
           <img
-            src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+            src={poster_path}
             alt="img-film"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src =
+                "/images/default-poster.png";
+            }}
           />
           <h2>{title}</h2>
           <p>Note: {vote_average}</p>
