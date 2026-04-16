@@ -154,6 +154,7 @@ function Rechercher() {
         <div className="Rechercher">
           {movies.map((item) => (
             <LittleCard
+              id={item.id}
               key={item.id}
               title={item.title || item.name || ""}
               vote_average={item.vote_average}
@@ -174,6 +175,7 @@ function Rechercher() {
         <div className="Rechercher">
           {series.map((item) => (
             <LittleCard
+              id={item.id}
               key={item.id}
               title={item.title || item.name || ""}
               vote_average={item.vote_average}
@@ -196,6 +198,7 @@ function Rechercher() {
         ) : (
           results.map((item) => (
             <LittleCard
+              id={item.id}
               key={`${item.media_type}-${item.id}`}
               title={item.title || item.name || ""}
               vote_average={item.vote_average}
