@@ -157,3 +157,7 @@ function SortFilter() {
 }
 
 export default SortFilter;
+
+//revoir DA boutons rehcercher
+//bouton ou div sur le coté
+//h-qch au lieu de p ?
