@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import "./BigCard.css";
 import CharacterCard from "../CharacterCard/CharacterCard";
 
+interface BigCardProps {
+  movieId?: string;
+}
 interface Movie {
   poster_path: string;
   title: string;
@@ -18,7 +21,7 @@ interface CastMember {
   profile_path: string;
 }
 
-function BigCard() {
+function BigCard({ movieId }: BigCardProps) {
   const IMG_URL = "https://image.tmdb.org/t/p/w500";
   const [movie, setMovie] = useState<Movie | null>(null);
   const [cast, setCast] = useState<CastMember[]>([]);
@@ -31,14 +34,17 @@ function BigCard() {
       },
     };
 
-    fetch("https://api.themoviedb.org/3/movie/1226863?language=fr-FR", options)
+    fetch(
+      `https://api.themoviedb.org/3/movie/${movieId}?language=fr-FR`,
+      options,
+    )
       .then((res) => res.json())
       .then((data) => {
         setMovie(data);
       })
       .catch((err) => console.error("Erreur API:", err));
     fetch(
-      "https://api.themoviedb.org/3/movie/1226863/credits?language=fr-FR",
+      `https://api.themoviedb.org/3/movie/${movieId}/credits?language=fr-FR`,
       options,
     )
       .then((res) => res.json())
@@ -46,7 +52,7 @@ function BigCard() {
         setCast(data.cast.slice(0, 4));
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [movieId]);
 
   if (!movie) {
     return <div className="BigCard">Chargement...</div>;

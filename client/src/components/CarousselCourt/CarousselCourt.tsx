@@ -62,6 +62,7 @@ function CarousselCourt({ items = [] }: CarousselCourtProps) {
               {displayedItems.map((item) => (
                 <div key={item.id} className="caroussel-court-item">
                   <LittleCard
+                    id={item.id}
                     title={item.title}
                     vote_average={item.vote_average}
                     release_date={item.release_date}
