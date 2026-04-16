@@ -9,6 +9,8 @@ import fun from "../../assets/images/emoji-fun.png";
 import guerre from "../../assets/images/emoji-guerre.png";
 import romance from "../../assets/images/emoji-romance.png";
 import scifi from "../../assets/images/emoji-science-fiction.png";
+import prof from "../../assets/images/Simon.png";
+import "./BoxMoodEmoji.css";
 
 type Mood = {
   id: number;
@@ -49,10 +51,10 @@ const moods: Mood[] = [
   },
   {
     id: 5,
-    image: action,
-    label: "Action",
-    color: "#00BFFF",
-    path: "/movies/action",
+    image: prof,
+    label: "Legend",
+    color: "#0B1D3A",
+    path: "/movies/legend",
   },
   {
     id: 6,
@@ -74,6 +76,13 @@ const moods: Mood[] = [
     label: "Fun",
     color: "#FFA500",
     path: "/movies/aventure",
+  },
+  {
+    id: 9,
+    image: action,
+    label: "Action",
+    color: "#00BFFF",
+    path: "/movies/action",
   },
 ];
 
