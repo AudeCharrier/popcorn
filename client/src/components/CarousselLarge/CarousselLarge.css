@@ -10,8 +10,9 @@
   margin-bottom: 40px;
   text-transform: uppercase;
   text-align: left;
-  font-family: Ultra, serif;
+  font-family: var(--second-font);
   font-style: normal;
+  font-size: 18;
 }
 
 .caroussel-wrapper {

@@ -1,3 +1,7 @@
+.wrapper {
+  margin: 0;
+}
+
 .home-heart {
   margin: 4vh;
   display: flex;
@@ -12,6 +16,7 @@
   margin-top: 1rem;
   margin-bottom: 2rem;
   transform: translateX(10rem);
+  font-size: 18px;
 }
 
 .titre-current {
@@ -19,7 +24,7 @@
   color: white;
   text-transform: uppercase;
   text-align: left;
-  font-family: Ultra, serif;
+  font-family: var(--second-font);
   font-style: normal;
   white-space: nowrap;
   margin: 0;
@@ -43,6 +48,32 @@
 .home-current__block {
   display: flex;
   flex-direction: column;
+}
+
+.home-mood {
+  margin-top: -15rem;
+  margin-bottom: 10rem;
+}
+
+.Banniere-picture {
+  display: flex;
+  justify-content: center;
+  background-image: url("../../assets/images/Banniere.png");
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.Banniere-picture::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20%; /* ajuste la hauteur du fondu */
+
+  background: linear-gradient(to bottom, transparent, #0b0b0b);
 }
 
 @media screen and (min-width: 480px) {

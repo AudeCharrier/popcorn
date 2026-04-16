@@ -1,12 +1,12 @@
 import BoxMoodEmoji from "../../components/BoxMoodEmoji/BoxMoodEmoji";
 import CarousselCourt from "../../components/CarousselCourt/CarousselCourt";
 import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
-
 import "./Home.css";
 
 function Home() {
   return (
     <div className="wrapper">
+      <div className="Banniere-picture"></div>
       <div className="home-heart">
         <CarousselLarge />
       </div>
