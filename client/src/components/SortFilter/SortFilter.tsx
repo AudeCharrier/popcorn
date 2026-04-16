@@ -18,7 +18,7 @@ function SortFilter() {
     { name: "Guerre" },
     { name: "Aventure" },
   ];
-  const types = [{ name: "Films" }, { name: "Séries" }];
+  const mediaTypes = [{ name: "Films" }, { name: "Séries" }];
   const [isOpen, setIsOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(true);
 
@@ -124,15 +124,15 @@ function SortFilter() {
             <details>
               <summary className="sort-filter-title">Types</summary>
               <div className="filter-list">
-                {types.map((type) => (
-                  <label key={type.name}>
+                {mediaTypes.map((mediaType) => (
+                  <label key={mediaType.name}>
                     <input
                       type="checkbox"
-                      value={type.name}
+                      value={mediaType.name}
                       className="search-checkbox"
                       onChange={toggleMovieCheck}
                     />{" "}
-                    {type.name}
+                    {mediaType.name}
                   </label>
                 ))}
               </div>
