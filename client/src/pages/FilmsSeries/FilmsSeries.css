@@ -1,4 +1,76 @@
 .FilmsSeries {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  gap: 5rem;
+  color: var(--text-color-main);
+  .FilmsSeriesDivCinema {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    width: 60vw;
+    justify-content: center;
+    gap: 2rem;
+    padding-bottom: 3rem;
+    h3 {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      font-family: var(--second-font);
+    }
+    .FilmSeriesDivCinemaAllCards {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      justify-items: center;
+      gap: 4rem;
+      margin-left: 4rem;
+      margin-right: 4rem;
+    }
+  }
+  .FilmsSeriesDivStream {
+    display: grid;
+    border-radius: 10px;
+    width: 50vw;
+    justify-content: center;
+    gap: 2rem;
+    h3 {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      font-family: var(--second-font);
+    }
+    .FilmsSeriesDivStreamIcon {
+      justify-content: center;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      .provider-icon {
+        img {
+          width: 100px;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .FilmsSeries {
+    .FilmsSeriesDivCinema {
+      .FilmSeriesDivCinemaAllCards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 0;
+      }
+    }
+    .FilmsSeriesDivStream {
+      .FilmsSeriesDivStreamIcon {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  }
 }
