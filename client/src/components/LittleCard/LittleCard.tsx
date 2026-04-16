@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 type CinemaProps = {
   id: number;
-  type: "movie" | "tv";
+  type: "movie" | "tv" | "person";
   title: string;
   vote_average: number;
   release_date: string;
