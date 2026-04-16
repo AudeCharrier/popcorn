@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./SortFilter.css";
+import SearchContext from "../../contexts/SearchContext";
 
 function SortFilter() {
   const sortOptions = [
@@ -21,6 +22,30 @@ function SortFilter() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(true);
 
+  const [movieCheck, setMovieCheck] = useState(false);
+
+  const { results, setAffichage } = useContext(SearchContext);
+
+  // FILTRE MOVIES
+
+  // les deux actions (toggle le state et filtrer) dans la meme fct pour que ce soit synchrone entre les deux
+  function toggleMovieCheck() {
+    //onchange, on inverse true/false du moviecheck
+    const newValue = !movieCheck;
+    setMovieCheck(newValue);
+
+    //c'est inversé, ensuite on filtre
+    if (newValue) {
+      const filtered = results.filter(
+        (result) => result.media_type === "movie",
+      );
+      setAffichage(filtered);
+    } else {
+      setAffichage([]);
+    }
+  }
+
+  //COMPOSANT SORTFILTER
   return (
     <>
       <button
@@ -105,6 +130,7 @@ function SortFilter() {
                       type="checkbox"
                       value={type.name}
                       className="search-checkbox"
+                      onChange={toggleMovieCheck}
                     />{" "}
                     {type.name}
                   </label>

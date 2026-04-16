@@ -3,6 +3,7 @@ import "./Rechercher.css";
 import { useParams } from "react-router-dom";
 import LittleCard from "../../components/LittleCard/LittleCard";
 import SortFilter from "../../components/SortFilter/SortFilter";
+import SearchContext from "../../contexts/SearchContext";
 
 type MediaItem = {
   id: number;
@@ -42,8 +43,8 @@ function Rechercher() {
   const [movies, setMovies] = useState<MediaItem[]>([]);
   const [series, setSeries] = useState<MediaItem[]>([]);
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [_searchMovies, _setSearchMovies] = useState<SearchResult[]>([]);
-  const [_filterMovies, _setFilterMovies] = useState<SearchResult[]>([]);
+
+  const [affichage, setAffichage] = useState<SearchResult[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -79,6 +80,7 @@ function Rechercher() {
     setMovies([]);
     setSeries([]);
     setResults([]);
+    setAffichage([]);
 
     if (id === "1") {
       fetch(
@@ -130,7 +132,8 @@ function Rechercher() {
           (item) => item.media_type === "movie" || item.media_type === "tv",
         );
 
-        setResults(filteredResults);
+        setResults(filteredResults); //on garde les resultats bruts de recherche
+        setAffichage(filteredResults); //on affiche : a cause de l'asynchrone, je ne peux pas initialiser ET lire results --> je remplis avec filteredresults
       })
       .catch((err) => {
         console.error(err);
@@ -191,12 +194,20 @@ function Rechercher() {
 
   return (
     <section className="container">
-      <SortFilter />
+      <SearchContext.Provider
+        value={{
+          results: results,
+          affichage: affichage,
+          setAffichage: setAffichage,
+        }}
+      >
+        <SortFilter />
+      </SearchContext.Provider>
       <div className="Rechercher">
         {results.length === 0 ? (
           <p>Aucun film ou série trouvé.</p>
         ) : (
-          results.map((item) => (
+          affichage.map((item) => (
             <LittleCard
               key={`${item.media_type}-${item.id}`}
               title={item.title || item.name || ""}

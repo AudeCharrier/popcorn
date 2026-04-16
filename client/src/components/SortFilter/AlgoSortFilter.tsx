@@ -261,9 +261,9 @@ console.log(filterGenres(movies, idGenresToFilter));
 //fetch api movies => setMovies (toutes les infos api)
 
 //qqn fait une recherche sans préciser films séries (ou en cochant les 2)
-//ON PART DE RESULTATS MOVIES + SERIES : results  (avec set)
+//ON PART DE RESULTATS MOVIES + SERIES : filteredresults -> setresults
 //dans le .map, il faut faire un usestate : {affichage}.map
-//set affichage -> results
+//set affichage -> filteredresults
 
 //l'utilisateur filtre seulement un type de media : il a checked (ou uncheck l'autre)
 
@@ -274,9 +274,4 @@ console.log(filterGenres(movies, idGenresToFilter));
 //si filtre-films checked :
 //return -> setaffichage ->filtermovies
 //si filtre-films uncheck :
-//return ->  setfiltermovies à vide
-
-//code a améliorer
-
-//IDEAL
-// la fonction a les données filtrées, mais ça s'affiche seulement si c coché/décoché. elle ne recalcule pas
+//return ->  setaffichage à vide
