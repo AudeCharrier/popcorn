@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Rechercher.css";
 import { useParams } from "react-router-dom";
 import LittleCard from "../../components/LittleCard/LittleCard";
@@ -36,6 +36,52 @@ type SearchResponse = {
 type TmdbListResponse = {
   results: MediaItem[];
 };
+
+type RevealOnScrollProps = {
+  children: React.ReactNode;
+  delay?: number;
+};
+
+function RevealOnScroll({ children, delay = 0 }: RevealOnScrollProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const currentRef = ref.current;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      {
+        threshold: 0,
+      },
+    );
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`reveal-card ${visible ? "visible" : ""}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
 
 function Rechercher() {
   const { id } = useParams();
@@ -154,20 +200,25 @@ function Rechercher() {
   if (id === "1") {
     return (
       <>
-        <h1 className="title-page">FILMS</h1>
+        <RevealOnScroll delay={100}>
+          <h1 className="title-page">FILMS</h1>
+        </RevealOnScroll>
         <section className="container">
-          <SortFilter />
+          <RevealOnScroll delay={200}>
+            <SortFilter />
+          </RevealOnScroll>
           <div className="Rechercher">
-            {movies.map((item) => (
-              <LittleCard
-                id={item.id}
-                key={item.id}
-                title={item.title || item.name || ""}
-                vote_average={item.vote_average}
-                release_date={formatDate(item)}
-                overview={item.overview.slice(0, 200)}
-                poster_path={getPoster(item.poster_path)}
-              />
+            {movies.map((item, index) => (
+              <RevealOnScroll key={item.id} delay={300 + index * 80}>
+                <LittleCard
+                  id={item.id}
+                  title={item.title || item.name || ""}
+                  vote_average={item.vote_average}
+                  release_date={formatDate(item)}
+                  overview={item.overview.slice(0, 200)}
+                  poster_path={getPoster(item.poster_path)}
+                />
+              </RevealOnScroll>
             ))}
           </div>
         </section>
@@ -194,20 +245,25 @@ function Rechercher() {
   if (id === "2") {
     return (
       <>
-        <h1 className="title-page">SÉRIES</h1>
+        <RevealOnScroll delay={100}>
+          <h1 className="title-page">SERIES</h1>
+        </RevealOnScroll>
         <section className="container">
-          <SortFilter />
+          <RevealOnScroll delay={200}>
+            <SortFilter />
+          </RevealOnScroll>
           <div className="Rechercher">
-            {series.map((item) => (
-              <LittleCard
-                id={item.id}
-                key={item.id}
-                title={item.title || item.name || ""}
-                vote_average={item.vote_average}
-                release_date={formatDate(item)}
-                overview={item.overview.slice(0, 200)}
-                poster_path={getPoster(item.poster_path)}
-              />
+            {series.map((item, index) => (
+              <RevealOnScroll key={item.id} delay={300 + index * 80}>
+                <LittleCard
+                  id={item.id}
+                  title={item.title || item.name || ""}
+                  vote_average={item.vote_average}
+                  release_date={formatDate(item)}
+                  overview={item.overview.slice(0, 200)}
+                  poster_path={getPoster(item.poster_path)}
+                />
+              </RevealOnScroll>
             ))}
           </div>
         </section>
@@ -233,25 +289,29 @@ function Rechercher() {
 
   return (
     <>
-      <h1 className="title-page">RECHERCHES</h1>
+      <RevealOnScroll delay={100}>
+        <h1 className="title-page">RECHERCHES</h1>
+      </RevealOnScroll>
       <section className="container">
-        <SortFilter />
+        <RevealOnScroll delay={200}>
+          <SortFilter />
+        </RevealOnScroll>
         <div className="Rechercher">
-          {results.length === 0 ? (
-            <p>Aucun film ou série trouvé.</p>
-          ) : (
-            results.map((item) => (
+          {results.map((item, index) => (
+            <RevealOnScroll
+              key={`${item.media_type}-${item.id}`}
+              delay={300 + index * 80}
+            >
               <LittleCard
                 id={item.id}
-                key={`${item.media_type}-${item.id}`}
                 title={item.title || item.name || ""}
                 vote_average={item.vote_average}
                 release_date={formatDate(item)}
                 overview={item.overview.slice(0, 200)}
                 poster_path={getPoster(item.poster_path)}
               />
-            ))
-          )}
+            </RevealOnScroll>
+          ))}
         </div>
       </section>
       <section className="section-btn">
