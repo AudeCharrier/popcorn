@@ -19,12 +19,18 @@ function SortFilter() {
     { name: "Aventure" },
   ];
   const mediaTypes = [{ name: "Films" }, { name: "Séries" }];
+
   const [isOpen, setIsOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(true);
   const [movieCheck, setMovieCheck] = useState(false);
   const [serieCheck, setSerieCheck] = useState(false);
 
   const { results, setAffichage } = useContext(SearchContext);
+
+  const [_filters, _setFilters] = useState({
+    mediaTypes: [],
+    genres: [],
+  });
 
   // FILTRE MOVIES
 

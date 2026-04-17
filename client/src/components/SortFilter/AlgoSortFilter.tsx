@@ -276,20 +276,68 @@ console.log(filterGenres(movies, idGenresToFilter));
 //si filtre-films uncheck :
 //return ->  setaffichage à vide
 
-/*
-si film
-  si checked
-  sinon
-si serie
-  si checked
-  sinon
-*/
+//tpye film -> prendre results ->item media type = movie --> dans const = newarray
+//genres aventure, comedie --> filtrer newarray --> finalarray
 
-/*si film & serie checked OU film & serie unch
+/* les valeurs sont mediatype.name ou genres.name (ce qui est la vlauer de la value de l'input !
+  onChange={(e) => toggleFiltre("mediatypes", e.target.value)} 
 
-si film checked & serie uncheck
+   const [filtresActifs, setFiltresActifs] = useState({ mediatypes: [], genres: [], });
 
-si film unch et serie checked
+  togglefiltre(categorie, value)
+
+  setFiltresActifs((prev) => {
+  const prevcategorie = prev[categorie];
+
+  let newcategorie;
+
+  if (prevcategorie.includes(value)) {
+    newcategorie = prevcategorie.filter(v => v!==value) 
+    } else {
+      newcategorie = [...prevcategorie, value]
+}
+  return {
+    ...prev,
+    [categorie]: newcategorie,
+  };
+});
+
+type Media = {
+  id?: number;
+  title?: string;
+  name?: string;
+  vote_average: number;
+  release_date: string;
+  first_air_date?: string;
+  overview: string;
+  poster_path: string;
+  genres: Genre[];
+  media_type:"string";
+};
+
+filtresActifs = {
+  mediatypes: ["Film"],
+  genres: ["Action"]
+}
+
+data ->  c results (api movie + serie)
+
+data est un Media[]
+
+recalculerLesFiltres(data, filtresActifs) {
+
+const datatypesok =
+  filtresActifs.mediatypes.length === 0
+    ? data
+    : data.filter(item =>
+        filtresActifs.mediatypes.includes(item.media_type)
+      );
 
 
+})
+
+
+const filteredData = useMemo(() => {
+return recalculerLesFiltres(data, filtresActifs);
+}, [data, filtresActifs]); // ← ne recalcule QUE si ces valeurs changent
 */
