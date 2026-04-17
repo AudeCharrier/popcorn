@@ -1,0 +1,94 @@
+.Seances {
+  color: white;
+}
+
+.container {
+  width: 72%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 80px;
+}
+
+.Seances h1 {
+  margin-bottom: 70px;
+  text-transform: uppercase;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* SECTION */
+.section-box {
+  margin-bottom: 80px;
+}
+
+/* TITRES */
+.section-box .h2-seances {
+  margin-top: 20px;
+  margin-bottom: 25px;
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ffffff;
+  position: relative;
+  padding-left: 18px;
+}
+
+/* BARRE ROUGE */
+.section-box .h2-seances::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 18px;
+  background: #e50914;
+  border-radius: 2px;
+}
+
+/* CAROUSEL */
+.carousel-wrapper-fix {
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+  position: relative;
+}
+
+.carousel-wrapper-fix::before,
+.carousel-wrapper-fix::after {
+  display: none;
+}
+
+/* STRUCTURE */
+.carousel-wrapper-fix .caroussel-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-wrapper-fix .caroussel-wrapper,
+.carousel-wrapper-fix .caroussel-overflow {
+  width: 100%;
+  background: transparent;
+}
+
+/* ALIGNEMENT */
+.carousel-wrapper-fix .caroussel-center {
+  display: flex;
+  gap: 25px;
+  width: max-content;
+  transition: transform 0.4s ease;
+}
+
+/* 🎬 HOVER NETFLIX */
+.carousel-wrapper-fix .caroussel-item {
+  transition: transform 0.3s ease;
+}
+
+.carousel-wrapper-fix .caroussel-item:hover {
+  transform: scale(1.12);
+  z-index: 3;
+}
