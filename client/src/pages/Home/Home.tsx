@@ -18,9 +18,14 @@ type CarousselProps = {
   items?: CarouselItem[];
 };
 
-function Home({ items  }: CarousselProps) {
+function Home({ items }: CarousselProps) {
   const [movieLike, setMovieLike] = useState<CarouselItem[]>([]);
-  console.log(items)
+  console.log(items);
+
+  const [currentMovie, setCurrentMovie] = useState<CarouselItem[]>([]);
+
+  const [upcomingMovie, setUpcomingMovie] = useState<CarouselItem[]>([]);
+
   useEffect(() => {
     const options = {
       method: "GET",
@@ -30,7 +35,7 @@ function Home({ items  }: CarousselProps) {
       },
     };
     fetch(
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+      "https://api.themoviedb.org/3/movie/popular?language=fr-FR&page=1",
       options,
     )
       .then((res) => res.json())
@@ -40,6 +45,32 @@ function Home({ items  }: CarousselProps) {
           poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         }));
         setMovieLike(moviesWithImages);
+      });
+
+    fetch(
+      "https://api.themoviedb.org/3/movie/now_playing?language=fr-FR&page=2",
+      options,
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        const moviesWithImages = res.results.map((movie: CarouselItem) => ({
+          ...movie,
+          poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }));
+        setCurrentMovie(moviesWithImages);
+      });
+
+    fetch(
+      "https://api.themoviedb.org/3/movie/upcoming?language=fr-FR&page=2",
+      options,
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        const moviesWithImages = res.results.map((movie: CarouselItem) => ({
+          ...movie,
+          poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }));
+        setUpcomingMovie(moviesWithImages);
       });
   }, []);
 
@@ -60,10 +91,10 @@ function Home({ items  }: CarousselProps) {
 
         <div className="home-current">
           <div className="home-current__block">
-            <CarousselCourt />
+            <CarousselCourt items={currentMovie} />
           </div>
           <div className="home-current__block">
-            <CarousselCourt />
+            <CarousselCourt items={upcomingMovie} />
           </div>
         </div>
       </div>

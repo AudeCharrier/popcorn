@@ -2,6 +2,10 @@
   margin: 0;
 }
 
+body {
+  background: #0b0b0b;
+}
+
 .home-heart {
   margin: 4vh;
   display: flex;
