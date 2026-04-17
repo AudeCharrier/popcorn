@@ -2,15 +2,25 @@ import { useEffect, useState } from "react";
 import "./BigCard.css";
 import CharacterCard from "../CharacterCard/CharacterCard";
 
-interface Movie {
+interface BigCardProps {
+  movieId?: string;
+  type: "movie" | "tv";
+}
+
+interface MediaData {
   poster_path: string;
-  title: string;
-  release_date: string;
+  title?: string;
+  name?: string;
+  release_date?: string;
+  first_air_date?: string;
   genres: { name: string }[];
   vote_average: number;
-  runtime: number;
+  runtime?: number;
+  number_of_seasons?: number;
+  number_of_episodes?: number;
   overview: string;
 }
+
 interface CastMember {
   id: number;
   name: string;
@@ -18,11 +28,14 @@ interface CastMember {
   profile_path: string;
 }
 
-function BigCard() {
+function BigCard({ movieId, type }: BigCardProps) {
   const IMG_URL = "https://image.tmdb.org/t/p/w500";
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const [data, setData] = useState<MediaData | null>(null);
   const [cast, setCast] = useState<CastMember[]>([]);
+
   useEffect(() => {
+    if (!movieId) return;
+
     const options = {
       method: "GET",
       headers: {
@@ -31,49 +44,65 @@ function BigCard() {
       },
     };
 
-    fetch("https://api.themoviedb.org/3/movie/1226863?language=fr-FR", options)
-      .then((res) => res.json())
-      .then((data) => {
-        setMovie(data);
-      })
-      .catch((err) => console.error("Erreur API:", err));
     fetch(
-      "https://api.themoviedb.org/3/movie/1226863/credits?language=fr-FR",
+      `https://api.themoviedb.org/3/${type}/${movieId}?language=fr-FR`,
       options,
     )
       .then((res) => res.json())
-      .then((data) => {
-        setCast(data.cast.slice(0, 4));
-      })
-      .catch((err) => console.error(err));
-  }, []);
+      .then((resData) => setData(resData))
+      .catch((err) => console.error("Erreur API Details:", err));
 
-  if (!movie) {
+    fetch(
+      `https://api.themoviedb.org/3/${type}/${movieId}/credits?language=fr-FR`,
+      options,
+    )
+      .then((res) => res.json())
+      .then((resCast) => setCast(resCast.cast?.slice(0, 4) || []))
+      .catch((err) => console.error("Erreur API Cast:", err));
+  }, [movieId, type]);
+
+  if (!data) {
     return <div className="BigCard">Chargement...</div>;
   }
+
+  const title = data.title || data.name;
+  const date = data.release_date || data.first_air_date;
+
   return (
     <div className="BigCard">
       <div className="BigCardDivImg">
-        <img src={IMG_URL + movie.poster_path} alt={movie.title} />
+        <img src={IMG_URL + data.poster_path} alt={title} />
       </div>
       <div className="BigCardDivText">
-        <h1>{movie.title}</h1>
+        <h1>{title}</h1>
         <p>
-          <span>Date :</span>{" "}
-          {movie.release_date?.split("-").reverse().join("/")}
+          <span>Date :</span> {date?.split("-").reverse().join("/")}
         </p>
         <p>
-          <span>Genre :</span> {movie.genres?.map((g) => g.name).join(", ")}
+          <span>Genre :</span> {data.genres?.map((g) => g.name).join(", ")}
         </p>
         <p>
-          <span>Note :</span> {movie.vote_average} / 10
+          <span>Note :</span> {data.vote_average.toFixed(1)} / 10
         </p>
-        <p>
-          <span>Durée :</span> {movie.runtime} minutes
-        </p>
+
+        {type === "movie" ? (
+          <p>
+            <span>Durée :</span> {data.runtime} minutes
+          </p>
+        ) : (
+          <>
+            <p>
+              <span>Saisons :</span> {data.number_of_seasons}
+            </p>
+            <p>
+              <span>Épisodes :</span> {data.number_of_episodes}
+            </p>
+          </>
+        )}
+
         <p>
           <span>Synopsis : </span>
-          {movie.overview}
+          {data.overview}
         </p>
       </div>
       <div className="BigCardDivCharacters">
