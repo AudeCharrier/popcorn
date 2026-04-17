@@ -81,20 +81,18 @@ function Home({ items }: CarousselProps) {
     <div className="wrapper">
       <div className="Banniere-picture"></div>
       <div className="home-heart">
+        <h2 className="titre-coup">COUP DE COEUR</h2>
         <CarousselLarge items={movieLike} />
       </div>
 
       <div className="block-control">
-        <div className="home-titles">
-          <h2 className="titre-current">ACTUELLEMENT EN SALLE</h2>
-          <h2 className="titre-current">PROCHAINEMENT</h2>
-        </div>
-
         <div className="home-current">
           <div className="home-current__block">
+            <h2 className="titre-current">PROCHAINEMENT</h2>
             <CarousselCourt items={currentMovie} />
           </div>
           <div className="home-current__block">
+            <h2 className="titre-current">ACTUELLEMENT EN SALLE</h2>
             <CarousselCourt items={upcomingMovie} />
           </div>
         </div>

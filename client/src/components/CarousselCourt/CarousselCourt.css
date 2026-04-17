@@ -1,8 +1,8 @@
 .caroussel-court-container {
   background: linear-gradient(#0b0b0b 57%, #525151);
-  margin: 20vh;
+  /* margin: 20vh; */
   color: white;
-  width: 30vw;
+  width: 40vw;
 }
 
 .caroussel-court-wrapper {

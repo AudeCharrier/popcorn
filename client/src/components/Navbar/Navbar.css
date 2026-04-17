@@ -42,7 +42,7 @@
   border: 2px solid #d4183d;
   border-radius: 10px;
   margin-right: 20px;
-  background-color: rgb(207, 199, 199);
+  background-color: #0b0b0b;
 }
 
 .nav-sch {
@@ -51,7 +51,7 @@
   font-size: 20px;
   border: none;
   outline: none;
-  background-color: rgb(207, 199, 199);
+  background-color: #0b0b0b;
 }
 
 .nav-button {
@@ -60,7 +60,7 @@
   border: none;
   cursor: pointer;
   text-decoration: none;
-  color: black;
+  color: rgb(255, 255, 255);
 }
 .menu-toggle {
   display: none;
