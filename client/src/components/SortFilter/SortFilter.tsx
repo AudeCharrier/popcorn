@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./SortFilter.css";
+import SearchContext from "../../contexts/SearchContext";
 
 function SortFilter() {
   const sortOptions = [
@@ -17,10 +18,43 @@ function SortFilter() {
     { name: "Guerre" },
     { name: "Aventure" },
   ];
-  const types = [{ name: "Films" }, { name: "Séries" }];
+  const mediaTypes = [{ name: "Films" }, { name: "Séries" }];
   const [isOpen, setIsOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(true);
+  const [movieCheck, setMovieCheck] = useState(false);
+  const [serieCheck, setSerieCheck] = useState(false);
 
+  const { results, setAffichage } = useContext(SearchContext);
+
+  // FILTRE MOVIES
+
+  // les deux actions (toggle le state et filtrer) dans la meme fct pour que ce soit synchrone entre les deux
+  function toggleMediaCheck(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value; //récupère value ="films" ou "séries" de l'input
+
+    //l'utilisateur a coché ou décoché -> on toggle le state
+    //il y a un ternaire dans la const, pour adapter la valeur
+    //si on est dans l'input de value films -> on toggle moviecheck : sinon on laisse moviecheck d'avant
+    const newMovieCheck = value === "Films" ? !movieCheck : movieCheck;
+    const newSerieCheck = value === "Séries" ? !serieCheck : serieCheck;
+
+    setMovieCheck(newMovieCheck);
+    setSerieCheck(newSerieCheck);
+
+    if (
+      //si les deux sont cochés ou décochés
+      (newMovieCheck && newSerieCheck) ||
+      (!newMovieCheck && !newSerieCheck)
+    ) {
+      setAffichage(results);
+    } else if (newMovieCheck) {
+      setAffichage(results.filter((r) => r.media_type === "movie"));
+    } else {
+      setAffichage(results.filter((r) => r.media_type === "tv"));
+    }
+  }
+
+  //COMPOSANT SORTFILTER
   return (
     <>
       <button
@@ -99,14 +133,15 @@ function SortFilter() {
             <details>
               <summary className="sort-filter-title">Types</summary>
               <div className="filter-list">
-                {types.map((type) => (
-                  <label key={type.name}>
+                {mediaTypes.map((mediaType) => (
+                  <label key={mediaType.name}>
                     <input
                       type="checkbox"
-                      value={type.name}
+                      value={mediaType.name}
                       className="search-checkbox"
+                      onChange={toggleMediaCheck}
                     />{" "}
-                    {type.name}
+                    {mediaType.name}
                   </label>
                 ))}
               </div>
@@ -122,3 +157,7 @@ function SortFilter() {
 }
 
 export default SortFilter;
+
+//revoir DA boutons rehcercher
+//bouton ou div sur le coté
+//h-qch au lieu de p ?

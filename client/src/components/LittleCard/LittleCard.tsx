@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 type CinemaProps = {
   id: number;
+  type: "movie" | "tv" | "person";
   title: string;
   vote_average: number;
   release_date: string;
@@ -12,6 +13,7 @@ type CinemaProps = {
 
 function LittleCard({
   id,
+  type,
   title,
   vote_average,
   release_date,
@@ -20,9 +22,8 @@ function LittleCard({
 }: CinemaProps) {
   const navigate = useNavigate();
   const handleSelectMovie = (id: number) => {
-    navigate(`/films-series/${id}`, {
-      state: { id },
-    });
+    const mediaType = type || "movie";
+    navigate(`/films-series/${mediaType}/${id}`);
   };
 
   return (
