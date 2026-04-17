@@ -1,14 +1,55 @@
+import { useEffect, useState } from "react";
 import BoxMoodEmoji from "../../components/BoxMoodEmoji/BoxMoodEmoji";
 import CarousselCourt from "../../components/CarousselCourt/CarousselCourt";
 import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
 import "./Home.css";
 
-function Home() {
+type CarouselItem = {
+  id: number;
+  title: string;
+  vote_average: number;
+  release_date: string;
+  overview: string;
+  poster_path: string;
+};
+
+type CarousselProps = {
+  id?: number;
+  items?: CarouselItem[];
+};
+
+function Home({ items  }: CarousselProps) {
+  const [movieLike, setMovieLike] = useState<CarouselItem[]>([]);
+  console.log(items)
+  useEffect(() => {
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+      },
+    };
+    fetch(
+      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+      options,
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        const moviesWithImages = res.results.map((movie: CarouselItem) => ({
+          ...movie,
+          poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }));
+        setMovieLike(moviesWithImages);
+      });
+  }, []);
+
+  if (movieLike.length === 0) return <p>Chargement...</p>;
+
   return (
     <div className="wrapper">
       <div className="Banniere-picture"></div>
       <div className="home-heart">
-        <CarousselLarge />
+        <CarousselLarge items={movieLike} />
       </div>
 
       <div className="block-control">
