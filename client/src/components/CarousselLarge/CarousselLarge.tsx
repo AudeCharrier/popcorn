@@ -13,14 +13,9 @@ type CarouselItem = {
 };
 
 type CarousselProps = {
-  titre?: string;
   items?: CarouselItem[];
 };
-
-function CarousselLarge({
-  titre = "COUPS DE COEUR",
-  items = [],
-}: CarousselProps) {
+function CarousselLarge({ items = [] }: CarousselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const displayedItems =
@@ -50,8 +45,6 @@ function CarousselLarge({
 
   return (
     <div className="caroussel-container">
-      <h2 className="caroussel-titre">{titre}</h2>
-
       <div className="caroussel-wrapper">
         <button
           type="button"
