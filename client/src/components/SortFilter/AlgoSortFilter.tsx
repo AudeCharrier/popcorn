@@ -272,6 +272,6 @@ return recalculerLesFiltres(data, filtresActifs);
 }, [data, filtresActifs]); // ← ne recalcule QUE si ces valeurs changent
 */
 
-//faut récup la liste des genres dans l 'api (movies + series)
-//pour avoir mon tableau de genres avec les id, TOUS films + series dans le meme
+//faut récup la liste des genres dans l 'api (movies + series) : OK
+//pour avoir mon tableau de genres avec les id, TOUS films + series dans le meme : OK
 //et faire le filtre genres avec les id : id de la checkbox -> dans activefilters -> comparer avec id des éléments de results

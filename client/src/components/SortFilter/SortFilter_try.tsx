@@ -1,4 +1,4 @@
-import { useState } from "react"; //ajouter usecontext
+import { useEffect, useState } from "react"; //ajouter usecontext
 import "./SortFilter.css";
 /* import SearchContext from "../../contexts/SearchContext"; */
 
@@ -19,12 +19,73 @@ import "./SortFilter.css";
 }; */
 //aller chercher ça dans l'api genre/movie/list  et genre/tv/list
 
-function SortFilter() {
+type Genre = {
+  id: number;
+  name: string;
+};
+
+type Genres = {
+  genres: Genre[];
+};
+
+function SortFilter_try() {
+  const [_genresList, _setGenresList] = useState<Genres>();
+  const [_loading, setLoading] = useState(false);
+  const [_error, setError] = useState("");
+
+  useEffect(() => {
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+      },
+    };
+
+    setLoading(true);
+    setError("");
+
+    //recup les 2 fetch dans un tableau [result1, result 2]
+    Promise.all([
+      fetch(
+        "https://api.themoviedb.org/3/genre/movie/list?language=fr",
+        options,
+      ).then((res) => res.json()),
+
+      fetch(
+        "https://api.themoviedb.org/3/genre/tv/list?language=fr",
+        options,
+      ).then((res) => res.json()),
+    ])
+
+      //on remplit le tableau de promise (en choisissant les noms)
+      .then(([moviesData, tvData]) => {
+        const mergedGenres = [...moviesData.genres, ...tvData.genres]; //on recup le contenu de la clé genres
+        console.log(mergedGenres);
+        // a faire : enlever les doublons (même id) //A ECLARICIR !!!
+        /*   const uniqueGenres = mergedGenres.filter(
+        (genre, index, self) =>
+          index === self.findIndex((g) => g.id === genre.id),
+      );
+      */
+        /* setGenresList(mergedGenres); */
+      })
+
+      .catch((err) => {
+        console.error(err);
+        setError("Erreur lors du chargement des films.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   const sortOptions = [
     { name: "Popularité" },
     { name: "Date de sortie" },
     { name: "Note" },
   ];
+  //recup A LA MAIN (tant pis !!) les id de ce qu'on veut
   const genres = [
     { name: "Comédie" },
     { name: "Action" },
@@ -193,7 +254,7 @@ const dataTypesOk =
   );
 }
 
-export default SortFilter;
+export default SortFilter_try;
 
 //revoir DA boutons rehcercher
 //bouton ou div sur le coté

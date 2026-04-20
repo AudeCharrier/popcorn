@@ -3,7 +3,8 @@ import "./Rechercher.css";
 import { useParams } from "react-router-dom";
 import defaultPoster from "../../assets/images/Logo.png";
 import LittleCard from "../../components/LittleCard/LittleCard";
-import SortFilter from "../../components/SortFilter/SortFilter";
+import SortFilter_try from "../../components/SortFilter/SortFilter_try";
+
 import SearchContext from "../../contexts/SearchContext";
 
 type MediaItem = {
@@ -219,7 +220,7 @@ function Rechercher() {
         </RevealOnScroll>
         <section className="container">
           <RevealOnScroll delay={200}>
-            <SortFilter />
+            <SortFilter_try />
           </RevealOnScroll>
           <div className="Rechercher">
             {movies.map((item, index) => (
@@ -265,7 +266,7 @@ function Rechercher() {
         </RevealOnScroll>
         <section className="container">
           <RevealOnScroll delay={200}>
-            <SortFilter />
+            <SortFilter_try />
           </RevealOnScroll>
           <div className="Rechercher">
             {series.map((item, index) => (
@@ -321,7 +322,7 @@ function Rechercher() {
                   setAffichage: setAffichage,
                 }}
               >
-                <SortFilter />
+                <SortFilter_try />
               </SearchContext.Provider>
             </RevealOnScroll>
             <div className="Rechercher">
