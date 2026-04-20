@@ -267,77 +267,11 @@ console.log(filterGenres(movies, idGenresToFilter));
 
 //l'utilisateur filtre seulement un type de media : il a checked (ou uncheck l'autre)
 
-//au check, actvier la fonction :
-//fonction ??:
-//--> prend dans results (ou movies ? quand il fera rech faut partir de movies)
-// et filtre : item.media_type === "movie" -> setfiltermovies //si aucun -> setfitlermovies à vide ?
-//si filtre-films checked :
-//return -> setaffichage ->filtermovies
-//si filtre-films uncheck :
-//return ->  setaffichage à vide
-
-//tpye film -> prendre results ->item media type = movie --> dans const = newarray
-//genres aventure, comedie --> filtrer newarray --> finalarray
-
-/* les valeurs sont mediatype.name ou genres.name (ce qui est la vlauer de la value de l'input !
-  onChange={(e) => toggleFiltre("mediatypes", e.target.value)} 
-
-   const [filtresActifs, setFiltresActifs] = useState({ mediatypes: [], genres: [], });
-
-  togglefiltre(categorie, value)
-
-  setFiltresActifs((prev) => {
-  const prevcategorie = prev[categorie];
-
-  let newcategorie;
-
-  if (prevcategorie.includes(value)) {
-    newcategorie = prevcategorie.filter(v => v!==value) 
-    } else {
-      newcategorie = [...prevcategorie, value]
-}
-  return {
-    ...prev,
-    [categorie]: newcategorie,
-  };
-});
-
-type Media = {
-  id?: number;
-  title?: string;
-  name?: string;
-  vote_average: number;
-  release_date: string;
-  first_air_date?: string;
-  overview: string;
-  poster_path: string;
-  genres: Genre[];
-  media_type:"string";
-};
-
-filtresActifs = {
-  mediatypes: ["Film"],
-  genres: ["Action"]
-}
-
-data ->  c results (api movie + serie)
-
-data est un Media[]
-
-recalculerLesFiltres(data, filtresActifs) {
-
-const datatypesok =
-  filtresActifs.mediatypes.length === 0
-    ? data
-    : data.filter(item =>
-        filtresActifs.mediatypes.includes(item.media_type)
-      );
-
-
-})
-
-
-const filteredData = useMemo(() => {
+/* const filteredData = useMemo(() => {
 return recalculerLesFiltres(data, filtresActifs);
 }, [data, filtresActifs]); // ← ne recalcule QUE si ces valeurs changent
 */
+
+//faut récup la liste des genres dans l 'api (movies + series)
+//pour avoir mon tableau de genres avec les id, TOUS films + series dans le meme
+//et faire le filtre genres avec les id : id de la checkbox -> dans activefilters -> comparer avec id des éléments de results

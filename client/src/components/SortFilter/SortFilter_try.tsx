@@ -1,6 +1,23 @@
-import { useContext, useState } from "react";
+import { useState } from "react"; //ajouter usecontext
 import "./SortFilter.css";
-import SearchContext from "../../contexts/SearchContext";
+/* import SearchContext from "../../contexts/SearchContext"; */
+
+// POUR RAPPEL : EXTRAIT DE SEARCH MULTI :
+/* type MediaItem = {
+  id: number;
+  media_type: "movie" | "tv";
+  title?: string;
+  name?: string;
+  genre_ids?: number[     
+  ],
+  popularity?:number;
+  vote_average: number;
+  release_date?: string;
+  first_air_date?: string;
+  overview: string;
+  poster_path: string | null;
+}; */
+//aller chercher ça dans l'api genre/movie/list  et genre/tv/list
 
 function SortFilter() {
   const sortOptions = [
@@ -22,38 +39,52 @@ function SortFilter() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(true);
-  const [movieCheck, setMovieCheck] = useState(false);
-  const [serieCheck, setSerieCheck] = useState(false);
 
-  const { results, setAffichage } = useContext(SearchContext);
+  /* const {_results,_affichage,_setAffichage } = useContext(SearchContext);
+   */
+  const [_activeFilters, setActiveFilters] = useState<Filters>({
+    mediaTypes: [],
+    genres: [],
+  });
 
-  // FILTRE MOVIES
+  type Filters = {
+    mediaTypes: string[];
+    genres: string[];
+  };
 
-  // les deux actions (toggle le state et filtrer) dans la meme fct pour que ce soit synchrone entre les deux
-  function toggleMediaCheck(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value; //récupère value ="films" ou "séries" de l'input
+  function toggleMediaCheck(categorie: "mediaTypes" | "genres", value: string) {
+    setActiveFilters((prev) => {
+      const prevCategorie = prev[categorie];
 
-    //l'utilisateur a coché ou décoché -> on toggle le state
-    //il y a un ternaire dans la const, pour adapter la valeur
-    //si on est dans l'input de value films -> on toggle moviecheck : sinon on laisse moviecheck d'avant
-    const newMovieCheck = value === "Films" ? !movieCheck : movieCheck;
-    const newSerieCheck = value === "Séries" ? !serieCheck : serieCheck;
+      let newCategorie = [];
 
-    setMovieCheck(newMovieCheck);
-    setSerieCheck(newSerieCheck);
+      if (prevCategorie.includes(value)) {
+        newCategorie = prevCategorie.filter((v) => v !== value);
+      } else {
+        newCategorie = [...prevCategorie, value]; //si value (= nom categorie = aventure, film... etc) absente -> rajoute
+      }
 
-    if (
-      //si les deux sont cochés ou décochés
-      (newMovieCheck && newSerieCheck) ||
-      (!newMovieCheck && !newSerieCheck)
-    ) {
-      setAffichage(results);
-    } else if (newMovieCheck) {
-      setAffichage(results.filter((r) => r.media_type === "movie"));
-    } else {
-      setAffichage(results.filter((r) => r.media_type === "tv"));
-    }
+      return {
+        ...prev,
+        [categorie]: newCategorie,
+      };
+    });
   }
+
+  // results est un MediaItem[]
+
+  /* function recalculerLesFiltres(results, activeFilters) {
+
+const dataTypesOk =
+  activeFilters.mediaTypes.length === 0
+    ? results
+    : results.filter(item =>
+        activeFilters.mediaTypes.includes(item.media_type)
+      ); */
+
+  //puis filtrer datatypesok avec les genres
+
+  //actualiser setaffichage !!
 
   //COMPOSANT SORTFILTER
   return (
@@ -124,6 +155,9 @@ function SortFilter() {
                       type="checkbox"
                       value={genre.name}
                       className="search-checkbox"
+                      onChange={(e) =>
+                        toggleMediaCheck("genres", e.target.value)
+                      }
                     />{" "}
                     {genre.name}
                   </label>
@@ -134,15 +168,17 @@ function SortFilter() {
             <details>
               <summary className="sort-filter-title">Types</summary>
               <div className="filter-list">
-                {mediaTypes.map((mediaType) => (
-                  <label key={mediaType.name}>
+                {mediaTypes.map((mediaTypes) => (
+                  <label key={mediaTypes.name}>
                     <input
                       type="checkbox"
-                      value={mediaType.name}
+                      value={mediaTypes.name}
                       className="search-checkbox"
-                      onChange={toggleMediaCheck}
+                      onChange={(e) =>
+                        toggleMediaCheck("mediaTypes", e.target.value)
+                      }
                     />{" "}
-                    {mediaType.name}
+                    {mediaTypes.name}
                   </label>
                 ))}
               </div>
