@@ -12,8 +12,47 @@
   margin: 0;
   padding: 0;
 }
-body {
+.app {
+  min-height: 100vh;
+  transition: 0.3s ease;
+}
+
+/* Home */
+.home-theme {
+  background-color: #0b0b0b;
+}
+
+/* Page film */
+.movie-theme {
   background:
-    linear-gradient(to right, rgba(255, 0, 0, 0.6), transparent 5%),
-    linear-gradient(to left, rgba(255, 0, 0, 0.6), transparent 5%) #0b0b0b;
+    linear-gradient(to right, rgba(255, 0, 0, 0.6), transparent 2%),
+    linear-gradient(to left, rgba(255, 0, 0, 0.6), transparent 2%) #0b0b0b;
+}
+
+/* Page série */
+.tv-theme {
+  background:
+    linear-gradient(to right, rgba(255, 0, 0, 0.6), transparent 2%),
+    linear-gradient(to left, rgba(255, 0, 0, 0.6), transparent 2%) #0b0b0b;
+}
+
+/* Recherche */
+.search-theme {
+  background:
+    linear-gradient(to right, rgba(255, 0, 0, 0.6), transparent 2%),
+    linear-gradient(to left, rgba(255, 0, 0, 0.6), transparent 2%) #0b0b0b;
+}
+
+/* Séances */
+.seances-theme {
+  background:
+    linear-gradient(to right, rgba(255, 0, 0, 0.6), transparent 2%),
+    linear-gradient(to left, rgba(255, 0, 0, 0.6), transparent 2%) #0b0b0b;
+}
+
+/* Par défaut */
+.default-theme {
+  background:
+    linear-gradient(to right, rgba(255, 0, 0, 0.6), transparent 2%),
+    linear-gradient(to left, rgba(255, 0, 0, 0.6), transparent 2%) #0b0b0b;
 }
