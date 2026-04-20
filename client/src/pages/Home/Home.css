@@ -9,24 +9,14 @@ body {
 .home-heart {
   margin: 4vh;
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   color: white;
-  /* padding-left: 12vw; */
   padding-top: 10vh;
-  align-items: center;
 }
 
-/* .home-titles {
-  display: flex;
-  justify-content: center;
-  gap: 8rem;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  transform: translateX(10rem);
-  font-size: 18px;
-} */
-
+.titre-coup,
 .titre-current {
   color: white;
   text-transform: uppercase;
@@ -37,36 +27,15 @@ body {
   margin: 0;
 }
 
-.titre-coup {
-  padding-right: 135vh;
-}
 .home-current {
   display: flex;
   justify-content: space-evenly;
 }
+
 .block-control {
   margin-top: 20vh;
   margin-bottom: 20vh;
 }
-/* .home-current {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10rem;
-  margin-top: -15rem;
-} */
-
-/* .home-current > * {
-  width: 40%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.home-current__block {
-  display: flex;
-  flex-direction: column;
-} */
 
 .home-mood {
   margin-bottom: 10rem;
@@ -74,33 +43,101 @@ body {
 
 .Banniere-picture {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 4rem;
   background-image: url("../../assets/images/Banniere.png");
-  height: 100vh;
+  height: 80vh;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   position: relative;
 }
+
 .Banniere-picture::after {
   content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 20%; /* ajuste la hauteur du fondu */
-
+  height: 20%;
   background: linear-gradient(to bottom, transparent, #0b0b0b);
 }
 
-/* @media screen and (min-width: 480px) {
-  .home-current {
-    gap: 1rem;
-  }
+.featured-film {
+  color: white;
+  max-width: 1100px;
+  position: relative;
+  z-index: 1;
 }
 
-@media screen and (min-width: 780px) {
-  .home-current {
-    gap: 1rem;
-  }
-} */
+.featured-badge {
+  display: inline-block;
+  color: #ff2222;
+  background-color: rgba(218, 22, 22, 0.25);
+  border: 1px solid #cc0000;
+  border-radius: 999px;
+  padding: 0.8rem 1.6rem;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  box-shadow:
+    0 0 12px rgba(200, 0, 0, 0.6),
+    inset 0 0 12px rgba(180, 0, 0, 0.3);
+}
+
+.featured-title {
+  font-size: 5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0 0 2rem 0;
+  line-height: 1;
+}
+
+.featured-infos {
+  display: flex;
+  gap: 2rem;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.featured-description {
+  font-size: 1.8rem;
+  line-height: 1.7;
+  max-width: 950px;
+}
+
+.texte-bloc {
+  display: flex;
+  align-items: flex-start;
+}
+
+.featured-buttons {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.btn-voir {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.btn-bande {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
