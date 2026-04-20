@@ -4,7 +4,7 @@ import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
 function Seances() {
   return (
     <div className="Seances">
-      <div className="container">
+      <div className="containers">
         <h1>ACTUELLEMENT EN SALLE</h1>
 
         <div className="section-box">
