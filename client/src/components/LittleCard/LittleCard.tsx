@@ -39,13 +39,13 @@ function LittleCard({
             }}
           />
           <h2>{title}</h2>
-          <p>Note: {vote_average}</p>
-          <p>Date de sortie: {release_date}</p>
         </div>
       </div>
       <div className="card__side card__side--back card__side--back-1">
         <div className="card__description">
           <p>{overview}</p>
+          <p>Note: {vote_average}</p>
+          <p>Date de sortie: {release_date}</p>
           <button
             className="card__side--back button"
             type="button"
