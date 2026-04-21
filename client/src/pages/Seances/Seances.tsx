@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./Seances.css";
-// import CalendarIcon from "../../assets/images/logo-calendar.png";
-// import CinemaIcon from "../../assets/images/logo-cinema.png";
-// import NeonLogo from "../../assets/images/neon-actuellement-en-salle.png";
+import CalendarIcon from "../../assets/images/logo-calendar.png";
+import CinemaIcon from "../../assets/images/logo-cinema.png";
+import NeonLogo from "../../assets/images/neon-actuellement-en-salle.png";
 import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
 
 type CarouselItem = {
@@ -60,13 +60,13 @@ function Seances() {
   return (
     <div className="seances-page">
       <header className="seances-header">
-        {/* <img src={NeonLogo} alt="Actuellement en salle" className="neon-logo" /> */}
+        <img src={NeonLogo} alt="Actuellement en salle" className="neon-logo" />
       </header>
 
       <main className="seances-content">
         <section className="seances-section">
           <div className="section-title">
-            {/* <img src={CalendarIcon} alt="Calendrier" className="section-icon" /> */}
+            <img src={CalendarIcon} alt="Calendrier" className="section-icon" />
             <h2>SORTIES DE LA SEMAINE</h2>
           </div>
 
@@ -77,7 +77,7 @@ function Seances() {
 
         <section className="seances-section">
           <div className="section-title">
-            {/* <img src={CinemaIcon} alt="Cinéma" className="section-icon" /> */}
+            <img src={CinemaIcon} alt="Cinéma" className="section-icon" />
             <h2>TOUJOURS À L'AFFICHE</h2>
           </div>
 

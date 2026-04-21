@@ -55,6 +55,7 @@
 .carousselseconde-container {
   position: relative;
   display: inline-block;
+  padding-bottom: 30px;
 }
 
 .carousselseconde-container::after {
