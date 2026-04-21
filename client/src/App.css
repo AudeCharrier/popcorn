@@ -56,3 +56,13 @@
     linear-gradient(to right, rgba(255, 0, 0, 0.6), transparent 2%),
     linear-gradient(to left, rgba(255, 0, 0, 0.6), transparent 2%) #0b0b0b;
 }
+
+.page {
+  min-height: 200vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}

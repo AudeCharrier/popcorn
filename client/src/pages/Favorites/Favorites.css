@@ -58,7 +58,10 @@
 }
 
 .text-fav {
-  margin: 0px 0 50px 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 100px;
   font-size: 30px;
   color: white;
 }
