@@ -37,6 +37,8 @@ function Home({ items }: CarousselProps) {
   const [featuredMovie, setFeaturedMovie] = useState<MovieDetails | null>(null);
   const [currentMovie, setCurrentMovie] = useState<CarouselItem[]>([]);
   const [upcomingMovie, setUpcomingMovie] = useState<CarouselItem[]>([]);
+  const [trailerUrl, setTrailerUlr] = useState<string | null>(null);
+  const [hasTrailer, setHasTrailer] = useState(false);
 
   useEffect(() => {
     const options = {
@@ -85,9 +87,10 @@ function Home({ items }: CarousselProps) {
         }));
         setMovieLike(moviesWithImages);
 
-        const firstMovieId = res.results[2].id;
+        const firstMovieId =
+          res.results[Math.floor(Math.random() * res.results.length)].id;
         return fetch(
-          `https://api.themoviedb.org/3/movie/${firstMovieId}?language=fr-FR`,
+          `https://api.themoviedb.org/3/movie/${firstMovieId}?language=fr-FR&append_to_response=videos`,
           options,
         );
       })
@@ -101,6 +104,16 @@ function Home({ items }: CarousselProps) {
           overview: movieDetails.overview,
           runtime: movieDetails.runtime,
         });
+        const trailer = movieDetails.videos.results.find(
+          (video: { site: string; type: string; key: string }) =>
+            video.site === "YouTube" && video.type === "Trailer",
+        );
+        if (trailer) {
+          setTrailerUlr(`https://www.youtube.com/watch?v=${trailer.key}`);
+          setHasTrailer(true);
+        } else {
+          setHasTrailer(false);
+        }
       });
   }, []);
 
@@ -130,10 +143,17 @@ function Home({ items }: CarousselProps) {
                 >
                   VOIR LE FILM
                 </button>
-                <button type="button" className="btn-bande">
-                  {" "}
-                  ▶ BANDE-ANNONCE
-                </button>
+                {hasTrailer && (
+                  <button
+                    type="button"
+                    className="btn-bande"
+                    onClick={() =>
+                      trailerUrl && window.open(trailerUrl, "_blank")
+                    }
+                  >
+                    ▶ BANDE-ANNONCE
+                  </button>
+                )}
               </div>
             </div>
           )}
