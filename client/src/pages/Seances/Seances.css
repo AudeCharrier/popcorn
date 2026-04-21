@@ -94,12 +94,12 @@
 }
 
 /* CONTAINER DU CAROUSEL */
-.carousel-container {
+/* .carousel-container {
   width: 100%;
   overflow: hidden;
   position: relative;
   margin-top: 8px;
-}
+} */
 
 .carousel-container .caroussel-container {
   width: 100%;

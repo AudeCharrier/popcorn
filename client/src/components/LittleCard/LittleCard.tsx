@@ -26,6 +26,7 @@ function LittleCard({
     navigate(`/films-series/${mediaType}/${id}`);
   };
 
+  const ratingOutOf5 = Math.round((vote_average / 2) * 2) / 2;
   return (
     <div className="card">
       <div className="card__side card__side--front card__side--front-1">
@@ -38,14 +39,15 @@ function LittleCard({
                 "/images/default-poster.png";
             }}
           />
-          <h2>{title}</h2>
-          <p>Note: {vote_average}</p>
-          <p>Date de sortie: {release_date}</p>
+          <p className="notes-littlecard">⭐ {ratingOutOf5}</p>
+          <h2 className="title-littlecard">{title}</h2>
         </div>
       </div>
       <div className="card__side card__side--back card__side--back-1">
         <div className="card__description">
           <p>{overview}</p>
+
+          <p>Date de sortie: {release_date}</p>
           <button
             className="card__side--back button"
             type="button"
