@@ -212,11 +212,17 @@ function SortFilter() {
               <div className="sort-option" key={option.name}>
                 <span>{option.name}</span>
                 <div className="sort-buttons-container">
-                  <button type="button" className="sort-button">
-                    ↑
+                  <button
+                    type="button"
+                    className="sort-button sort-button-decroissant"
+                  >
+                    ▶
                   </button>
-                  <button type="button" className="sort-button">
-                    ↓
+                  <button
+                    type="button"
+                    className="sort-button sort-button-croissant"
+                  >
+                    ▶
                   </button>
                 </div>
               </div>
@@ -227,10 +233,16 @@ function SortFilter() {
         <details>
           <summary className="sort-filter-title">Filtrer</summary>
           <div className="filter-options-container">
-            <input type="text" placeholder="Rechercher..." id="search-input" />
+            <input
+              type="text"
+              placeholder="Entrez un mot..."
+              id="search-input"
+            />
 
             <details>
-              <summary className="sort-filter-title">Genres</summary>
+              <summary className="sort-filter-title sort-filter-subtitle">
+                Genres
+              </summary>
               <div className="filter-list">
                 {genres.map((genre) => (
                   <label key={genre.id}>
@@ -249,7 +261,9 @@ function SortFilter() {
             </details>
 
             <details>
-              <summary className="sort-filter-title">Types</summary>
+              <summary className="sort-filter-title sort-filter-subtitle">
+                Types
+              </summary>
               <div className="filter-list">
                 {mediaTypes.map((mediaTypes) => (
                   <label key={mediaTypes.name}>

@@ -17,9 +17,9 @@
   bottom: -10px; /* espace avec le texte */
   width: 100%;
   height: 4px;
-
   background: linear-gradient(to right, red, black);
 }
+
 .Rechercher {
   display: grid;
   padding-left: 263px;
@@ -27,9 +27,9 @@
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   min-height: 90vh;
 }
-.container {
+/* .container {
   position: relative;
-}
+} */
 .section-btn {
   display: flex;
   justify-content: center;
