@@ -85,9 +85,21 @@ function RevealOnScroll({ children, delay = 0 }: RevealOnScrollProps) {
     </div>
   );
 }
+const moods: Record<string, number[]> = {
+  comedie: [35],
+  romance: [10749, 18],
+  guerre: [10752, 18],
+  scifi: [878, 28],
+  thriller: [53],
+  drame: [18],
+  animation: [16, 10751],
+  aventure: [12],
+  action: [28, 53],
+};
 
 function Rechercher() {
   const { id } = useParams();
+  console.log("ID URL =", id);
 
   const [movies, setMovies] = useState<MediaItem[]>([]);
   const [series, setSeries] = useState<MediaItem[]>([]);
@@ -131,6 +143,29 @@ function Rechercher() {
     setSeries([]);
     setResults([]);
     setAffichage([]);
+
+    const genreIds = moods[id];
+
+    if (genreIds) {
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?with_genres=${genreIds.join(",")}&language=fr-FR&page=${page}`,
+        options,
+      )
+        .then((res) => res.json())
+        .then((data: TmdbListResponse) => {
+          const moviesWithType = (data.results || []).map((item) => ({
+            ...item,
+            media_type: "movie" as const,
+          }));
+
+          setMovies(moviesWithType);
+          setAffichage(moviesWithType);
+        })
+        .catch(() => setError("Erreur mood"))
+        .finally(() => setLoading(false));
+
+      return;
+    }
 
     if (id === "1") {
       fetch(
@@ -308,9 +343,9 @@ function Rechercher() {
   return (
     <>
       <RevealOnScroll delay={100}>
-        <h1 className="title-page">RECHERCHES</h1>
+        <h1 className="title-page">{id?.toUpperCase()}</h1>
       </RevealOnScroll>
-      {results.length === 0 ? (
+      {results.length === 0 && movies.length === 0 && series.length === 0 ? (
         <p>Aucun film ou série trouvé.</p>
       ) : (
         <>
@@ -349,6 +384,7 @@ function Rechercher() {
               )}
             </div>
           </section>
+
           <section className="section-btn">
             <button
               className="button-preced"
