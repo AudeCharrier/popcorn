@@ -1,58 +1,172 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./SortFilter.css";
 import SearchContext from "../../contexts/SearchContext";
 
+type SearchResult = {
+  id: number;
+  media_type: "movie" | "tv" | "person";
+  title?: string;
+  name?: string;
+  genre_ids?: number[]; //AJOUTE
+  vote_average: number;
+  release_date?: string;
+  first_air_date?: string;
+  overview: string;
+  poster_path: string | null;
+};
+
+type Categorie = {
+  id: number;
+  name: string;
+};
+
+type Categories = {
+  genres: Categorie[];
+};
+
+type Filters = {
+  mediaTypes: number[];
+  genres: number[];
+};
+
 function SortFilter() {
+  const [_genresList, _setGenresList] = useState<Categories>(); ///pour liste complete genres et id extraits de l'api... pour construire notre liste réduite
+  const [_loading, setLoading] = useState(false);
+  const [_error, setError] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOverlay, setIsOverlay] = useState(true);
+
+  const { results, setAffichage } = useContext(SearchContext);
+
+  const [_activeFilters, setActiveFilters] = useState<Filters>({
+    mediaTypes: [],
+    genres: [],
+  });
+
+  useEffect(() => {
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+      },
+    };
+
+    setLoading(true);
+    setError("");
+
+    //recup les 2 fetch dans un tableau [result1, result 2] pour avoir liste genres-id
+    Promise.all([
+      fetch(
+        "https://api.themoviedb.org/3/genre/movie/list?language=fr",
+        options,
+      ).then((res) => res.json()),
+
+      fetch(
+        "https://api.themoviedb.org/3/genre/tv/list?language=fr",
+        options,
+      ).then((res) => res.json()),
+    ])
+
+      //on remplit le tableau de promise (en choisissant les noms)
+      .then(([moviesData, tvData]) => {
+        const mergedGenres = [...moviesData.genres, ...tvData.genres]; //on recup le contenu de la clé genres
+        console.log(mergedGenres);
+        // a faire : enlever les doublons (même id) //A ECLARICIR !!!
+        /*   const uniqueGenres = mergedGenres.filter(
+        (genre, index, self) =>
+          index === self.findIndex((g) => g.id === genre.id),
+      );
+      */
+        /*   setGenresList(mergedGenres); */
+      })
+
+      .catch((err) => {
+        console.error(err);
+        setError("Erreur lors du chargement des films.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   const sortOptions = [
     { name: "Popularité" },
     { name: "Date de sortie" },
     { name: "Note" },
   ];
+  //recup A LA MAIN (tant pis !!) les id de ce qu'on veut (fetch m'a servi à reocpier à la main)
   const genres = [
-    { name: "Comédie" },
-    { name: "Action" },
-    { name: "Romance" },
-    { name: "Sci-Fi" },
-    { name: "Drame" },
-    { name: "Animation" },
-    { name: "Guerre" },
-    { name: "Aventure" },
+    { id: 28, name: "Action" },
+    { id: 10759, name: "Action & Adventure" },
+    { id: 16, name: "Animation" },
+    { id: 12, name: "Aventure" },
+    { id: 35, name: "Comédie" },
+    { id: 18, name: "Drame" },
+    { id: 10751, name: "Familial" },
+    { id: 14, name: "Fantastique" },
+    { id: 10752, name: "Guerre" },
+    { id: 27, name: "Horreur" },
+    { id: 10749, name: "Romance" },
+    { id: 878, name: "Science-Fiction" },
+    { id: 10765, name: "Science-Fiction & Fantastique" },
+    { id: 53, name: "Thriller" },
   ];
-  const mediaTypes = [{ name: "Films" }, { name: "Séries" }];
+  const mediaTypes = [
+    { id: 1, name: "Films", media_type: "movie" },
+    { id: 2, name: "Séries", media_type: "tv" },
+  ];
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOverlay, setIsOverlay] = useState(true);
-  const [movieCheck, setMovieCheck] = useState(false);
-  const [serieCheck, setSerieCheck] = useState(false);
+  // séparer les fonctions dans d'autres fichiers !!!
 
-  const { results, setAffichage } = useContext(SearchContext);
+  function updateFiltersCheck(
+    categorie: "mediaTypes" | "genres",
+    value: number,
+  ) {
+    setActiveFilters((prev) => {
+      const prevCategorie = prev[categorie];
 
-  // FILTRE MOVIES
+      let newCategorie = [];
 
-  // les deux actions (toggle le state et filtrer) dans la meme fct pour que ce soit synchrone entre les deux
-  function toggleMediaCheck(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value; //récupère value ="films" ou "séries" de l'input
+      if (prevCategorie.includes(value)) {
+        newCategorie = prevCategorie.filter((v) => v !== value);
+      } else {
+        newCategorie = [...prevCategorie, value]; //si value (= id des genres ou mediatypes) absente -> rajoute
+      }
+      const newFilters = { ...prev, [categorie]: newCategorie };
+      applyFilters(results, newFilters);
+      return newFilters;
+    });
+  }
 
-    //l'utilisateur a coché ou décoché -> on toggle le state
-    //il y a un ternaire dans la const, pour adapter la valeur
-    //si on est dans l'input de value films -> on toggle moviecheck : sinon on laisse moviecheck d'avant
-    const newMovieCheck = value === "Films" ? !movieCheck : movieCheck;
-    const newSerieCheck = value === "Séries" ? !serieCheck : serieCheck;
+  function applyFilters(results: SearchResult[], activeFilters: Filters) {
+    //   on filtre les results:
+    // activefilters.mediatypes -> id numbers  -> on trouve le meme id dans mediaTypes   (id film ou serie)
+    // dans results on recup items dont item.media_type = media_type (nom "movie" ou "tv")
+    const dataTypesOk =
+      activeFilters.mediaTypes.length === 0 ||
+      activeFilters.mediaTypes.length === 2 // les deux décochés ou les 2 cochés attention jai du ajouter le type "person" dans le typage...
+        ? results
+        : results.filter((item) =>
+            activeFilters.mediaTypes
+              .map((id) => mediaTypes.find((m) => m.id === id)?.media_type)
+              .includes(item.media_type),
+          );
 
-    setMovieCheck(newMovieCheck);
-    setSerieCheck(newSerieCheck);
+    //puis filtrer datatypesok avec les genres
 
-    if (
-      //si les deux sont cochés ou décochés
-      (newMovieCheck && newSerieCheck) ||
-      (!newMovieCheck && !newSerieCheck)
-    ) {
-      setAffichage(results);
-    } else if (newMovieCheck) {
-      setAffichage(results.filter((r) => r.media_type === "movie"));
-    } else {
-      setAffichage(results.filter((r) => r.media_type === "tv"));
-    }
+    const dataTypesGenresOk =
+      activeFilters.genres.length === 0 ||
+      activeFilters.genres.length === genres.length // tout decoché ou tout coché
+        ? dataTypesOk
+        : dataTypesOk.filter(
+            (item) =>
+              item.genre_ids?.some((id) => activeFilters.genres.includes(id)) ??
+              false, //si genre_id ne contient rien
+          );
+
+    setAffichage(dataTypesGenresOk); //COMMIT PB TYPAGE : item.genre_ids typé avec "?" fout la merde
+    return;
   }
 
   //COMPOSANT SORTFILTER
@@ -119,11 +233,14 @@ function SortFilter() {
               <summary className="sort-filter-title">Genres</summary>
               <div className="filter-list">
                 {genres.map((genre) => (
-                  <label key={genre.name}>
+                  <label key={genre.id}>
                     <input
                       type="checkbox"
-                      value={genre.name}
+                      value={genre.id}
                       className="search-checkbox"
+                      onChange={(e) =>
+                        updateFiltersCheck("genres", Number(e.target.value))
+                      }
                     />{" "}
                     {genre.name}
                   </label>
@@ -134,15 +251,17 @@ function SortFilter() {
             <details>
               <summary className="sort-filter-title">Types</summary>
               <div className="filter-list">
-                {mediaTypes.map((mediaType) => (
-                  <label key={mediaType.name}>
+                {mediaTypes.map((mediaTypes) => (
+                  <label key={mediaTypes.name}>
                     <input
                       type="checkbox"
-                      value={mediaType.name}
+                      value={mediaTypes.id}
                       className="search-checkbox"
-                      onChange={toggleMediaCheck}
+                      onChange={(e) =>
+                        updateFiltersCheck("mediaTypes", Number(e.target.value))
+                      }
                     />{" "}
-                    {mediaType.name}
+                    {mediaTypes.name}
                   </label>
                 ))}
               </div>
