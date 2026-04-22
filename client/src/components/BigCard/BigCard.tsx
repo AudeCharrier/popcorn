@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./BigCard.css";
 import CharacterCard from "../CharacterCard/CharacterCard";
 
+// --- INTERFACES ---
 interface BigCardProps {
   movieId?: string;
   type: "movie" | "tv";
@@ -28,6 +29,39 @@ interface CastMember {
   profile_path: string;
 }
 
+// --- COMPOSANT DE RÉVÉLATION ---
+// On l'inclut ici pour l'utiliser sur les éléments individuels
+function RevealOnScroll({
+  children,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+}) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (node) {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => setIsVisible(true), delay);
+            observer.unobserve(node);
+          }
+        });
+        observer.observe(node);
+      }
+    },
+    [delay],
+  );
+
+  return (
+    <div ref={ref} className={`reveal-card ${isVisible ? "visible" : ""}`}>
+      {children}
+    </div>
+  );
+}
+
+// --- COMPOSANT PRINCIPAL ---
 function BigCard({ movieId, type }: BigCardProps) {
   const IMG_URL = "https://image.tmdb.org/t/p/w500";
   const [data, setData] = useState<MediaData | null>(null);
@@ -62,7 +96,7 @@ function BigCard({ movieId, type }: BigCardProps) {
   }, [movieId, type]);
 
   if (!data) {
-    return <div className="BigCard">Chargement...</div>;
+    return <div className="BigCard loading">Chargement...</div>;
   }
 
   const title = data.title || data.name;
@@ -70,49 +104,72 @@ function BigCard({ movieId, type }: BigCardProps) {
 
   return (
     <div className="BigCard">
-      <div className="BigCardDivImg">
-        <img src={IMG_URL + data.poster_path} alt={title} />
-      </div>
+      {/* L'image principale charge tout de suite ou avec un petit délai */}
+      <RevealOnScroll delay={100}>
+        <div className="BigCardDivImg">
+          <img src={IMG_URL + data.poster_path} alt={title} />
+        </div>
+      </RevealOnScroll>
+
       <div className="BigCardDivText">
-        <h1>{title}</h1>
-        <p>
-          <span>Date :</span> {date?.split("-").reverse().join("/")}
-        </p>
-        <p>
-          <span>Genre :</span> {data.genres?.map((g) => g.name).join(", ")}
-        </p>
-        <p>
-          <span>Note :</span> {data.vote_average.toFixed(1)} / 10
-        </p>
+        {/* On enveloppe chaque bloc de texte avec un délai croissant */}
+        <RevealOnScroll delay={200}>
+          <h1>{title}</h1>
+        </RevealOnScroll>
 
-        {type === "movie" ? (
+        <RevealOnScroll delay={300}>
           <p>
-            <span>Durée :</span> {data.runtime} minutes
+            <span>Date :</span> {date?.split("-").reverse().join("/")}
           </p>
-        ) : (
-          <>
-            <p>
-              <span>Saisons :</span> {data.number_of_seasons}
-            </p>
-            <p>
-              <span>Épisodes :</span> {data.number_of_episodes}
-            </p>
-          </>
-        )}
+        </RevealOnScroll>
 
-        <p>
-          <span>Synopsis : </span>
-          {data.overview}
-        </p>
+        <RevealOnScroll delay={400}>
+          <p>
+            <span>Genre :</span> {data.genres?.map((g) => g.name).join(", ")}
+          </p>
+        </RevealOnScroll>
+
+        <RevealOnScroll delay={500}>
+          <p>
+            <span>Note :</span> {data.vote_average.toFixed(1)} / 10
+          </p>
+        </RevealOnScroll>
+
+        <RevealOnScroll delay={600}>
+          {type === "movie" ? (
+            <p>
+              <span>Durée :</span> {data.runtime} minutes
+            </p>
+          ) : (
+            <>
+              <p>
+                <span>Saisons :</span> {data.number_of_seasons}
+              </p>
+              <p>
+                <span>Épisodes :</span> {data.number_of_episodes}
+              </p>
+            </>
+          )}
+        </RevealOnScroll>
+
+        <RevealOnScroll delay={700}>
+          <p>
+            <span>Synopsis : </span>
+            {data.overview}
+          </p>
+        </RevealOnScroll>
       </div>
+
       <div className="BigCardDivCharacters">
-        {cast.map((actor) => (
-          <CharacterCard
-            key={actor.id}
-            name={actor.name}
-            character={actor.character}
-            profile_path={actor.profile_path}
-          />
+        {cast.map((actor, index) => (
+          // Le délai ici est calculé : 800ms de base + 150ms par acteur
+          <RevealOnScroll key={actor.id} delay={800 + index * 150}>
+            <CharacterCard
+              name={actor.name}
+              character={actor.character}
+              profile_path={actor.profile_path}
+            />
+          </RevealOnScroll>
         ))}
       </div>
     </div>
