@@ -3,26 +3,44 @@
 .mood-container {
   margin-top: 40px;
   width: 100%;
-  text-align: center;
 }
+
+/* ===== TITLE ===== */
 
 .mood-title {
-  margin-bottom: 20px;
-  font-weight: 300;
-  letter-spacing: 3px;
-  color: #eeeeee;
-  position: relative;
-  display: inline-block;
-}
-.mood-title::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -10px; /* espace avec le texte */
-  width: 100%;
-  height: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 
-  background: linear-gradient(to right, red, #0b0b0b);
+  margin: 0 auto 18px auto;
+  width: fit-content;
+}
+
+.mood-logo {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  display: block;
+  margin-right: -9px;
+}
+
+.mood-red-bar {
+  width: 5px;
+  height: 18px;
+  background: red;
+  border-radius: 2px;
+}
+
+.mood-title h3 {
+  color: white;
+  text-transform: uppercase;
+  font-family: var(--second-font);
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 /* ===== BOX ===== */
@@ -76,13 +94,13 @@
 }
 
 /* ===== ACTIVE ===== */
+
 .mood-circle.active {
   transform: scale(1.3);
   box-shadow:
-    0 0 20px white,
-    0 0 50px currentColor;
+    0 0 10px white,
+    0 0 10px currentColor;
 }
-
 /* ===== PROF SPECIAL ===== */
 
 .mood-special {
@@ -90,60 +108,68 @@
   border-radius: 50%;
   z-index: 2;
 
-  border: 3px solid #c0c0c0;
-
-  box-shadow:
-    0 0 10px #ffffff,
-    0 0 25px #d9d9d9,
-    0 0 50px #c0c0c0;
+  box-shadow: none;
 }
 
 .mood-special img {
-  width: 100%;
-  height: 100%;
+  height: 90%;
   object-fit: cover;
   border-radius: 50%;
 }
 
 .mood-special:hover {
-  transform: scale(1.7) translateY(-10px);
+  transform: scale(1.3) translateY(-6px);
 
   box-shadow:
-    0 0 20px #ffffff,
-    0 0 40px #e6e6e6,
-    0 0 80px #c0c0c0;
+    0 0 10px #c0c0c0,
+    0 0 10px #c0c0c0,
+    0 0 10px #c0c0c0;
 }
 
-/* ⭐ ETOILE */
+/* ===== CHEF SPECIAL ===== */
 
-.mood-special::after {
-  content: "★";
+.mood-chef {
+  position: relative;
+  border-radius: 50%;
+  z-index: 2;
+
+  box-shadow:
+    0 0 10px #eee3a3,
+    0 0 10px #eee3a3,
+    0 0 10px #eee3a3,;
+}
+
+.mood-chef img {
   position: absolute;
+  bottom: -20px;
+  height: 115%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+}
 
-  top: 0;
-  right: 0;
+.mood-chef:hover {
+  transform: scale(1.3) translateY(-6px);
 
-  transform: translate(60%, -60%) scale(1);
+  box-shadow:
+    0 0 10px #eee3a3,
+    0 0 10px #eee3a3,
+    0 0 10px #eee3a3;
+}
 
-  font-size: 20px;
+/* ===== ANIMATION ===== */
 
-  color: #e6e6e6;
-
-  text-shadow:
-    0 0 5px white,
-    0 0 10px silver,
-    0 0 20px white;
-
-  animation: sparkle 1.2s infinite alternate;
-
-  pointer-events: none;
-
-  z-index: 10;
+@keyframes sparkle {
+  from {
+    transform: translate(60%, -60%) scale(1);
+  }
+  to {
+    transform: translate(60%, -60%) scale(1.25);
+  }
 }
 
 /* ===== RESPONSIVE ===== */
-
-/* TABLETTE */
 
 @media (max-width: 1024px) {
   .mood-box {
@@ -163,13 +189,10 @@
   }
 }
 
-/* MOBILE */
-
 @media (max-width: 768px) {
   .mood-box {
     flex-wrap: nowrap;
     overflow-x: auto;
-
     gap: 15px;
     padding: 15px;
     width: 100%;
@@ -190,7 +213,8 @@
     height: 60px;
   }
 
-  .mood-special:hover {
+  .mood-special:hover,
+  .mood-chef:hover {
     transform: scale(1.3);
   }
 }

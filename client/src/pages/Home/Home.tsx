@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logoCalendrier from "../../assets/images/logo-calendrier.png";
+import logoCoeur from "../../assets/images/logo-coeur.png";
+import logoPopcorn from "../../assets/images/logo-popcorn.png";
 import BoxMoodEmoji from "../../components/BoxMoodEmoji/BoxMoodEmoji";
 import CarousselCourt from "../../components/CarousselCourt/CarousselCourt";
 import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
+
 import "./Home.css";
 
 type CarouselItem = {
@@ -31,12 +35,13 @@ type CarousselProps = {
 
 function Home({ items }: CarousselProps) {
   const navigate = useNavigate();
-  const [movieLike, setMovieLike] = useState<CarouselItem[]>([]);
-  console.log(items);
 
+  const [movieLike, setMovieLike] = useState<CarouselItem[]>([]);
   const [featuredMovie, setFeaturedMovie] = useState<MovieDetails | null>(null);
   const [currentMovie, setCurrentMovie] = useState<CarouselItem[]>([]);
   const [upcomingMovie, setUpcomingMovie] = useState<CarouselItem[]>([]);
+
+  console.log(items);
 
   useEffect(() => {
     const options = {
@@ -57,6 +62,7 @@ function Home({ items }: CarousselProps) {
           ...movie,
           poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         }));
+
         setCurrentMovie(moviesWithImages);
       });
 
@@ -70,6 +76,7 @@ function Home({ items }: CarousselProps) {
           ...movie,
           poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         }));
+
         setUpcomingMovie(moviesWithImages);
       });
 
@@ -83,9 +90,11 @@ function Home({ items }: CarousselProps) {
           ...movie,
           poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         }));
+
         setMovieLike(moviesWithImages);
 
         const firstMovieId = res.results[2].id;
+
         return fetch(
           `https://api.themoviedb.org/3/movie/${firstMovieId}?language=fr-FR`,
           options,
@@ -113,13 +122,17 @@ function Home({ items }: CarousselProps) {
           {featuredMovie && (
             <div className="featured-film">
               <div className="featured-badge">COUP DE CŒUR DE LA SEMAINE</div>
+
               <h2 className="featured-title">{featuredMovie.title}</h2>
+
               <div className="featured-infos">
                 <p>⭐ {(featuredMovie.vote_average / 2).toFixed(1)}/5</p>
                 <p>{new Date(featuredMovie.release_date).getFullYear()}</p>
                 <p>{featuredMovie.runtime} min</p>
               </div>
+
               <p className="featured-description">{featuredMovie.overview}</p>
+
               <div className="featured-buttons">
                 <button
                   type="button"
@@ -130,8 +143,8 @@ function Home({ items }: CarousselProps) {
                 >
                   VOIR LE FILM
                 </button>
+
                 <button type="button" className="btn-bande">
-                  {" "}
                   ▶ BANDE-ANNONCE
                 </button>
               </div>
@@ -142,7 +155,11 @@ function Home({ items }: CarousselProps) {
 
       <div className="home-heart">
         <div className="home-heart__block">
-          <h2 className="titre-coup">COUP DE COEUR</h2>
+          <div className="home-title">
+            <img src={logoCoeur} alt="Coeur" className="home-title-icon" />
+            <h2 className="titre-coup">COUP DE COEUR</h2>
+          </div>
+
           <CarousselLarge items={movieLike} />
         </div>
       </div>
@@ -150,16 +167,36 @@ function Home({ items }: CarousselProps) {
       <div className="block-control">
         <div className="home-current">
           <div className="home-current__block">
-            <h2 className="titre-current">PROCHAINEMENT</h2>
+            <div className="home-title">
+              <img
+                src={logoCalendrier}
+                alt="Calendrier"
+                className="home-title-icon"
+              />
+
+              <h2 className="titre-current">PROCHAINEMENT</h2>
+            </div>
+
             <CarousselCourt items={currentMovie} />
           </div>
+
           <div className="home-current__block">
-            <h2 className="titre-current">ACTUELLEMENT EN SALLE</h2>
+            <div className="home-title">
+              <img
+                src={logoPopcorn}
+                alt="Popcorn"
+                className="home-title-icon"
+              />
+
+              <h2 className="titre-current">ACTUELLEMENT EN SALLE</h2>
+            </div>
+
             <CarousselCourt items={upcomingMovie} />
           </div>
         </div>
       </div>
 
+      {/* MOOD */}
       <div className="home-mood">
         <BoxMoodEmoji />
       </div>
