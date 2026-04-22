@@ -40,7 +40,7 @@ aside.search-aside {
 }
 
 details[open] > .sort-filter-title::before {
-  transform: rotate(90deg); /* tourne quand ouvert */
+  transform: rotate(90deg); /* petite flèche tourne quand ouvert */
 }
 
 .sort-options-container {

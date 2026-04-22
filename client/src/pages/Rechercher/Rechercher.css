@@ -25,6 +25,7 @@
   padding-left: 263px;
   padding-right: 70px;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  min-height: 90vh;
 }
 .container {
   position: relative;

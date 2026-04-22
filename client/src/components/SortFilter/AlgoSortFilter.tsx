@@ -197,7 +197,7 @@ type Genre = {
   name: string;
 };
 
-//faux tableau : trier par une clé
+//faux tableaux
 
 //SORT
 //NUMBERS
@@ -220,11 +220,6 @@ function _sortDecroissant(arrayMedias: Movie[]) {
 }
 
 /* console.log(sortDecroissant(movies)) */
-
-//je dois récup ce qui est affiché dans grdi-cards : classe .Rechercher
-//quand on clique sur un bouton croissant/decr de trier,
-//je lui injecte les données de grid-cards avec props
-//il doit trier selon le bouton cliqué
 
 //STRING
 
@@ -256,40 +251,7 @@ function filterGenres(arrayMedias: Movie[], arrayGenresId: GenresId) {
 
 console.log(filterGenres(movies, idGenresToFilter));
 
-//idme pour types : associer un id 1 ou 2 aux checkbox films/series... actualiser useparams ?
-
-//fetch api movies => setMovies (toutes les infos api)
-
-//qqn fait une recherche sans préciser films séries (ou en cochant les 2)
-//ON PART DE RESULTATS MOVIES + SERIES : filteredresults -> setresults
-//dans le .map, il faut faire un usestate : {affichage}.map
-//set affichage -> filteredresults
-
-//l'utilisateur filtre seulement un type de media : il a checked (ou uncheck l'autre)
-
-//au check, actvier la fonction :
-//fonction ??:
-//--> prend dans results (ou movies ? quand il fera rech faut partir de movies)
-// et filtre : item.media_type === "movie" -> setfiltermovies //si aucun -> setfitlermovies à vide ?
-//si filtre-films checked :
-//return -> setaffichage ->filtermovies
-//si filtre-films uncheck :
-//return ->  setaffichage à vide
-
-/*
-si film
-  si checked
-  sinon
-si serie
-  si checked
-  sinon
-*/
-
-/*si film & serie checked OU film & serie unch
-
-si film checked & serie uncheck
-
-si film unch et serie checked
-
-
+/* const filteredData = useMemo(() => {
+return recalculerLesFiltres(data, filtresActifs);
+}, [data, filtresActifs]); // ← ne recalcule QUE si ces valeurs changent
 */
