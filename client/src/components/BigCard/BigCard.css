@@ -1,22 +1,23 @@
 .BigCard {
-  background: var(--card-background);
+  /* background: var(--card-background); */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 70vw;
   border-radius: 10px;
   .BigCardDivImg {
+    order: 1;
     display: flex;
     justify-content: center;
     img {
-      max-height: 73vh;
-      width: 30vw;
+      height: 60vh;
       margin-top: 5vh;
       margin-bottom: 5vh;
     }
   }
   .BigCardDivText {
-    margin-left: 5vh;
-    margin-right: 5vh;
+    order: 2;
+    margin-right: 10vh;
     margin-top: 5vh;
     margin-bottom: 5vh;
     color: var(--text-color-main);
@@ -27,7 +28,22 @@
       font-family: var(--main-font);
       font-weight: 400;
       font-style: normal;
-      font-size: 3em;
+      font-size: 2.5em;
+      padding-left: 10px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    h1::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 75%;
+      background-color: rgba(255, 0, 0);
+      border-radius: 2px;
     }
     span {
       font-family: var(--main-font);
@@ -41,11 +57,20 @@
       font-size: 1.2em;
     }
   }
+  &::before {
+    order: 3;
+    content: "";
+    grid-column: 1 / -1; /* Prend toute la largeur de la grille (colonne 1 à la fin) */
+    height: 4px;
+    background: linear-gradient(to right, red, #0b0b0b);
+    margin: 2vh auto; /* Espace au dessus et en dessous du trait */
+    width: 85%;
+  }
   .BigCardDivCharacters {
+    order: 4;
     display: flex;
     justify-content: space-evenly;
-    grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column: 1 / -1;
     margin-top: 2vh;
     margin-bottom: 10vh;
   }
@@ -57,8 +82,7 @@
     flex-direction: column;
     .BigCardDivImg {
       img {
-        max-height: none;
-        width: 80vw;
+        height: 100vh;
         margin-top: 5vh;
         margin-bottom: 5vh;
       }
@@ -76,6 +100,7 @@
         font-size: 1em;
       }
     }
+
     .BigCardDivCharacters {
       display: grid;
       grid-template-columns: 1fr 1fr;

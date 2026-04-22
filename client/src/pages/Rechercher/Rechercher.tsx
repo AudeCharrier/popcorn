@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import defaultPoster from "../../assets/images/Logo.png";
 import LittleCard from "../../components/LittleCard/LittleCard";
 import SortFilter from "../../components/SortFilter/SortFilter";
+
 import SearchContext from "../../contexts/SearchContext";
 
 type MediaItem = {
@@ -23,6 +24,7 @@ type SearchResult = {
   media_type: "movie" | "tv" | "person";
   title?: string;
   name?: string;
+  genre_ids?: number[]; //AJOUTE
   vote_average: number;
   release_date?: string;
   first_air_date?: string;
@@ -360,22 +362,26 @@ function Rechercher() {
               </SearchContext.Provider>
             </RevealOnScroll>
             <div className="Rechercher">
-              {affichage.map((item, index) => (
-                <RevealOnScroll
-                  key={`${item.media_type}-${item.id}`}
-                  delay={300 + index * 80}
-                >
-                  <LittleCard
-                    id={item.id}
-                    type={item.media_type}
-                    title={item.title || item.name || ""}
-                    vote_average={item.vote_average}
-                    release_date={formatDate(item)}
-                    overview={item.overview.slice(0, 200)}
-                    poster_path={getPoster(item.poster_path)}
-                  />
-                </RevealOnScroll>
-              ))}
+              {affichage.length === 0 ? ( //NE FONCTIONNE PAS
+                <p>Aucun media trouvé.</p>
+              ) : (
+                affichage.map((item, index) => (
+                  <RevealOnScroll
+                    key={`${item.media_type}-${item.id}`}
+                    delay={300 + index * 80}
+                  >
+                    <LittleCard
+                      id={item.id}
+                      type={item.media_type}
+                      title={item.title || item.name || ""}
+                      vote_average={item.vote_average}
+                      release_date={formatDate(item)}
+                      overview={item.overview.slice(0, 200)}
+                      poster_path={getPoster(item.poster_path)}
+                    />
+                  </RevealOnScroll>
+                ))
+              )}
             </div>
           </section>
 

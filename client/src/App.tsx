@@ -22,9 +22,13 @@ function App() {
 
   return (
     <div className={`app ${themeClass}`}>
-      <Navbar />
-      <Outlet />
-      <Footer />
+      <div className="page">
+        <Navbar />
+        <main className="content">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
