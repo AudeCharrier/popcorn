@@ -5,7 +5,7 @@
   align-items: center;
   margin-top: 5vh;
   margin-bottom: 5vh;
-  gap: 5rem;
+  gap: 3rem;
   color: var(--text-color-main);
   .FilmsSeriesDivCinema {
     display: flex;
@@ -34,9 +34,9 @@
       left: 0;
       top: 50%;
       transform: translateY(-50%);
-      width: 5px;
+      width: 6px;
       height: 60%;
-      background-color: rgba(255, 0, 0, 0.6);
+      background-color: rgba(255, 0, 0);
       border-radius: 2px;
     }
 
@@ -74,9 +74,9 @@
       left: 0;
       top: 50%;
       transform: translateY(-50%);
-      width: 5px;
+      width: 6px;
       height: 60%;
-      background-color: rgba(255, 0, 0, 0.6);
+      background-color: rgba(255, 0, 0);
       border-radius: 2px;
     }
     .FilmsSeriesDivStreamIcon {
