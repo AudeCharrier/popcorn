@@ -1,8 +1,7 @@
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./BigCard.css";
 import CharacterCard from "../CharacterCard/CharacterCard";
 
-// --- INTERFACES ---
 interface BigCardProps {
   movieId?: string;
   type: "movie" | "tv";
@@ -29,8 +28,6 @@ interface CastMember {
   profile_path: string;
 }
 
-// --- COMPOSANT DE RÉVÉLATION ---
-// On l'inclut ici pour l'utiliser sur les éléments individuels
 function RevealOnScroll({
   children,
   delay = 0,
@@ -61,7 +58,6 @@ function RevealOnScroll({
   );
 }
 
-// --- COMPOSANT PRINCIPAL ---
 function BigCard({ movieId, type }: BigCardProps) {
   const IMG_URL = "https://image.tmdb.org/t/p/w500";
   const [data, setData] = useState<MediaData | null>(null);
@@ -104,7 +100,6 @@ function BigCard({ movieId, type }: BigCardProps) {
 
   return (
     <div className="BigCard">
-      {/* L'image principale charge tout de suite ou avec un petit délai */}
       <RevealOnScroll delay={100}>
         <div className="BigCardDivImg">
           <img src={IMG_URL + data.poster_path} alt={title} />
@@ -112,7 +107,6 @@ function BigCard({ movieId, type }: BigCardProps) {
       </RevealOnScroll>
 
       <div className="BigCardDivText">
-        {/* On enveloppe chaque bloc de texte avec un délai croissant */}
         <RevealOnScroll delay={200}>
           <h1>{title}</h1>
         </RevealOnScroll>
@@ -162,7 +156,6 @@ function BigCard({ movieId, type }: BigCardProps) {
 
       <div className="BigCardDivCharacters">
         {cast.map((actor, index) => (
-          // Le délai ici est calculé : 800ms de base + 150ms par acteur
           <RevealOnScroll key={actor.id} delay={800 + index * 150}>
             <CharacterCard
               name={actor.name}
