@@ -16,6 +16,13 @@ body {
   padding-top: 10vh;
 }
 
+.home-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
 .titre-coup,
 .titre-current {
   display: flex;
@@ -23,7 +30,7 @@ body {
   height: 18px;
   align-items: center;
   border-radius: 2px;
-  padding-left: 5px;
+  padding-left: 8px;
   color: white;
   text-transform: uppercase;
   text-align: left;
@@ -31,6 +38,16 @@ body {
   font-style: normal;
   white-space: nowrap;
   margin: 0;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.home-title-icon {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
 }
 
 .home-current {
@@ -72,9 +89,7 @@ body {
 
 .featured-film {
   color: white;
-  max-width: 1100px;
   position: relative;
-  z-index: 1;
 }
 
 .featured-badge {
@@ -82,7 +97,7 @@ body {
   color: #ff2222;
   background-color: rgba(218, 22, 22, 0.25);
   border: 1px solid #cc0000;
-  border-radius: 999px;
+  border-radius: 60rem;
   padding: 0.8rem 1.6rem;
   margin-bottom: 2rem;
   font-size: 1.2rem;
@@ -94,10 +109,10 @@ body {
 
 .featured-title {
   font-size: 5rem;
-  font-weight: 900;
   text-transform: uppercase;
   margin: 0 0 2rem 0;
   line-height: 1;
+  font-family: "ultra-regular", serif;
 }
 
 .featured-infos {
@@ -111,7 +126,7 @@ body {
 .featured-description {
   font-size: 1.8rem;
   line-height: 1.7;
-  max-width: 950px;
+  max-width: 60rem;
 }
 
 .texte-bloc {
@@ -132,8 +147,8 @@ body {
   border-radius: 8px;
   padding: 1.2rem 2.5rem;
   font-size: 1.4rem;
-  font-weight: 700;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .btn-bande {
@@ -143,7 +158,8 @@ body {
   border-radius: 8px;
   padding: 1.2rem 2.5rem;
   font-size: 1.4rem;
-  font-weight: 700;
+  font-weight: 700rem;
   text-transform: uppercase;
   backdrop-filter: blur(4px);
+  cursor: pointer;
 }
