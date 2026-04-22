@@ -111,7 +111,7 @@ export default function BoxMoodEmoji() {
             to={`/rechercher/${mood.path}`}
             className={`mood-circle 
               ${active === index ? "active" : ""} 
-              ${mood.label === "Legend" ? "mood-special" : ""}
+              ${mood.label === "thriller" ? "mood-special" : ""}
             `}
             style={{ backgroundColor: mood.color }}
             onClick={() => setActive(index)}
