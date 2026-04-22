@@ -282,9 +282,6 @@ function SortFilter() {
             </details>
           </div>
         </details>
-        <button type="submit" id="btn-search-submit">
-          Rechercher
-        </button>
       </aside>
     </>
   );
@@ -292,6 +289,4 @@ function SortFilter() {
 
 export default SortFilter;
 
-//revoir DA boutons rehcercher
 //bouton ou div sur le coté
-//h-qch au lieu de p ?

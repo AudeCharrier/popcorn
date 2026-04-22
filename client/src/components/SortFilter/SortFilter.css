@@ -36,7 +36,7 @@
   gap: 8px;
   padding-left: 5px;
   width: max-content;
-  height: max-content;
+  height: 1rem;
 
   &::after {
     content: "▶";
@@ -46,7 +46,7 @@
 }
 
 details[open] > .sort-filter-title::after {
-  transform: rotate(90deg); /* petite flèche tourne quand ouvert */
+  transform: rotate(90deg); /* flèche tourne quand ouvert */
 }
 
 .sort-filter-subtitle {
@@ -76,7 +76,7 @@ details[open] > .sort-filter-title::after {
         padding: 0;
         font-size: 0.6rem;
         background-color: transparent;
-        border: 2px solid rgba(255, 0, 51, 0.4);
+        border: 2px solid rgba(255, 0, 51, 0.705);
         border-radius: 3px;
         color: white;
         height: 20px;
@@ -106,7 +106,7 @@ details[open] > .sort-filter-title::after {
 
   #search-input {
     color: inherit;
-    border: 2px solid rgba(255, 0, 51, 0.4);
+    border: 2px solid rgba(255, 0, 51, 0.705);
     border-radius: 5px;
     background-color: rgb(11, 11, 11, 0.25);
     width: 100%;
@@ -121,22 +121,6 @@ details[open] > .sort-filter-title::after {
     gap: 5px;
     padding: 10px 5px;
   }
-}
-
-#btn-search-submit {
-  font-size: clamp(0.7rem, 2vw, 0.9rem);
-  font-weight: bold;
-  /* display: flex; */
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 0, 0, 0.4);
-  border: none;
-  border-radius: 5px;
-  color: white;
-  width: 70%;
-  padding: 8px 5px;
-  margin: 0 auto;
-  display: none;
 }
 
 @media screen and (max-width: 425px) {
@@ -199,8 +183,4 @@ details[open] > .sort-filter-title::after {
       padding: 10px 0;
     }
   }
-
-  /*   #btn-search-submit {
-    width: 90%;
-  } */
 }
