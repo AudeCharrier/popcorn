@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import chef from "../../assets/images/Abdou.png";
 import action from "../../assets/images/emoji-action.png";
 import animation from "../../assets/images/emoji-animation.png";
-// IMAGES
 import rire from "../../assets/images/emoji-comedie.png";
 import drame from "../../assets/images/emoji-drame.png";
 import fun from "../../assets/images/emoji-fun.png";
-import guerre from "../../assets/images/emoji-guerre.png";
 import romance from "../../assets/images/emoji-romance.png";
 import scifi from "../../assets/images/emoji-science-fiction.png";
+import logoTheatre from "../../assets/images/logo-theatre.png";
 import prof from "../../assets/images/Simon.png";
+
 import "./BoxMoodEmoji.css";
 
 export default function BoxMoodEmoji() {
@@ -49,10 +50,9 @@ export default function BoxMoodEmoji() {
       path: "scifi",
       genres: [878, 28],
     },
-
     {
       id: 4,
-      image: guerre,
+      image: chef,
       label: "Guerre",
       color: "#FF3B3B",
       path: "guerre",
@@ -69,7 +69,7 @@ export default function BoxMoodEmoji() {
     {
       id: 6,
       image: prof,
-      label: "thriller",
+      label: "Thriller",
       color: "#0B1D3A",
       path: "thriller",
       genres: [53],
@@ -102,16 +102,21 @@ export default function BoxMoodEmoji() {
 
   return (
     <div className="mood-container">
-      <h3 className="mood-title">FILMS PAR AMBIANCE</h3>
+      <div className="mood-title">
+        <img src={logoTheatre} alt="Logo théâtre" className="mood-logo" />
+        <span className="mood-red-bar"></span>
+        <h3>FILMS PAR AMBIANCE</h3>
+      </div>
 
       <div className="mood-box">
         {moods.map((mood, index) => (
           <Link
             key={mood.id}
             to={`/rechercher/${mood.path}`}
-            className={`mood-circle 
-              ${active === index ? "active" : ""} 
-              ${mood.label === "thriller" ? "mood-special" : ""}
+            className={`mood-circle
+              ${active === index ? "active" : ""}
+              ${mood.id === 6 ? "mood-special" : ""}
+              ${mood.id === 4 ? "mood-chef" : ""}
             `}
             style={{ backgroundColor: mood.color }}
             onClick={() => setActive(index)}
