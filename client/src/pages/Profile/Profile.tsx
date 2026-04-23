@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import LittleCard from "../../components/LittleCard/LittleCard";
-import "./Favorites.css";
+import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
+import "./Profile.css";
 
 type CarouselItem = {
   id: number;
@@ -12,7 +12,7 @@ type CarouselItem = {
   media_type: "movie" | "tv";
 };
 
-function Favorites() {
+function Profile() {
   const [favorites, setFavorites] = useState<CarouselItem[]>([]);
 
   useEffect(() => {
@@ -26,32 +26,34 @@ function Favorites() {
     setFavorites(updated);
   };
 
+  const width = {
+    width: "50vw",
+  };
+
+  //function watchlist --> setstate
   return (
     <div>
-      <h1 className="fav-title">FAVORIS</h1>
-      <div className="favorites">
-        {favorites.length === 0 ? (
-          <p className="text-fav">Aucun favori trouvé</p>
-        ) : (
-          favorites.map((item) => (
-            <div key={item.id} className="fav-cards">
-              <LittleCard
-                id={item.id}
-                type={item.media_type}
-                title={item.title}
-                vote_average={item.vote_average}
-                release_date={item.release_date}
-                overview={item.overview}
-                poster_path={item.poster_path}
+      <div className="block-control">
+        <div className="home-current">
+          <div className="home-current__block">
+            <div className="home-title">
+              <h2 className="titre-current">FAVORIS</h2>
+            </div>
+            <div className="favorites">
+              <CarousselLarge
+                items={favorites}
                 isProfilePage={true}
                 onRemove={removeFavorite}
+                style={width}
               />
             </div>
-          ))
-        )}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default Favorites;
+export default Profile;
+
+//caroussellarge : 50vw --> passer en % dans caroussellarge css ? et définir la div favorites, comme ça chaque carousellarge sera adaptable à sa div parente

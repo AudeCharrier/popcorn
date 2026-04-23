@@ -18,6 +18,8 @@ function App() {
     themeClass = "search-theme";
   } else if (pathname === "/seances") {
     themeClass = "seances-theme";
+  } else if (pathname === "/profile") {
+    themeClass = "default-theme";
   }
 
   return (

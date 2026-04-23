@@ -11,11 +11,23 @@ type CarouselItem = {
   poster_path: string;
   media_type: "movie" | "tv";
 };
+type Style = {
+  width: string;
+};
 
 type CarousselProps = {
   items?: CarouselItem[];
+  isProfilePage?: boolean;
+  onRemove?: (id: number) => void;
+  style?: Style;
 };
-function CarousselLarge({ items = [] }: CarousselProps) {
+
+function CarousselLarge({
+  items = [],
+  isProfilePage,
+  onRemove,
+  style,
+}: CarousselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const displayedItems =
@@ -44,7 +56,7 @@ function CarousselLarge({ items = [] }: CarousselProps) {
     );
 
   return (
-    <div className="caroussel-container">
+    <div className="caroussel-container" style={style}>
       <div className="caroussel-wrapper">
         <button
           type="button"
@@ -69,6 +81,8 @@ function CarousselLarge({ items = [] }: CarousselProps) {
                   release_date={item.release_date}
                   overview={item.overview}
                   poster_path={item.poster_path}
+                  isProfilePage={isProfilePage}
+                  onRemove={onRemove}
                 />
               </div>
             ))}

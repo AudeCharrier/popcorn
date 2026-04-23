@@ -10,7 +10,7 @@ type CinemaProps = {
   release_date: string;
   overview: string;
   poster_path: string;
-  isFavoritePage?: boolean;
+  isProfilePage?: boolean;
   onRemove?: (id: number) => void;
 };
 
@@ -22,11 +22,11 @@ function LittleCard({
   release_date,
   overview,
   poster_path,
-  isFavoritePage,
+  isProfilePage,
   onRemove,
 }: CinemaProps) {
   const navigate = useNavigate();
-  const [favorite, setFavorite] = useState<CinemaProps[]>([]);
+  const [favorite, setFavorite] = useState<boolean>(false);
   const handleSelectMovie = (id: number) => {
     const mediaType = type || "movie";
     navigate(`/films-series/${mediaType}/${id}`);
@@ -84,16 +84,17 @@ function LittleCard({
       <div className="card__side card__side--back card__side--back-1">
         <div className="card__description">
           <button
-            onClick={() => {
-              toggleFavorite();
-              if (isFavoritePage && onRemove) {
-                onRemove(id);
-              }
-            }}
             className="favorite-btn"
             type="button"
+            onClick={() => {
+              if (isProfilePage && onRemove) {
+                onRemove(id);
+              } else {
+                toggleFavorite();
+              }
+            }}
           >
-            {isFavoritePage ? "🗑️" : favorite ? "💖" : "🤍"}
+            {isProfilePage ? "🗑️" : favorite ? "💖" : "🤍"}
           </button>
           <p>{overview}</p>
           <p>Date de sortie: {release_date}</p>
