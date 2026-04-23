@@ -1,0 +1,22 @@
+.conversation-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.conversation-item {
+  border: none;
+  background: rgb(0, 0, 0);
+  border-bottom: 1px solid red;
+  text-align: left;
+  padding: 12px;
+  cursor: pointer;
+  color: white;
+  font-size: 15px;
+}
+
+.conversation-item:hover {
+  background: #000000;
+  color: white;
+}

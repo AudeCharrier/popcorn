@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import "./FilmsSeries.css";
 import BigCard from "../../components/BigCard/BigCard";
 import CinemaCard from "../../components/CinemaCard/CinemaCard";

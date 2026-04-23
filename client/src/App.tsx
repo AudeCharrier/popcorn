@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router";
 import Navbar from "./components/Navbar/Navbar";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
+import ChatBox from "./components/Messagerie/ChatBox";
 
 function App() {
   const { pathname } = useLocation();
@@ -25,6 +26,7 @@ function App() {
       <div className="page">
         <Navbar />
         <main className="content">
+          <ChatBox />
           <Outlet />
         </main>
         <Footer />
