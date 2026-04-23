@@ -44,7 +44,7 @@ function Favorites() {
                 overview={item.overview}
                 poster_path={item.poster_path}
                 isProfilePage={true}
-                onRemove={removeFavorite}
+                onRemoveFav={removeFavorite}
               />
             </div>
           ))

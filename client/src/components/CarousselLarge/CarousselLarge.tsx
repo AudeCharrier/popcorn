@@ -18,14 +18,16 @@ type Style = {
 type CarousselProps = {
   items?: CarouselItem[];
   isProfilePage?: boolean;
-  onRemove?: (id: number) => void;
+  onRemoveFav?: (id: number) => void;
+  onRemoveWatch?: (id: number) => void;
   style?: Style;
 };
 
 function CarousselLarge({
   items = [],
   isProfilePage,
-  onRemove,
+  onRemoveFav,
+  onRemoveWatch,
   style,
 }: CarousselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -82,7 +84,8 @@ function CarousselLarge({
                   overview={item.overview}
                   poster_path={item.poster_path}
                   isProfilePage={isProfilePage}
-                  onRemove={onRemove}
+                  onRemoveFav={onRemoveFav}
+                  onRemoveWatch={onRemoveWatch}
                 />
               </div>
             ))}

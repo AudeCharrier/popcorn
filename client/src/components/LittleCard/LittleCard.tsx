@@ -11,7 +11,8 @@ type CinemaProps = {
   overview: string;
   poster_path: string;
   isProfilePage?: boolean;
-  onRemove?: (id: number) => void;
+  onRemoveFav?: (id: number) => void;
+  onRemoveWatch?: (id: number) => void;
 };
 
 function LittleCard({
@@ -23,15 +24,18 @@ function LittleCard({
   overview,
   poster_path,
   isProfilePage,
-  onRemove,
+  onRemoveFav,
+  onRemoveWatch,
 }: CinemaProps) {
   const navigate = useNavigate();
-  const [favorite, setFavorite] = useState<boolean>(false);
   const handleSelectMovie = (id: number) => {
     const mediaType = type || "movie";
     navigate(`/films-series/${mediaType}/${id}`);
   };
   const ratingOutOf5 = Math.round((vote_average / 2) * 2) / 2;
+
+  const [favorite, setFavorite] = useState<boolean>(false);
+
   const getFavorites = () => {
     return JSON.parse(localStorage.getItem("favorites") || "[]");
   };
@@ -65,6 +69,40 @@ function LittleCard({
     setFavorite(favorites.some((fav: CinemaProps) => fav.id === id));
   };
 
+  const [watch, setWatch] = useState<boolean>(false);
+  const getWatchs = () => {
+    return JSON.parse(localStorage.getItem("towatch") || "[]");
+  };
+
+  useEffect(() => {
+    const watchs = JSON.parse(localStorage.getItem("towatch") || "[]");
+    setWatch(watchs.some((w: CinemaProps) => w.id === id));
+  }, [id]);
+
+  const toggleWatch = () => {
+    let watches = getWatchs();
+
+    const exists = watches.find((fav: CinemaProps) => fav.id === id);
+
+    if (exists) {
+      watches = watches.filter((fav: CinemaProps) => fav.id !== id);
+    } else {
+      watches.push({
+        id,
+        type,
+        title,
+        vote_average,
+        release_date,
+        overview,
+        poster_path,
+      });
+    }
+
+    localStorage.setItem("towatch", JSON.stringify(watches));
+
+    setWatch(watches.some((w: CinemaProps) => w.id === id));
+  };
+
   return (
     <div className="card">
       <div className="card__side card__side--front card__side--front-1">
@@ -87,14 +125,27 @@ function LittleCard({
             className="favorite-btn"
             type="button"
             onClick={() => {
-              if (isProfilePage && onRemove) {
-                onRemove(id);
+              if (isProfilePage && onRemoveFav) {
+                onRemoveFav(id);
               } else {
                 toggleFavorite();
               }
             }}
           >
             {isProfilePage ? "🗑️" : favorite ? "💖" : "🤍"}
+          </button>
+          <button
+            className="watch-btn"
+            type="button"
+            onClick={() => {
+              if (isProfilePage && onRemoveWatch) {
+                onRemoveWatch(id);
+              } else {
+                toggleWatch();
+              }
+            }}
+          >
+            {isProfilePage ? "🗑️" : watch ? "oeil ouvert" : "oeil fermé"}
           </button>
           <p>{overview}</p>
           <p>Date de sortie: {release_date}</p>
@@ -112,3 +163,6 @@ function LittleCard({
 }
 
 export default LittleCard;
+
+//REFACTO
+//if isPageProfile --> masquer le button fav/watch selon la liste dans laquelle est le film
