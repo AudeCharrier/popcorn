@@ -1,5 +1,5 @@
-import { useState } from "react";
 import type { Session } from "@supabase/supabase-js";
+import { useState } from "react";
 import { supabase } from "../../lib/supabase";
 
 /**

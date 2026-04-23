@@ -23,10 +23,14 @@ function App() {
 
   return (
     <div className={`app ${themeClass}`}>
-      <Navbar />
-      <ChatBox />
-      <Outlet />
-      <Footer />
+      <div className="page">
+        <Navbar />
+        <main className="content">
+          <ChatBox />
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }

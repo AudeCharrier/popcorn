@@ -1,9 +1,8 @@
-import { useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-
+import { useState } from "react";
+import Chat from "./Chat";
 import ConversationsList from "./ConversationList";
 import SearchUser from "./SearchUser";
-import Chat from "./Chat";
 
 import "./ChatLayout.css";
 

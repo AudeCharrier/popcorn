@@ -83,6 +83,7 @@ function FilmsSeries({ type }: { type: "movie" | "tv" }) {
 
   return (
     <div className="FilmsSeries">
+      <div className="BaniereFilmsSeries"></div>
       <BigCard movieId={movieId} type={type} />
 
       {isAtCinema ? (

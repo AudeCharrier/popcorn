@@ -7,6 +7,11 @@
   width: 100%;
 }
 
+.logo-profil {
+  width: 50px;
+  margin-right: 20px;
+}
+
 .nav-logo {
   height: 60px;
   padding: 0px 8px 0px 20px;
@@ -41,7 +46,6 @@
   padding: 0px 10px 0px 10px;
   border: 2px solid #d4183d;
   border-radius: 10px;
-  margin-right: 20px;
   background-color: #0b0b0b;
 }
 
