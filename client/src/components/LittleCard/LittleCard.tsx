@@ -1,5 +1,5 @@
 import "./Littlecard.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 type CinemaProps = {
   id: number;

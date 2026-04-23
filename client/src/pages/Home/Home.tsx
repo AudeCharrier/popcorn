@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import BoxMoodEmoji from "../../components/BoxMoodEmoji/BoxMoodEmoji";
 import CarousselCourt from "../../components/CarousselCourt/CarousselCourt";
 import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
