@@ -30,6 +30,12 @@ function FilmsSeries({ type }: { type: "movie" | "tv" }) {
   useEffect(() => {
     if (!movieId) return;
 
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+
     const options = {
       method: "GET",
       headers: {
