@@ -77,7 +77,4 @@ function Profile() {
 export default Profile;
 
 //REFACTO !!
-//verifier si toutes les div sont indispensables
-//quand aucun film en watch ou favorites : ne pas afficher de cards...
 //raccourcir le trait sous les carousel favorite et watch
-//aligner les titres dans pageprofile
