@@ -231,35 +231,22 @@ function Rechercher() {
   if (error) return <div>{error}</div>;
 
   const getTitle = () => {
-    const noFiltersActive =
+    const isEmpty =
       activeFilters.genres.length === 0 &&
       activeFilters.mediaTypes.length === 0 &&
-      activeFilters.keyword === "";
+      !activeFilters.keyword;
 
-    if (noFiltersActive) {
-      if (id === "1") return "FILMS";
-      if (id === "2") return "SERIES";
-      if (id && moods[id]) return id.toUpperCase();
-      return id?.toUpperCase() ?? "";
-    }
-
-    const parts: string[] = [];
+    if (isEmpty) return "RECHERCHE";
 
     if (activeFilters.mediaTypes.length > 0) {
-      const typeNames = activeFilters.mediaTypes.map((mid) =>
-        mid === 1 ? "Films" : "Séries",
-      );
-      parts.push(typeNames.join(" & "));
+      return activeFilters.mediaTypes[0] === 1 ? "FILMS" : "SERIES";
     }
 
     if (activeFilters.genres.length > 0) {
-      const gNames = activeFilters.genres
-        .map((gid) => genreNames[gid] ?? "")
-        .filter(Boolean);
-      parts.push(gNames.join(", "));
+      return (genreNames[activeFilters.genres[0]] ?? "RECHERCHE").toUpperCase();
     }
 
-    return parts.length ? parts.join(" · ").toUpperCase() : "RECHERCHE";
+    return "RECHERCHE";
   };
 
   return (
