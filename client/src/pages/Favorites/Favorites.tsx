@@ -31,7 +31,7 @@ function Favorites() {
       <h1 className="fav-title">FAVORIS</h1>
       <div className="favorites">
         {favorites.length === 0 ? (
-          <p className="text-fav">Aucun favoris trouvés</p>
+          <p className="text-fav">Aucun favori trouvé</p>
         ) : (
           favorites.map((item) => (
             <div key={item.id} className="fav-cards">
@@ -43,8 +43,8 @@ function Favorites() {
                 release_date={item.release_date}
                 overview={item.overview}
                 poster_path={item.poster_path}
-                isFavoritePage={true}
-                onRemove={removeFavorite}
+                isProfilePage={true}
+                onRemoveFav={removeFavorite}
               />
             </div>
           ))
