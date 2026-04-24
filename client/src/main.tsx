@@ -3,9 +3,9 @@
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import App from "./App";
-import Favorites from "./pages/Favorites/Favorites";
 import FilmsSeries from "./pages/FilmsSeries/FilmsSeries";
 import Home from "./pages/Home/Home";
+import Profile from "./pages/Profile/Profile";
 import Rechercher from "./pages/Rechercher/Rechercher";
 import Seances from "./pages/Seances/Seances";
 
@@ -35,8 +35,8 @@ const router = createBrowserRouter([
         element: <Seances />,
       },
       {
-        path: "/favorites",
-        element: <Favorites />,
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },

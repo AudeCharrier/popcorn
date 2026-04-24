@@ -55,6 +55,7 @@ function Navbar() {
               SEANCES
             </Link>
           </li>
+
           <li className="nav-search-item">
             <form className="nav-search" onSubmit={handleSubmit}>
               <input
@@ -69,7 +70,7 @@ function Navbar() {
               </button>
             </form>
           </li>
-          <Link to="/favorites" className="nav-li">
+          <Link to="/profile" className="nav-li">
             <img src={Profil} alt="profil-logo" className="logo-profil" />
           </Link>
         </ul>

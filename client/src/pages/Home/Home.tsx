@@ -193,7 +193,7 @@ function Home({ items }: CarousselProps) {
                 className="home-title-icon"
               />
 
-              <h2 className="titre-current">PROCHAINEMENT</h2>
+              <h2 className="titre-current">ACTUELLEMENT EN SALLE</h2>
             </div>
 
             <CarousselCourt items={currentMovie} />
@@ -207,7 +207,7 @@ function Home({ items }: CarousselProps) {
                 className="home-title-icon"
               />
 
-              <h2 className="titre-current">ACTUELLEMENT EN SALLE</h2>
+              <h2 className="titre-current">PROCHAINEMENT</h2>
             </div>
 
             <CarousselCourt items={upcomingMovie} />

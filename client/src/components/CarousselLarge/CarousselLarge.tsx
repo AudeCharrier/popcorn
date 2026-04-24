@@ -11,25 +11,35 @@ type CarouselItem = {
   poster_path: string;
   media_type: "movie" | "tv";
 };
+type Style = {
+  width: string;
+};
 
 type CarousselProps = {
   items?: CarouselItem[];
+  isProfilePage?: boolean;
+  onRemoveFav?: (id: number) => void;
+  onRemoveWatch?: (id: number) => void;
+  style?: Style;
 };
-function CarousselLarge({ items = [] }: CarousselProps) {
+
+function CarousselLarge({
+  items = [],
+  isProfilePage,
+  onRemoveFav,
+  onRemoveWatch,
+  style,
+}: CarousselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const displayedItems =
-    items.length > 0
-      ? items
-      : Array.from({ length: 100 }, (_, i) => ({
-          id: i,
-          title: "Titre",
-          vote_average: 0,
-          release_date: "N/A",
-          overview: "Aucune description",
-          poster_path: "",
-          media_type: "movie" as const,
-        }));
+  if (items.length === 0) {
+    return (
+      <p style={{ color: "white" }} className="caroussel-no-media">
+        Aucun contenu à afficher.
+      </p>
+    );
+  }
+  const displayedItems = items;
 
   const STEP = 250;
 
@@ -44,7 +54,7 @@ function CarousselLarge({ items = [] }: CarousselProps) {
     );
 
   return (
-    <div className="caroussel-container">
+    <div className="caroussel-container" style={style}>
       <div className="caroussel-wrapper">
         <button
           type="button"
@@ -69,6 +79,9 @@ function CarousselLarge({ items = [] }: CarousselProps) {
                   release_date={item.release_date}
                   overview={item.overview}
                   poster_path={item.poster_path}
+                  isProfilePage={isProfilePage}
+                  onRemoveFav={onRemoveFav}
+                  onRemoveWatch={onRemoveWatch}
                 />
               </div>
             ))}
