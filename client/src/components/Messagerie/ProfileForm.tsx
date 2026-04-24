@@ -1,7 +1,7 @@
 import type { Session } from "@supabase/supabase-js";
 import { useState } from "react";
 import { supabase } from "../../lib/supabase";
-
+import "./ProfileForm.css";
 /**
  * Props du composant :
  * - session = utilisateur connecté (obligatoire pour récupérer son id)
@@ -93,11 +93,14 @@ function ProfileForm({ session, onProfileCreated }: ProfileFormProps) {
   return (
     <div>
       <h2>Créer ton profil</h2>
-      <p>Choisis ton username pour utiliser la messagerie.</p>
+      <p className="p-profile-form">
+        Choisis ton username pour utiliser la messagerie.
+      </p>
 
       {/* Formulaire de création du profil */}
-      <form onSubmit={handleSubmit}>
+      <form className="form-profile-form" onSubmit={handleSubmit}>
         <input
+          className="input-profile-form"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -105,7 +108,7 @@ function ProfileForm({ session, onProfileCreated }: ProfileFormProps) {
         />
 
         {/* Bouton désactivé pendant l'enregistrement */}
-        <button type="submit" disabled={saving}>
+        <button className="button-profile-form" type="submit" disabled={saving}>
           {saving ? "Enregistrement..." : "Valider"}
         </button>
       </form>

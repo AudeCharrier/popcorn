@@ -16,17 +16,20 @@
 .chat-panel-right {
   position: fixed;
   top: 17%;
-  right: 0;
+  right: 2%;
   width: 35%;
   height: 65vh;
-  background: rgb(0, 0, 0);
-  border: 1px solid red;
   z-index: 1000;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  border-radius: 10px 0 0 10px;
+  border-radius: 10px;
   font-family: var(--second-font);
+  background: rgb(0 0 0 / 41%);
+  backdrop-filter: blur(10px);
+  color: white;
 }
 .chat-badge {
   position: absolute;
