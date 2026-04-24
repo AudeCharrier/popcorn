@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import Profil from "../../assets/images/emoji-action.png";
 import Logo from "../../assets/images/Logo.png";
 import "./Navbar.css";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import logoCalendrier from "../../assets/images/logo-calendrier.png";
 import logoCoeur from "../../assets/images/logo-coeur.png";
 import logoPopcorn from "../../assets/images/logo-popcorn.png";

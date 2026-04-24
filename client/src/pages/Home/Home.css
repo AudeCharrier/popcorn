@@ -97,10 +97,10 @@ body {
   color: #ff2222;
   background-color: rgba(218, 22, 22, 0.25);
   border: 1px solid #cc0000;
-  border-radius: 60rem;
+  border-radius: 30vh;
   padding: 0.8rem 1.6rem;
   margin-bottom: 2rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-transform: uppercase;
   box-shadow:
     0 0 12px rgba(200, 0, 0, 0.6),
@@ -108,7 +108,7 @@ body {
 }
 
 .featured-title {
-  font-size: 5rem;
+  font-size: 3rem;
   text-transform: uppercase;
   margin: 0 0 2rem 0;
   line-height: 1;
@@ -118,15 +118,15 @@ body {
 .featured-infos {
   display: flex;
   gap: 2rem;
-  font-size: 1.8rem;
+  font-size: 2vh;
   margin-bottom: 2rem;
   align-items: center;
 }
 
 .featured-description {
-  font-size: 1.8rem;
+  font-size: 1rem;
   line-height: 1.7;
-  max-width: 60rem;
+  max-width: 40vw;
 }
 
 .texte-bloc {
@@ -146,7 +146,7 @@ body {
   border: none;
   border-radius: 8px;
   padding: 1.2rem 2.5rem;
-  font-size: 1.4rem;
+  font-size: 1rem;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -157,7 +157,7 @@ body {
   border: none;
   border-radius: 8px;
   padding: 1.2rem 2.5rem;
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 700rem;
   text-transform: uppercase;
   backdrop-filter: blur(4px);
