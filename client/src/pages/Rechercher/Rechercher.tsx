@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./Rechercher.css";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import defaultPoster from "../../assets/images/Logo.png";
 import LittleCard from "../../components/LittleCard/LittleCard";
 import SortFilter from "../../components/SortFilter/SortFilter";
@@ -122,7 +122,11 @@ function Rechercher() {
       setError("Aucun paramètre trouvé.");
       return;
     }
-
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
     const options = {
       method: "GET",
       headers: {
