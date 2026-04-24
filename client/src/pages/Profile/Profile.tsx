@@ -40,53 +40,37 @@ function Profile() {
   };
 
   const width = {
-    width: "50vw",
+    width: "60vw",
   };
 
   return (
-    <>
-      <div>
-        <div className="block-control">
-          <div className="home-current">
-            <div className="home-current__block">
-              <div className="home-title">
-                <h2 className="titre-current">FAVORIS</h2>
-              </div>
-              <div className="favorites">
-                <CarousselLarge
-                  items={favorites}
-                  isProfilePage={true}
-                  onRemoveFav={removeFavorite}
-                  onRemoveWatch={removeToWatch}
-                  style={width}
-                />
-              </div>
-            </div>
-          </div>
+    <section className="profile-layout">
+      <div className="profile-list-wrapper">
+        <h2 className="profile-list-title">FAVORIS</h2>
+        <div className="profile-list">
+          <CarousselLarge
+            items={favorites}
+            isProfilePage={true}
+            onRemoveFav={removeFavorite}
+            onRemoveWatch={removeToWatch}
+            style={width}
+          />
         </div>
       </div>
 
-      <div>
-        <div className="block-control">
-          <div className="home-current">
-            <div className="home-current__block">
-              <div className="home-title">
-                <h2 className="titre-current">WATCH-LIST</h2>
-              </div>
-              <div className="watch-list">
-                <CarousselLarge
-                  items={toWatch}
-                  isProfilePage={true}
-                  onRemoveFav={removeFavorite}
-                  onRemoveWatch={removeToWatch}
-                  style={width}
-                />
-              </div>
-            </div>
-          </div>
+      <div className="profile-list-wrapper">
+        <h2 className="profile-list-title">WATCH-LIST</h2>
+        <div className="profile-list">
+          <CarousselLarge
+            items={toWatch}
+            isProfilePage={true}
+            onRemoveFav={removeFavorite}
+            onRemoveWatch={removeToWatch}
+            style={width}
+          />
         </div>
       </div>
-    </>
+    </section>
   );
 }
 

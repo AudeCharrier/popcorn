@@ -50,13 +50,13 @@
   background: linear-gradient(to right, red, black);
 }
 
-.favorites {
+/* .favorites {
   display: grid;
   padding-left: 200px;
   padding-right: 70px;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
 }
-
+ */
 .text-fav {
   display: flex;
   justify-content: center;

@@ -32,18 +32,14 @@ function CarousselLarge({
 }: CarousselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const displayedItems =
-    items.length > 0
-      ? items
-      : Array.from({ length: 100 }, (_, i) => ({
-          id: i,
-          title: "Titre",
-          vote_average: 0,
-          release_date: "N/A",
-          overview: "Aucune description",
-          poster_path: "",
-          media_type: "movie" as const,
-        }));
+  if (items.length === 0) {
+    return (
+      <p style={{ color: "white" }} className="caroussel-no-media">
+        Aucun contenu à afficher.
+      </p>
+    );
+  }
+  const displayedItems = items;
 
   const STEP = 250;
 
