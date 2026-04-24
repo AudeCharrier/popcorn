@@ -16,6 +16,13 @@ body {
   padding-top: 10vh;
 }
 
+.home-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
 .titre-coup,
 .titre-current {
   display: flex;
@@ -23,7 +30,7 @@ body {
   height: 18px;
   align-items: center;
   border-radius: 2px;
-  padding-left: 5px;
+  padding-left: 8px;
   color: white;
   text-transform: uppercase;
   text-align: left;
@@ -31,6 +38,16 @@ body {
   font-style: normal;
   white-space: nowrap;
   margin: 0;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.home-title-icon {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
 }
 
 .home-current {

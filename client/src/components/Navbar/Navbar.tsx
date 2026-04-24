@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import Profil from "../../assets/images/emoji-action.png";
 import Logo from "../../assets/images/Logo.png";
 import "./Navbar.css";
-import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -54,7 +55,6 @@ function Navbar() {
               SEANCES
             </Link>
           </li>
-
           <li className="nav-search-item">
             <form className="nav-search" onSubmit={handleSubmit}>
               <input
@@ -69,6 +69,9 @@ function Navbar() {
               </button>
             </form>
           </li>
+          <Link to="/favorites" className="nav-li">
+            <img src={Profil} alt="profil-logo" className="logo-profil" />
+          </Link>
         </ul>
       </nav>
     </div>
