@@ -3,20 +3,31 @@
   flex-direction: column;
   overflow-y: auto;
   flex: 1;
+  width: 84%;
+  /* margin-left: 20px; */
+  /* margin-top: 20px; */
 }
 
 .conversation-item {
   border: none;
-  background: rgb(0, 0, 0);
-  border-bottom: 1px solid red;
   text-align: left;
-  padding: 12px;
+  padding: 17px;
   cursor: pointer;
   color: white;
-  font-size: 15px;
+  font-size: 20px;
+  background: none;
+  width: 100%;
+  border-radius: 10px;
 }
 
 .conversation-item:hover {
-  background: #000000;
+  /* background: rgb(0 0 0 / 41%);
+  backdrop-filter: blur(10px); */
+  color: white;
+  background: rgb(101 99 99 / 47%);
+}
+
+.conversation-item:focus {
+  background: rgb(101 99 99 / 47%);
   color: white;
 }

@@ -50,13 +50,6 @@ function ChatLayout({ session, username }: ChatLayoutProps) {
         </div>
 
         {/* 
-          Composant pour rechercher un utilisateur par username.
-          Quand un user est trouvé → crée/ouvre une conversation
-          → setConversation est appelé
-        */}
-        <SearchUser session={session} onSelectConversation={setConversation} />
-
-        {/* 
           Liste des conversations existantes.
           Quand on clique sur une conversation :
           → setConversation est appelé
@@ -65,6 +58,12 @@ function ChatLayout({ session, username }: ChatLayoutProps) {
           session={session}
           onSelectConversation={setConversation}
         />
+        {/* 
+          Composant pour rechercher un utilisateur par username.
+          Quand un user est trouvé → crée/ouvre une conversation
+          → setConversation est appelé
+        */}
+        <SearchUser session={session} onSelectConversation={setConversation} />
       </div>
 
       {/* === PARTIE DROITE (chat actif) === */}
