@@ -103,6 +103,13 @@ function LittleCard({
     setWatch(watches.some((w: CinemaProps) => w.id === id));
   };
 
+  const displayNoneFavBtn = {
+    display: isProfilePage && watch ? "none" : "inline",
+  };
+  const displayNoneWatchBtn = {
+    display: isProfilePage && favorite ? "none" : "inline",
+  };
+
   return (
     <div className="card">
       <div className="card__side card__side--front card__side--front-1">
@@ -122,6 +129,7 @@ function LittleCard({
       <div className="card__side card__side--back card__side--back-1">
         <div className="card__description">
           <button
+            style={displayNoneFavBtn}
             className="favorite-btn"
             type="button"
             onClick={() => {
@@ -135,6 +143,7 @@ function LittleCard({
             {isProfilePage ? "🗑️" : favorite ? "💖" : "🤍"}
           </button>
           <button
+            style={displayNoneWatchBtn}
             className="watch-btn"
             type="button"
             onClick={() => {
@@ -145,7 +154,7 @@ function LittleCard({
               }
             }}
           >
-            {isProfilePage ? "🗑️" : watch ? "oeil ouvert" : "oeil fermé"}
+            {isProfilePage ? "🗑️" : watch ? "🤓" : "😑"}
           </button>
           <p>{overview}</p>
           <p>Date de sortie: {release_date}</p>

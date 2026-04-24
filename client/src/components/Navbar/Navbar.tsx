@@ -55,11 +55,6 @@ function Navbar() {
               SEANCES
             </Link>
           </li>
-          <li>
-            <Link to="/favorites" className="nav-li">
-              FAVORITES(temp)
-            </Link>
-          </li>
 
           <li className="nav-search-item">
             <form className="nav-search" onSubmit={handleSubmit}>
