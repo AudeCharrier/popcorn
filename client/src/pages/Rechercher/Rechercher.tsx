@@ -4,41 +4,27 @@ import { useParams } from "react-router";
 import defaultPoster from "../../assets/images/Logo.png";
 import LittleCard from "../../components/LittleCard/LittleCard";
 import SortFilter from "../../components/SortFilter/SortFilter";
-
-import SearchContext from "../../contexts/SearchContext";
+import SearchContext, {
+  type Filters,
+  type SearchResult,
+} from "../../contexts/SearchContext";
 
 type MediaItem = {
   id: number;
   media_type: "movie" | "tv";
   title?: string;
   name?: string;
+  genre_ids?: number[];
   vote_average: number;
   release_date?: string;
   first_air_date?: string;
   overview: string;
   poster_path: string | null;
+  popularity: number;
 };
 
-type SearchResult = {
-  id: number;
-  media_type: "movie" | "tv" | "person";
-  title?: string;
-  name?: string;
-  genre_ids?: number[]; //AJOUTE
-  vote_average: number;
-  release_date?: string;
-  first_air_date?: string;
-  overview: string;
-  poster_path: string | null;
-};
-
-type SearchResponse = {
-  results: SearchResult[];
-};
-
-type TmdbListResponse = {
-  results: MediaItem[];
-};
+type SearchResponse = { results: SearchResult[] };
+type TmdbListResponse = { results: MediaItem[] };
 
 type RevealOnScrollProps = {
   children: React.ReactNode;
@@ -51,7 +37,6 @@ function RevealOnScroll({ children, delay = 0 }: RevealOnScrollProps) {
 
   useEffect(() => {
     const currentRef = ref.current;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -59,19 +44,11 @@ function RevealOnScroll({ children, delay = 0 }: RevealOnScrollProps) {
           observer.unobserve(entry.target);
         }
       },
-      {
-        threshold: 0,
-      },
+      { threshold: 0 },
     );
-
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
+    if (currentRef) observer.observe(currentRef);
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      if (currentRef) observer.unobserve(currentRef);
     };
   }, []);
 
@@ -85,6 +62,7 @@ function RevealOnScroll({ children, delay = 0 }: RevealOnScrollProps) {
     </div>
   );
 }
+
 const moods: Record<string, number[]> = {
   comedie: [35],
   romance: [10749, 18],
@@ -97,16 +75,33 @@ const moods: Record<string, number[]> = {
   action: [28, 53],
 };
 
+const genreNames: Record<number, string> = {
+  28: "Action",
+  10759: "Action & Adventure",
+  16: "Animation",
+  12: "Aventure",
+  35: "Comédie",
+  18: "Drame",
+  10751: "Familial",
+  14: "Fantastique",
+  10752: "Guerre",
+  27: "Horreur",
+  10749: "Romance",
+  878: "Science-Fiction",
+  10765: "Science-Fiction & Fantastique",
+  53: "Thriller",
+};
+
 function Rechercher() {
   const { id } = useParams();
-  console.log("ID URL =", id);
 
-  const [movies, setMovies] = useState<MediaItem[]>([]);
-  const [series, setSeries] = useState<MediaItem[]>([]);
-  const [results, setResults] = useState<SearchResult[]>([]);
-
+  const [rawResults, setRawResults] = useState<SearchResult[]>([]);
   const [affichage, setAffichage] = useState<SearchResult[]>([]);
-
+  const [activeFilters, setActiveFilters] = useState<Filters>({
+    mediaTypes: [],
+    genres: [],
+    keyword: "",
+  });
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -114,17 +109,16 @@ function Rechercher() {
   const formatDate = (item: {
     release_date?: string;
     first_air_date?: string;
-  }) => {
-    return (
-      item.release_date?.split("-").reverse().join("/") ||
-      item.first_air_date?.split("-").reverse().join("/") ||
-      ""
-    );
-  };
+  }) =>
+    item.release_date?.split("-").reverse().join("/") ||
+    item.first_air_date?.split("-").reverse().join("/") ||
+    "";
+
+  const getPoster = (path: string | null) =>
+    path ? `https://image.tmdb.org/t/p/w500${path}` : defaultPoster;
 
   useEffect(() => {
     if (!id) {
-      setLoading(false);
       setError("Aucun paramètre trouvé.");
       return;
     }
@@ -143,31 +137,39 @@ function Rechercher() {
 
     setLoading(true);
     setError("");
-    setMovies([]);
-    setSeries([]);
-    setResults([]);
+    setRawResults([]);
     setAffichage([]);
+    setActiveFilters({ mediaTypes: [], genres: [], keyword: "" });
 
     const genreIds = moods[id];
 
     if (genreIds) {
-      fetch(
-        `https://api.themoviedb.org/3/discover/movie?with_genres=${genreIds.join(",")}&language=fr-FR&page=${page}`,
-        options,
-      )
-        .then((res) => res.json())
-        .then((data: TmdbListResponse) => {
-          const moviesWithType = (data.results || []).map((item) => ({
-            ...item,
-            media_type: "movie" as const,
-          }));
-
-          setMovies(moviesWithType);
-          setAffichage(moviesWithType);
+      Promise.all([
+        fetch(
+          `https://api.themoviedb.org/3/discover/movie?with_genres=${genreIds.join(",")}&language=fr-FR&page=${page}`,
+          options,
+        ).then((r) => r.json()),
+        fetch(
+          `https://api.themoviedb.org/3/discover/tv?with_genres=${genreIds.join(",")}&language=fr-FR&page=${page}`,
+          options,
+        ).then((r) => r.json()),
+      ])
+        .then(([moviesData, tvData]: [TmdbListResponse, TmdbListResponse]) => {
+          const combined: SearchResult[] = [
+            ...(moviesData.results || []).map((i) => ({
+              ...i,
+              media_type: "movie" as const,
+            })),
+            ...(tvData.results || []).map((i) => ({
+              ...i,
+              media_type: "tv" as const,
+            })),
+          ];
+          setRawResults(combined);
+          setAffichage(combined);
         })
-        .catch(() => setError("Erreur mood"))
+        .catch(() => setError("Erreur chargement mood"))
         .finally(() => setLoading(false));
-
       return;
     }
 
@@ -176,22 +178,17 @@ function Rechercher() {
         `https://api.themoviedb.org/3/movie/popular?language=fr-FR&page=${page}`,
         options,
       )
-        .then((res) => res.json())
+        .then((r) => r.json())
         .then((data: TmdbListResponse) => {
-          const moviesWithType = (data.results || []).map((item) => ({
-            ...item,
+          const items: SearchResult[] = (data.results || []).map((i) => ({
+            ...i,
             media_type: "movie" as const,
           }));
-          setMovies(moviesWithType);
+          setRawResults(items);
+          setAffichage(items);
         })
-        .catch((err) => {
-          console.error(err);
-          setError("Erreur lors du chargement des films.");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-
+        .catch(() => setError("Erreur chargement films"))
+        .finally(() => setLoading(false));
       return;
     }
 
@@ -200,22 +197,17 @@ function Rechercher() {
         `https://api.themoviedb.org/3/tv/popular?language=fr-FR&page=${page}`,
         options,
       )
-        .then((res) => res.json())
+        .then((r) => r.json())
         .then((data: TmdbListResponse) => {
-          const seriesWithType = (data.results || []).map((item) => ({
-            ...item,
+          const items: SearchResult[] = (data.results || []).map((i) => ({
+            ...i,
             media_type: "tv" as const,
           }));
-          setSeries(seriesWithType);
+          setRawResults(items);
+          setAffichage(items);
         })
-        .catch((err) => {
-          console.error(err);
-          setError("Erreur lors du chargement des séries.");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-
+        .catch(() => setError("Erreur chargement séries"))
+        .finally(() => setLoading(false));
       return;
     }
 
@@ -223,133 +215,60 @@ function Rechercher() {
       `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(id)}&include_adult=false&language=fr-FR&page=${page}`,
       options,
     )
-      .then((res) => res.json())
+      .then((r) => r.json())
       .then((data: SearchResponse) => {
-        const filteredResults = (data.results || []).filter(
+        const filtered = (data.results || []).filter(
           (item) => item.media_type === "movie" || item.media_type === "tv",
         );
-
-        setResults(filteredResults); //on garde les resultats bruts de recherche
-        setAffichage(filteredResults); //on affiche : a cause de l'asynchrone, je ne peux pas initialiser ET lire results --> je remplis avec filteredresults
+        setRawResults(filtered);
+        setAffichage(filtered);
       })
-      .catch((err) => {
-        console.error(err);
-        setError("Erreur lors du chargement des résultats.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .catch(() => setError("Erreur chargement résultats"))
+      .finally(() => setLoading(false));
   }, [id, page]);
 
-  const getPoster = (path: string | null) =>
-    path ? `https://image.tmdb.org/t/p/w500${path}` : defaultPoster;
+  if (loading) return <div>Chargement...</div>;
+  if (error) return <div>{error}</div>;
 
-  if (loading) {
-    return <div>Chargement...</div>;
-  }
+  const getTitle = () => {
+    const noFiltersActive =
+      activeFilters.genres.length === 0 &&
+      activeFilters.mediaTypes.length === 0 &&
+      activeFilters.keyword === "";
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+    if (noFiltersActive) {
+      if (id === "1") return "FILMS";
+      if (id === "2") return "SERIES";
+      if (id && moods[id]) return id.toUpperCase();
+      return id?.toUpperCase() ?? "";
+    }
 
-  if (id === "1") {
-    return (
-      <>
-        <RevealOnScroll delay={100}>
-          <h1 className="title-page">FILMS</h1>
-        </RevealOnScroll>
-        <section className="container">
-          <RevealOnScroll delay={200}>
-            <SortFilter />
-          </RevealOnScroll>
-          <div className="Rechercher">
-            {movies.map((item, index) => (
-              <RevealOnScroll key={item.id} delay={300 + index * 80}>
-                <LittleCard
-                  id={item.id}
-                  type={item.media_type}
-                  title={item.title || item.name || ""}
-                  vote_average={item.vote_average}
-                  release_date={formatDate(item)}
-                  overview={item.overview.slice(0, 200)}
-                  poster_path={getPoster(item.poster_path)}
-                />
-              </RevealOnScroll>
-            ))}
-          </div>
-        </section>
-        <section className="section-btn">
-          <button
-            className="button-preced"
-            type="button"
-            onClick={() => setPage((prev) => prev - 1)}
-          >
-            ‹ Précédent
-          </button>
-          <button
-            className="button-suiv"
-            type="button"
-            onClick={() => setPage((prev) => prev + 1)}
-          >
-            Suivant ›
-          </button>
-        </section>
-      </>
-    );
-  }
+    const parts: string[] = [];
 
-  if (id === "2") {
-    return (
-      <>
-        <RevealOnScroll delay={100}>
-          <h1 className="title-page">SERIES</h1>
-        </RevealOnScroll>
-        <section className="container">
-          <RevealOnScroll delay={200}>
-            <SortFilter />
-          </RevealOnScroll>
-          <div className="Rechercher">
-            {series.map((item, index) => (
-              <RevealOnScroll key={item.id} delay={300 + index * 80}>
-                <LittleCard
-                  id={item.id}
-                  type={item.media_type}
-                  title={item.title || item.name || ""}
-                  vote_average={item.vote_average}
-                  release_date={formatDate(item)}
-                  overview={item.overview.slice(0, 200)}
-                  poster_path={getPoster(item.poster_path)}
-                />
-              </RevealOnScroll>
-            ))}
-          </div>
-        </section>
-        <section className="section-btn">
-          <button
-            className="button-preced"
-            type="button"
-            onClick={() => setPage((prev) => prev - 1)}
-          >
-            ‹ Précédent
-          </button>
-          <button
-            className="button-suiv"
-            type="button"
-            onClick={() => setPage((prev) => prev + 1)}
-          >
-            Suivant ›
-          </button>
-        </section>
-      </>
-    );
-  }
+    if (activeFilters.mediaTypes.length > 0) {
+      const typeNames = activeFilters.mediaTypes.map((mid) =>
+        mid === 1 ? "Films" : "Séries",
+      );
+      parts.push(typeNames.join(" & "));
+    }
+
+    if (activeFilters.genres.length > 0) {
+      const gNames = activeFilters.genres
+        .map((gid) => genreNames[gid] ?? "")
+        .filter(Boolean);
+      parts.push(gNames.join(", "));
+    }
+
+    return parts.length ? parts.join(" · ").toUpperCase() : "RECHERCHE";
+  };
 
   return (
     <>
       <RevealOnScroll delay={100}>
-        <h1 className="title-page">{id?.toUpperCase()}</h1>
+        <h1 className="title-page">{getTitle()}</h1>
       </RevealOnScroll>
-      {results.length === 0 && movies.length === 0 && series.length === 0 ? (
+
+      {rawResults.length === 0 ? (
         <p>Aucun film ou série trouvé.</p>
       ) : (
         <>
@@ -357,17 +276,20 @@ function Rechercher() {
             <RevealOnScroll delay={200}>
               <SearchContext.Provider
                 value={{
-                  results: results,
-                  affichage: affichage,
-                  setAffichage: setAffichage,
+                  results: rawResults,
+                  affichage,
+                  setAffichage,
+                  activeFilters,
+                  setActiveFilters,
                 }}
               >
-                <SortFilter />
+                <SortFilter moodId={id} />
               </SearchContext.Provider>
             </RevealOnScroll>
+
             <div className="Rechercher">
-              {affichage.length === 0 ? ( //NE FONCTIONNE PAS
-                <p>Aucun media trouvé.</p>
+              {affichage.length === 0 ? (
+                <p>Aucun média trouvé pour ces filtres.</p>
               ) : (
                 affichage.map((item, index) => (
                   <RevealOnScroll
@@ -393,7 +315,7 @@ function Rechercher() {
             <button
               className="button-preced"
               type="button"
-              onClick={() => setPage((prev) => prev - 1)}
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             >
               ‹ Précédent
             </button>
