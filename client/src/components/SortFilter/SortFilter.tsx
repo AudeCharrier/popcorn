@@ -1,175 +1,212 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import "./SortFilter.css";
+import type { Filters, SearchResult } from "../../contexts/SearchContext";
 import SearchContext from "../../contexts/SearchContext";
 
-type SearchResult = {
-  id: number;
-  media_type: "movie" | "tv" | "person";
-  title?: string;
-  name?: string;
-  genre_ids?: number[]; //AJOUTE
-  vote_average: number;
-  release_date?: string;
-  first_air_date?: string;
-  overview: string;
-  poster_path: string | null;
+type Props = {
+  moodId?: string;
 };
 
-type Categorie = {
-  id: number;
-  name: string;
+const genres = [
+  { id: 28, name: "Action" },
+  { id: 10759, name: "Action & Adventure" },
+  { id: 16, name: "Animation" },
+  { id: 12, name: "Aventure" },
+  { id: 35, name: "Comédie" },
+  { id: 18, name: "Drame" },
+  { id: 10751, name: "Familial" },
+  { id: 14, name: "Fantastique" },
+  { id: 10752, name: "Guerre" },
+  { id: 27, name: "Horreur" },
+  { id: 10749, name: "Romance" },
+  { id: 878, name: "Science-Fiction" },
+  { id: 10765, name: "Science-Fiction & Fantastique" },
+  { id: 53, name: "Thriller" },
+];
+
+const mediaTypes = [
+  { id: 1, name: "Films", media_type: "movie" },
+  { id: 2, name: "Séries", media_type: "tv" },
+];
+
+const moodGenresMap: Record<string, number[]> = {
+  comedie: [35],
+  romance: [10749, 18],
+  guerre: [10752, 18],
+  scifi: [878, 28],
+  thriller: [53],
+  drame: [18],
+  animation: [16, 10751],
+  aventure: [12],
+  action: [28, 53],
 };
 
-type Categories = {
-  genres: Categorie[];
-};
+const sortOptions = [
+  { name: "Popularité", key: "popularity" },
+  { name: "Date de sortie", key: "date" },
+  { name: "Note", key: "vote" },
+] as const;
 
-type Filters = {
-  mediaTypes: number[];
-  genres: number[];
-};
-
-function SortFilter() {
-  const [_genresList, _setGenresList] = useState<Categories>(); ///pour liste complete genres et id extraits de l'api... pour construire notre liste réduite
-  const [_loading, setLoading] = useState(false);
-  const [_error, setError] = useState("");
+function SortFilter({ moodId }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isOverlay, setIsOverlay] = useState(true);
 
-  const { results, setAffichage } = useContext(SearchContext);
+  const { results, setAffichage, activeFilters, setActiveFilters } =
+    useContext(SearchContext);
 
-  const [_activeFilters, setActiveFilters] = useState<Filters>({
-    mediaTypes: [],
-    genres: [],
-  });
+  const [sortConfig, setSortConfig] = useState<{
+    key: "popularity" | "date" | "vote";
+    order: "asc" | "desc";
+  } | null>(null);
+
+  const sortConfigRef = useRef(sortConfig);
+  sortConfigRef.current = sortConfig;
+
+  const resultsRef = useRef(results);
+  resultsRef.current = results;
+
+  const activeFiltersRef = useRef(activeFilters);
+  activeFiltersRef.current = activeFilters;
+
+  function sortData(data: SearchResult[], config: typeof sortConfig) {
+    if (!config) return data;
+    const sorted = [...data];
+    sorted.sort((a, b) => {
+      let vA: number, vB: number;
+      if (config.key === "popularity") {
+        vA = a.popularity;
+        vB = b.popularity;
+      } else if (config.key === "vote") {
+        vA = a.vote_average;
+        vB = b.vote_average;
+      } else {
+        vA = new Date(a.release_date || a.first_air_date || "1900").getTime();
+        vB = new Date(b.release_date || b.first_air_date || "1900").getTime();
+      }
+      return config.order === "desc" ? vA - vB : vB - vA;
+    });
+    return sorted;
+  }
+
+  const applyFilters = useCallback(
+    (data: SearchResult[], filters: Filters, config: typeof sortConfig) => {
+      const sortData = (data: SearchResult[], config: typeof sortConfig) => {
+        if (!config) return data;
+
+        const sorted = [...data];
+        sorted.sort((a, b) => {
+          let vA: number, vB: number;
+
+          if (config.key === "popularity") {
+            vA = a.popularity;
+            vB = b.popularity;
+          } else if (config.key === "vote") {
+            vA = a.vote_average;
+            vB = b.vote_average;
+          } else {
+            vA = new Date(
+              a.release_date || a.first_air_date || "1900",
+            ).getTime();
+            vB = new Date(
+              b.release_date || b.first_air_date || "1900",
+            ).getTime();
+          }
+
+          return config.order === "desc" ? vA - vB : vB - vA;
+        });
+
+        return sorted;
+      };
+
+      const byType =
+        filters.mediaTypes.length === 0
+          ? data
+          : data.filter((item) =>
+              filters.mediaTypes
+                .map((id) => mediaTypes.find((m) => m.id === id)?.media_type)
+                .includes(item.media_type),
+            );
+
+      const byGenre =
+        filters.genres.length === 0
+          ? byType
+          : byType.filter(
+              (item) =>
+                item.genre_ids?.some((id) => filters.genres.includes(id)) ??
+                false,
+            );
+
+      const byKeyword =
+        filters.keyword.trim() === ""
+          ? byGenre
+          : byGenre.filter((item) => {
+              const title = (item.title || item.name || "").toLowerCase();
+              return title.includes(filters.keyword.trim().toLowerCase());
+            });
+
+      setAffichage(sortData(byKeyword, config));
+    },
+    [setAffichage],
+  );
 
   useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-      },
+    if (!results || results.length === 0) return;
+
+    let initialGenres: number[] = [];
+    let initialMediaTypes: number[] = [];
+
+    if (moodId === "1") initialMediaTypes = [1];
+    else if (moodId === "2") initialMediaTypes = [2];
+    else if (moodId && moodGenresMap[moodId]) {
+      initialGenres = moodGenresMap[moodId];
+    }
+
+    const newFilters: Filters = {
+      mediaTypes: initialMediaTypes,
+      genres: initialGenres,
+      keyword: "",
     };
 
-    setLoading(true);
-    setError("");
+    setActiveFilters(newFilters);
 
-    //recup les 2 fetch dans un tableau [result1, result 2] pour avoir liste genres-id
-    Promise.all([
-      fetch(
-        "https://api.themoviedb.org/3/genre/movie/list?language=fr",
-        options,
-      ).then((res) => res.json()),
-
-      fetch(
-        "https://api.themoviedb.org/3/genre/tv/list?language=fr",
-        options,
-      ).then((res) => res.json()),
-    ])
-
-      //on remplit le tableau de promise (en choisissant les noms)
-      .then(([moviesData, tvData]) => {
-        const mergedGenres = [...moviesData.genres, ...tvData.genres]; //on recup le contenu de la clé genres
-        console.log(mergedGenres);
-        // a faire : enlever les doublons (même id) //A ECLARICIR !!!
-        /*   const uniqueGenres = mergedGenres.filter(
-        (genre, index, self) =>
-          index === self.findIndex((g) => g.id === genre.id),
-      );
-      */
-        /*   setGenresList(mergedGenres); */
-      })
-
-      .catch((err) => {
-        console.error(err);
-        setError("Erreur lors du chargement des films.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
-  const sortOptions = [
-    { name: "Popularité" },
-    { name: "Date de sortie" },
-    { name: "Note" },
-  ];
-  //recup A LA MAIN (tant pis !!) les id de ce qu'on veut (fetch m'a servi à reocpier à la main)
-  const genres = [
-    { id: 28, name: "Action" },
-    { id: 10759, name: "Action & Adventure" },
-    { id: 16, name: "Animation" },
-    { id: 12, name: "Aventure" },
-    { id: 35, name: "Comédie" },
-    { id: 18, name: "Drame" },
-    { id: 10751, name: "Familial" },
-    { id: 14, name: "Fantastique" },
-    { id: 10752, name: "Guerre" },
-    { id: 27, name: "Horreur" },
-    { id: 10749, name: "Romance" },
-    { id: 878, name: "Science-Fiction" },
-    { id: 10765, name: "Science-Fiction & Fantastique" },
-    { id: 53, name: "Thriller" },
-  ];
-  const mediaTypes = [
-    { id: 1, name: "Films", media_type: "movie" },
-    { id: 2, name: "Séries", media_type: "tv" },
-  ];
-
-  // séparer les fonctions dans d'autres fichiers !!!
+    applyFilters(results, newFilters, sortConfig);
+  }, [moodId, results, sortConfig, setActiveFilters, applyFilters]);
 
   function updateFiltersCheck(
     categorie: "mediaTypes" | "genres",
     value: number,
   ) {
     setActiveFilters((prev) => {
-      const prevCategorie = prev[categorie];
+      const prevList = prev[categorie];
+      const newList = prevList.includes(value)
+        ? prevList.filter((v) => v !== value)
+        : [...prevList, value];
 
-      let newCategorie = [];
+      const newFilters = { ...prev, [categorie]: newList };
 
-      if (prevCategorie.includes(value)) {
-        newCategorie = prevCategorie.filter((v) => v !== value);
+      const noFilters =
+        newFilters.genres.length === 0 &&
+        newFilters.mediaTypes.length === 0 &&
+        newFilters.keyword === "";
+
+      if (noFilters) {
+        setAffichage(sortData(resultsRef.current, sortConfigRef.current));
       } else {
-        newCategorie = [...prevCategorie, value]; //si value (= id des genres ou mediatypes) absente -> rajoute
+        applyFilters(resultsRef.current, newFilters, sortConfigRef.current);
       }
-      const newFilters = { ...prev, [categorie]: newCategorie };
-      applyFilters(results, newFilters);
+
       return newFilters;
     });
   }
 
-  function applyFilters(results: SearchResult[], activeFilters: Filters) {
-    //   on filtre les results:
-    // activefilters.mediatypes -> id numbers  -> on trouve le meme id dans mediaTypes   (id film ou serie)
-    // dans results on recup items dont item.media_type = media_type (nom "movie" ou "tv")
-    const dataTypesOk =
-      activeFilters.mediaTypes.length === 0 ||
-      activeFilters.mediaTypes.length === 2 // les deux décochés ou les 2 cochés attention jai du ajouter le type "person" dans le typage...
-        ? results
-        : results.filter((item) =>
-            activeFilters.mediaTypes
-              .map((id) => mediaTypes.find((m) => m.id === id)?.media_type)
-              .includes(item.media_type),
-          );
-
-    //puis filtrer datatypesok avec les genres
-
-    const dataTypesGenresOk =
-      activeFilters.genres.length === 0 ||
-      activeFilters.genres.length === genres.length // tout decoché ou tout coché
-        ? dataTypesOk
-        : dataTypesOk.filter(
-            (item) =>
-              item.genre_ids?.some((id) => activeFilters.genres.includes(id)) ??
-              false, //si genre_id ne contient rien
-          );
-
-    setAffichage(dataTypesGenresOk); //COMMIT PB TYPAGE : item.genre_ids typé avec "?" fout la merde
-    return;
+  function updateKeyword(value: string) {
+    setActiveFilters((prev) => {
+      const newFilters = { ...prev, keyword: value };
+      applyFilters(resultsRef.current, newFilters, sortConfigRef.current);
+      return newFilters;
+    });
   }
 
-  //COMPOSANT SORTFILTER
   return (
     <>
       <button
@@ -205,6 +242,7 @@ function SortFilter() {
         >
           X
         </button>
+
         <details>
           <summary className="sort-filter-title">Trier</summary>
           <div className="sort-options-container">
@@ -215,12 +253,18 @@ function SortFilter() {
                   <button
                     type="button"
                     className="sort-button sort-button-decroissant"
+                    onClick={() =>
+                      setSortConfig({ key: option.key, order: "desc" })
+                    }
                   >
                     ▶
                   </button>
                   <button
                     type="button"
                     className="sort-button sort-button-croissant"
+                    onClick={() =>
+                      setSortConfig({ key: option.key, order: "asc" })
+                    }
                   >
                     ▶
                   </button>
@@ -235,8 +279,10 @@ function SortFilter() {
           <div className="filter-options-container">
             <input
               type="text"
-              placeholder="Entrez un mot..."
+              placeholder="Rechercher par titre..."
               id="search-input"
+              value={activeFilters.keyword}
+              onChange={(e) => updateKeyword(e.target.value)}
             />
 
             <details>
@@ -250,6 +296,7 @@ function SortFilter() {
                       type="checkbox"
                       value={genre.id}
                       className="search-checkbox"
+                      checked={activeFilters.genres.includes(genre.id)}
                       onChange={(e) =>
                         updateFiltersCheck("genres", Number(e.target.value))
                       }
@@ -265,17 +312,18 @@ function SortFilter() {
                 Types
               </summary>
               <div className="filter-list">
-                {mediaTypes.map((mediaTypes) => (
-                  <label key={mediaTypes.name}>
+                {mediaTypes.map((mt) => (
+                  <label key={mt.id}>
                     <input
                       type="checkbox"
-                      value={mediaTypes.id}
+                      value={mt.id}
                       className="search-checkbox"
+                      checked={activeFilters.mediaTypes.includes(mt.id)}
                       onChange={(e) =>
                         updateFiltersCheck("mediaTypes", Number(e.target.value))
                       }
                     />{" "}
-                    {mediaTypes.name}
+                    {mt.name}
                   </label>
                 ))}
               </div>
@@ -288,5 +336,3 @@ function SortFilter() {
 }
 
 export default SortFilter;
-
-//bouton ou div sur le coté
