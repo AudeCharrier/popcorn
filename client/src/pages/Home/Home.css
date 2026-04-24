@@ -80,7 +80,7 @@ body {
   color: #ff2222;
   background-color: rgba(218, 22, 22, 0.25);
   border: 1px solid #cc0000;
-  border-radius: 60rem;
+  border-radius: 30vh;
   padding: 0.8rem 1.6rem;
   margin-bottom: 2rem;
   font-size: 1rem;
@@ -101,7 +101,7 @@ body {
 .featured-infos {
   display: flex;
   gap: 2rem;
-  font-size: 1rem;
+  font-size: 2vh;
   margin-bottom: 2rem;
   align-items: center;
 }
@@ -109,7 +109,7 @@ body {
 .featured-description {
   font-size: 1rem;
   line-height: 1.7;
-  max-width: 55rem;
+  max-width: 40vw;
 }
 
 .texte-bloc {
