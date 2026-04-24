@@ -2,16 +2,21 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
+  background: rgb(0 0 0 / 41%);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgb(255, 255, 255);
 }
 
 .chat-header {
   padding: 16px;
-  border-bottom: 1px solid #ff0000;
   color: white;
-  background-color: #000000;
+  background: none;
   height: 10%;
   align-items: center;
   display: flex;
+  border-bottom: 1px solid rgb(95, 95, 95);
+  width: 80%;
 }
 
 .chat-header h2 {
@@ -21,12 +26,17 @@
 .chat-messages {
   overflow-y: auto;
   padding: 16px;
-  background: #000000;
   height: 80%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .chat-empty {
-  color: #666;
+  color: #ffffff;
+  background: none;
+  font-size: 17px;
+  padding-left: 19px;
 }
 
 .message-row {
@@ -51,40 +61,53 @@
 .message-bubble.mine {
   background: #ff0000;
   color: white;
+  border-radius: 14px 14px 0 14px;
 }
 
 .message-bubble.other {
-  background: white;
-  color: black;
-  border: 1px solid #ddd;
+  color: rgb(255, 255, 255);
+  /* border: 1px solid #ddd; */
+  border-radius: 14px 14px 14px 0;
+  background: rgba(255, 255, 255, 50%);
 }
 
 .message-bubble p {
   margin: 0;
+  font-family: var(--second-font);
+  font-size: 20px;
 }
 
 .chat-form {
   display: flex;
   gap: 8px;
   padding: 16px;
-  border-top: 1px solid #ff0000;
-  background: rgb(0, 0, 0);
+  /* background: rgb(0, 0, 0); */
   height: 10%;
 }
 
 .chat-form input {
   flex: 1;
   min-width: 0;
-  padding: 10px;
+  padding: 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.185);
+  font-size: 15px;
+  color: white;
 }
-
+.chat-form input::placeholder {
+  color: rgb(255, 255, 255);
+  opacity: 0.7;
+}
 .chat-form button {
   padding: 10px 14px;
   cursor: pointer;
   color: white;
-  background-color: #000000;
-  border: 1px solid #ff0000;
+  border-style: none;
+  /* background-color: #000000; */
+  /* border: 1px solid #ffffff; */
   font-size: 15px;
   align-items: center;
   display: flex;
+  border-radius: 14px;
+  background: none;
 }
