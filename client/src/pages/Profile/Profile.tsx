@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
 import "./Profile.css";
+import BadgeWatcher from "../../assets/images/badge_watcher_amateur.png";
+import Pencil from "../../assets/images/pencil.webp";
 
 type CarouselItem = {
   id: number;
@@ -45,8 +47,44 @@ function Profile() {
 
   return (
     <section className="profile-layout">
+      <h2 className="profile-account-title profile-list-title">Mon compte</h2>
+      <div className="profile-account-wrapper">
+        <div className="profile-my-account">
+          <h3>Pseudo</h3>
+          <div className="profile-infos-pencil">
+            <p>Ninadanslombre</p>
+            <button type="button" className="profile-hidden-btn">
+              <img src={Pencil} alt="pencil" className="pencil-img" />
+            </button>
+          </div>
+          <h3>Email</h3>
+          <div className="profile-infos-pencil">
+            <p>nina.richard42@google.com</p>
+            <button type="button" className="profile-hidden-btn">
+              <img src={Pencil} alt="pencil" className="pencil-img" />
+            </button>
+          </div>
+          <h3>Mot de passe</h3>
+          <p>*********</p>
+          <button type="button" className="btn-voir profile-mdp-btn">
+            Changer le mot de passe
+          </button>
+        </div>
+        <div className="profile-member-status">
+          <img src={BadgeWatcher} alt="" className="profile-badge" />
+          <p className="profile-bold">Watcher amateur</p>
+          <p>Prochain rang : Serial Watcher</p>
+          <p className="profile-italic">
+            Ajoute encore 10 films en favoris
+            <br />
+            pour passer au rang supérieur !
+          </p>
+          <p> Membre depuis le 24/04/26</p>
+        </div>
+      </div>
+
       <div className="profile-list-wrapper">
-        <h2 className="profile-list-title">FAVORIS</h2>
+        <h2 className="profile-list-title">Mes favoris</h2>
         <div className="profile-list">
           <CarousselLarge
             items={favorites}
@@ -59,7 +97,7 @@ function Profile() {
       </div>
 
       <div className="profile-list-wrapper">
-        <h2 className="profile-list-title">WATCH-LIST</h2>
+        <h2 className="profile-list-title">Ma Watch-List</h2>
         <div className="profile-list">
           <CarousselLarge
             items={toWatch}
@@ -78,3 +116,23 @@ export default Profile;
 
 //REFACTO !!
 //raccourcir le trait sous les carousel favorite et watch
+
+/*  <h3>Bio</h3>
+          <div className="profile-infos-pencil">
+            <p className="profile-max-width">
+              Curieuse de tout, souvent touchée par les histoires bien
+              racontées, sans forcément aller chercher le spectaculaire. J’aime
+              prendre le temps de regarder, de comprendre, de ressentir.
+            </p>
+            <button type="button" className="profile-hidden-btn">
+              <img src={Pencil} alt="pencil" className="pencil-img" />
+            </button>
+          </div>
+          <h3>Réplique favorite</h3>
+          <div className="profile-infos-pencil">
+            <p>“Life is like a box of chocolates.”</p>
+            <button type="button" className="profile-hidden-btn">
+              <img src={Pencil} alt="pencil" className="pencil-img" />
+            </button>
+          </div>
+ */
