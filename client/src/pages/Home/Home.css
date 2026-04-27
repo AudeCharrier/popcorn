@@ -52,7 +52,7 @@ body {
 
 .home-current {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 .block-control {
