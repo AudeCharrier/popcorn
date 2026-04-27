@@ -24,18 +24,22 @@ type Conversation = {
  */
 type Props = {
   session: Session;
+  activeConversationId: number | null;
+  notifiedConversationIds: number[];
   onSelectConversation: (c: Conversation) => void;
 };
 
-function ConversationsList({ session, onSelectConversation }: Props) {
+function ConversationsList({
+  session,
+  activeConversationId,
+  notifiedConversationIds,
+  onSelectConversation,
+}: Props) {
   /**
    * conversations = tableau de toutes les conversations
    * de l'utilisateur connecté
    */
   const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [activeConversationId, setActiveConversationId] = useState<
-    number | null
-  >(null);
   /**
    * Petite fonction utilitaire :
    * met la première lettre d'un texte en majuscule
@@ -119,16 +123,16 @@ function ConversationsList({ session, onSelectConversation }: Props) {
       setConversations(
         conversationsWithUsernames.map((conv) => ({
           ...conv,
-          hasNotification: false, // par défaut
+          hasNotification: notifiedConversationIds.includes(conv.id),
         })),
       );
     };
 
     fetchConversations();
-  }, [session.user.id]);
+  }, [notifiedConversationIds, session.user.id]);
   useEffect(() => {
     const channel = supabase
-      .channel("messages")
+      .channel(`conversation-list-${session.user.id}`)
       .on(
         "postgres_changes",
         {
@@ -136,25 +140,73 @@ function ConversationsList({ session, onSelectConversation }: Props) {
           schema: "public",
           table: "messages",
         },
-        (payload) => {
-          const newMessage = payload.new;
+        async (payload) => {
+          const newMessage = payload.new as {
+            id: number;
+            conversation_id: number;
+            sender_id: string;
+            content: string;
+            created_at: string;
+          };
+          const conversationId = Number(newMessage.conversation_id);
 
-          // ❌ ignore les messages de la conversation ouverte
-          if (newMessage.conversation_id === activeConversationId) return;
+          // Ignore mes propres messages
+          if (newMessage.sender_id === session.user.id) return;
 
-          // ❌ ignore tes propres messages
-          if (newMessage.user_id === session.user.id) return;
+          // Ignore la conversation déjà ouverte
+          if (conversationId === activeConversationId) return;
 
-          setConversations((prev) =>
-            prev.map((conv) =>
-              conv.id === newMessage.conversation_id
-                ? { ...conv, hasNotification: true }
-                : conv,
-            ),
-          );
+          const { data: conversation, error } = await supabase
+            .from("conversations")
+            .select("*")
+            .eq("id", conversationId)
+            .maybeSingle();
+
+          if (error || !conversation) return;
+
+          const isParticipant =
+            conversation.user_1 === session.user.id ||
+            conversation.user_2 === session.user.id;
+
+          if (!isParticipant) return;
+
+          const otherId =
+            conversation.user_1 === session.user.id
+              ? conversation.user_2
+              : conversation.user_1;
+
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("username")
+            .eq("id", otherId)
+            .maybeSingle();
+
+          setConversations((prev) => {
+            const alreadyExists = prev.some(
+              (conv) => conv.id === conversation.id,
+            );
+            if (alreadyExists) {
+              return prev.map((conv) =>
+                conv.id === conversation.id
+                  ? { ...conv, hasNotification: true }
+                  : conv,
+              );
+            }
+
+            return [
+              {
+                ...conversation,
+                otherUsername: profile?.username || "Unknown",
+                hasNotification: true,
+              },
+              ...prev,
+            ];
+          });
         },
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log("ConversationList realtime status:", status);
+      });
 
     return () => {
       supabase.removeChannel(channel);
@@ -168,8 +220,6 @@ function ConversationsList({ session, onSelectConversation }: Props) {
           type="button"
           className="conversation-item"
           onClick={() => {
-            setActiveConversationId(conversation.id);
-
             onSelectConversation(conversation);
 
             setConversations((prev) =>
@@ -184,7 +234,9 @@ function ConversationsList({ session, onSelectConversation }: Props) {
           {capitalize(conversation.otherUsername)}
 
           {/* 🔴 pastille */}
-          {conversation.hasNotification && <span className="chat-badge"></span>}
+          {conversation.hasNotification && (
+            <span className="conversation-badge"></span>
+          )}
         </button>
       ))}
     </div>
