@@ -14,6 +14,7 @@ type Conversation = {
   user_2: string;
   created_at: string;
   otherUsername: string;
+  hasNotification?: boolean; // 👈 NEW
 };
 
 /**
@@ -32,7 +33,9 @@ function ConversationsList({ session, onSelectConversation }: Props) {
    * de l'utilisateur connecté
    */
   const [conversations, setConversations] = useState<Conversation[]>([]);
-
+  const [activeConversationId, setActiveConversationId] = useState<
+    number | null
+  >(null);
   /**
    * Petite fonction utilitaire :
    * met la première lettre d'un texte en majuscule
@@ -113,12 +116,50 @@ function ConversationsList({ session, onSelectConversation }: Props) {
        * on met le résultat final dans le state React
        * pour afficher la liste à l'écran
        */
-      setConversations(conversationsWithUsernames);
+      setConversations(
+        conversationsWithUsernames.map((conv) => ({
+          ...conv,
+          hasNotification: false, // par défaut
+        })),
+      );
     };
 
     fetchConversations();
   }, [session.user.id]);
+  useEffect(() => {
+    const channel = supabase
+      .channel("messages")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+        },
+        (payload) => {
+          const newMessage = payload.new;
 
+          // ❌ ignore les messages de la conversation ouverte
+          if (newMessage.conversation_id === activeConversationId) return;
+
+          // ❌ ignore tes propres messages
+          if (newMessage.user_id === session.user.id) return;
+
+          setConversations((prev) =>
+            prev.map((conv) =>
+              conv.id === newMessage.conversation_id
+                ? { ...conv, hasNotification: true }
+                : conv,
+            ),
+          );
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [activeConversationId, session.user.id]);
   return (
     <div className="conversation-list">
       {conversations.map((conversation) => (
@@ -126,10 +167,24 @@ function ConversationsList({ session, onSelectConversation }: Props) {
           key={conversation.id}
           type="button"
           className="conversation-item"
-          onClick={() => onSelectConversation(conversation)}
+          onClick={() => {
+            setActiveConversationId(conversation.id);
+
+            onSelectConversation(conversation);
+
+            setConversations((prev) =>
+              prev.map((conv) =>
+                conv.id === conversation.id
+                  ? { ...conv, hasNotification: false }
+                  : conv,
+              ),
+            );
+          }}
         >
-          {/* On affiche le username de l'autre utilisateur */}
           {capitalize(conversation.otherUsername)}
+
+          {/* 🔴 pastille */}
+          {conversation.hasNotification && <span className="chat-badge"></span>}
         </button>
       ))}
     </div>

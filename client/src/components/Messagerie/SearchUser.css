@@ -1,7 +1,7 @@
 .search-user {
   display: flex;
   gap: 8px;
-  padding: 16px;
+  padding: 8px;
   height: 10%;
   /* border: 1px solid rgb(255, 255, 255);
   border-radius: 10px; */
@@ -10,11 +10,11 @@
 .search-user input {
   flex: 1;
   min-width: 0;
-  padding: 16px;
+  padding: 10px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.185);
   color: white;
-  font-size: 15px;
+  font-size: 12px;
 }
 .search-user input::placeholder {
   color: rgb(255, 255, 255);
@@ -27,7 +27,7 @@
   border-style: none;
   /* background-color: #000000; */
   /* border: 1px solid #ffffff; */
-  font-size: 15px;
+  font-size: 12px;
   align-items: center;
   display: flex;
   border-radius: 14px;
