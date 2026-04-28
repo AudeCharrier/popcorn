@@ -1,23 +1,211 @@
+.profile-general-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1.6rem;
+  min-height: 100vh;
+}
+
+/* partie de gauche : menu du profil*/
+.profile-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 1rem;
+  background: linear-gradient(to left, rgb(32, 32, 31), transparent);
+  width: 20%;
+  height: 100vh;
+  padding: 4rem 1rem 2rem 3rem;
+  position: sticky; /*le menu reste en place quand on scroll */
+  align-self: flex-start; /*fonctionne avec sticky*/
+  top: 0px;
+  overflow-y: auto;
+  .profile-menu-list {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 80%;
+    li {
+      width: 100%;
+    }
+  }
+}
+.profile-menu-titles {
+  display: block;
+  font-size: clamp(0.6rem, 2vw, 0.9rem);
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  padding: 6px 0;
+  &:hover {
+    color: red;
+    cursor: pointer;
+  }
+}
+
+.profile-menu-my-profile {
+  display: block;
+  text-align: left;
+  font-weight: bold;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  border-left: 5px solid red;
+  border-radius: 2px;
+  padding: 0 0 0 8px;
+  margin: 0 0 1.6rem 2.2rem;
+  height: auto;
+}
+
+/*logo devant titre*/
+.profile-menu-titles::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  margin: 0 1rem;
+  &:hover {
+    color: red;
+  }
+}
+.profile-menu-my-profile::before {
+  display: none; /* supprime le pseudo-élément */
+}
+
+#mon-compte.profile-menu-titles::before {
+  background-image: url("../../assets/images/profil.png");
+}
+#mes-favoris.profile-menu-titles::before {
+  background-image: url("../../assets/images/favori.png");
+}
+#ma-watch-list.profile-menu-titles::before {
+  background-image: url("../../assets/images/enregistrer.png");
+}
+#mes-parametres.profile-menu-titles::before {
+  background-image: url("../../assets/images/parametres.png");
+}
+#deconnexion.profile-menu-titles::before {
+  background-image: url("../../assets/images/deconnexion.png");
+}
+
+/* partie de droite : mon compte, favoris, watch-list*/
 .profile-layout {
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
-  gap: 4rem;
-  padding: 2rem;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  width: 80%;
 }
 
+/* mon compte*/
+.profile-account-title {
+  width: 100%;
+}
+.profile-account-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+
+  gap: 1rem;
+  padding-right: 2rem;
+  .profile-my-account {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    background-color: rgb(32, 32, 31);
+    border-radius: 3px;
+    width: 70%;
+    height: auto;
+    padding: 1.5rem;
+  }
+  .profile-member-status {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 30%;
+    height: auto;
+    background-color: rgb(32, 32, 31);
+    border: 1px solid rgb(121, 2, 2);
+    border-radius: 3px;
+    text-align: center;
+    padding: 1rem;
+
+    .profile-badge {
+      width: 40%;
+      height: auto;
+    }
+  }
+}
+
+.profile-mdp-btn {
+  padding: 1rem 2rem;
+}
+
+.profile-bold {
+  font-weight: bold;
+}
+
+.profile-italic {
+  font-style: italic;
+}
+.profile-max-width {
+  max-width: 80%;
+}
+.profile-infos-pencil {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  .profile-hidden-btn {
+    background: transparent;
+    border: none;
+    width: 24px;
+    aspect-ratio: 1 / 1;
+  }
+  .pencil-img {
+    transform: rotate(90deg);
+    filter: invert(1); /*inverse les couleurs de l'image*/
+    width: 100%;
+    height: auto;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+/* favoris et watch-list*/
 .profile-list-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-around; /* !!!!!*/
+  justify-content: space-around;
   align-items: flex-start;
   padding: 2rem 0 2rem 0;
-  width: 70%;
-}
-
-.profile-list {
   width: 100%;
+  .profile-list {
+    width: 100%;
+    min-height: 40vh; /*pour que le menu-profile reste affiché au scroll quand les carousels sont vides*/
+  }
 }
 
 .profile-list-title {
@@ -27,7 +215,6 @@
   align-items: center;
   border-radius: 2px;
   padding-left: 8px;
-  color: white;
   text-transform: uppercase;
   text-align: left;
   font-family: var(--second-font);
