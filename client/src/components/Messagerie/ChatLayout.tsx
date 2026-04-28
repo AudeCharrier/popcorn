@@ -1,4 +1,3 @@
-import type { Session } from "@supabase/supabase-js";
 import { useState } from "react";
 import Chat from "./Chat";
 import ConversationsList from "./ConversationList";
@@ -24,16 +23,27 @@ type Conversation = {
  * - username = username du user actuel (affiché en haut à gauche)
  */
 type ChatLayoutProps = {
-  session: Session;
+  currentUserId: string;
   username: string;
+  notifiedConversationIds: number[];
+  onClearConversationNotification: (conversationId: number) => void;
 };
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-function ChatLayout({ session, username }: ChatLayoutProps) {
+function ChatLayout({
+  currentUserId,
+  username,
+  notifiedConversationIds,
+  onClearConversationNotification,
+}: ChatLayoutProps) {
   /**
    * conversation = conversation actuellement sélectionnée
    * null = aucune conversation sélectionnée
    */
   const [conversation, setConversation] = useState<Conversation | null>(null);
+  const handleSelectConversation = (selectedConversation: Conversation) => {
+    setConversation(selectedConversation);
+    onClearConversationNotification(selectedConversation.id);
+  };
 
   return (
     /**
@@ -55,15 +65,20 @@ function ChatLayout({ session, username }: ChatLayoutProps) {
           → setConversation est appelé
         */}
         <ConversationsList
-          session={session}
-          onSelectConversation={setConversation}
+          currentUserId={currentUserId}
+          activeConversationId={conversation?.id ?? null}
+          notifiedConversationIds={notifiedConversationIds}
+          onSelectConversation={handleSelectConversation}
         />
         {/* 
           Composant pour rechercher un utilisateur par username.
           Quand un user est trouvé → crée/ouvre une conversation
           → setConversation est appelé
         */}
-        <SearchUser session={session} onSelectConversation={setConversation} />
+        <SearchUser
+          currentUserId={currentUserId}
+          onSelectConversation={handleSelectConversation}
+        />
       </div>
 
       {/* === PARTIE DROITE (chat actif) === */}
@@ -73,7 +88,7 @@ function ChatLayout({ session, username }: ChatLayoutProps) {
            * Si une conversation est sélectionnée :
            * on affiche le composant Chat
            */
-          <Chat session={session} conversation={conversation} />
+          <Chat currentUserId={currentUserId} conversation={conversation} />
         ) : (
           /**
            * Sinon :

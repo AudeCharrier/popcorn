@@ -84,7 +84,7 @@ body {
   left: 0;
   right: 0;
   height: 20%;
-  background: linear-gradient(to bottom, transparent, #0b0b0b);
+  /* background: linear-gradient(to bottom, transparent, #0b0b0b); */
 }
 
 .featured-film {

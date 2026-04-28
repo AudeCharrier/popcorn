@@ -171,7 +171,10 @@ function Home({ items }: CarousselProps) {
           )}
         </div>
       </div>
-
+      {/* MOOD */}
+      <div className="home-mood">
+        <BoxMoodEmoji />
+      </div>
       <div className="home-heart">
         <div className="home-heart__block">
           <div className="home-title">
@@ -213,11 +216,6 @@ function Home({ items }: CarousselProps) {
             <CarousselCourt items={upcomingMovie} />
           </div>
         </div>
-      </div>
-
-      {/* MOOD */}
-      <div className="home-mood">
-        <BoxMoodEmoji />
       </div>
     </div>
   );
