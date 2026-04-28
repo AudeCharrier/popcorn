@@ -1,4 +1,3 @@
-import type { Session } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 
@@ -23,14 +22,14 @@ type Conversation = {
  * - onSelectConversation = fonction appelée quand on clique sur une conversation
  */
 type Props = {
-  session: Session;
+  currentUserId: string;
   activeConversationId: number | null;
   notifiedConversationIds: number[];
   onSelectConversation: (c: Conversation) => void;
 };
 
 function ConversationsList({
-  session,
+  currentUserId,
   activeConversationId,
   notifiedConversationIds,
   onSelectConversation,
@@ -63,7 +62,7 @@ function ConversationsList({
       const { data, error } = await supabase
         .from("conversations")
         .select("*")
-        .or(`user_1.eq.${session.user.id},user_2.eq.${session.user.id}`)
+        .or(`user_1.eq.${currentUserId},user_2.eq.${currentUserId}`)
         .order("created_at", { ascending: false });
 
       if (error) {
@@ -82,7 +81,7 @@ function ConversationsList({
        * Si je suis user_2 -> l'autre est user_1
        */
       const otherUserIds = data.map((conv) =>
-        conv.user_1 === session.user.id ? conv.user_2 : conv.user_1,
+        conv.user_1 === currentUserId ? conv.user_2 : conv.user_1,
       );
 
       /**
@@ -105,7 +104,7 @@ function ConversationsList({
        */
       const conversationsWithUsernames = data.map((conv) => {
         const otherId =
-          conv.user_1 === session.user.id ? conv.user_2 : conv.user_1;
+          conv.user_1 === currentUserId ? conv.user_2 : conv.user_1;
 
         const profile = profiles?.find((p) => p.id === otherId);
 
@@ -129,10 +128,10 @@ function ConversationsList({
     };
 
     fetchConversations();
-  }, [notifiedConversationIds, session.user.id]);
+  }, [notifiedConversationIds, currentUserId]);
   useEffect(() => {
     const channel = supabase
-      .channel(`conversation-list-${session.user.id}`)
+      .channel(`conversation-list-${currentUserId}`)
       .on(
         "postgres_changes",
         {
@@ -151,7 +150,7 @@ function ConversationsList({
           const conversationId = Number(newMessage.conversation_id);
 
           // Ignore mes propres messages
-          if (newMessage.sender_id === session.user.id) return;
+          if (newMessage.sender_id === currentUserId) return;
 
           // Ignore la conversation déjà ouverte
           if (conversationId === activeConversationId) return;
@@ -165,13 +164,13 @@ function ConversationsList({
           if (error || !conversation) return;
 
           const isParticipant =
-            conversation.user_1 === session.user.id ||
-            conversation.user_2 === session.user.id;
+            conversation.user_1 === currentUserId ||
+            conversation.user_2 === currentUserId;
 
           if (!isParticipant) return;
 
           const otherId =
-            conversation.user_1 === session.user.id
+            conversation.user_1 === currentUserId
               ? conversation.user_2
               : conversation.user_1;
 
@@ -211,7 +210,7 @@ function ConversationsList({
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [activeConversationId, session.user.id]);
+  }, [activeConversationId, currentUserId]);
   return (
     <div className="conversation-list">
       {conversations.map((conversation) => (

@@ -9,10 +9,16 @@ import "./ProfileForm.css";
  */
 type ProfileFormProps = {
   session: Session;
-  onProfileCreated: () => Promise<void>;
+  onProfileReady: (profile: Profile) => Promise<void> | void;
 };
 
-function ProfileForm({ session, onProfileCreated }: ProfileFormProps) {
+type Profile = {
+  id: string;
+  username: string;
+  created_at: string;
+};
+
+function ProfileForm({ session, onProfileReady }: ProfileFormProps) {
   /**
    * username = valeur de l'input
    * saving = permet de désactiver le bouton pendant l'enregistrement
@@ -47,6 +53,23 @@ function ProfileForm({ session, onProfileCreated }: ProfileFormProps) {
     setMessage(""); // reset message
 
     try {
+      const { data: existingProfile, error: searchError } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("username", cleanUsername)
+        .maybeSingle();
+
+      if (searchError) {
+        setMessage(searchError.message);
+        return;
+      }
+
+      if (existingProfile) {
+        setUsername("");
+        await onProfileReady(existingProfile);
+        return;
+      }
+
       console.log("3 - avant insert direct");
 
       /**
@@ -80,7 +103,11 @@ function ProfileForm({ session, onProfileCreated }: ProfileFormProps) {
        *   pour qu'il recharge le profil
        */
       setUsername("");
-      await onProfileCreated();
+      const createdProfile = data?.[0] as Profile | undefined;
+
+      if (createdProfile) {
+        await onProfileReady(createdProfile);
+      }
     } catch (error) {
       console.error("6 - catch:", error);
       setMessage("Erreur inattendue.");
@@ -92,9 +119,9 @@ function ProfileForm({ session, onProfileCreated }: ProfileFormProps) {
 
   return (
     <div>
-      <h2>Créer ton profil</h2>
+      <h2>Ton profil</h2>
       <p className="p-profile-form">
-        Choisis ton username pour utiliser la messagerie.
+        Choisis un username ou entre un username existant pour le reprendre.
       </p>
 
       {/* Formulaire de création du profil */}

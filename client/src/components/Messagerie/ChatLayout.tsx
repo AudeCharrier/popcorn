@@ -1,4 +1,3 @@
-import type { Session } from "@supabase/supabase-js";
 import { useState } from "react";
 import Chat from "./Chat";
 import ConversationsList from "./ConversationList";
@@ -24,14 +23,14 @@ type Conversation = {
  * - username = username du user actuel (affiché en haut à gauche)
  */
 type ChatLayoutProps = {
-  session: Session;
+  currentUserId: string;
   username: string;
   notifiedConversationIds: number[];
   onClearConversationNotification: (conversationId: number) => void;
 };
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 function ChatLayout({
-  session,
+  currentUserId,
   username,
   notifiedConversationIds,
   onClearConversationNotification,
@@ -66,7 +65,7 @@ function ChatLayout({
           → setConversation est appelé
         */}
         <ConversationsList
-          session={session}
+          currentUserId={currentUserId}
           activeConversationId={conversation?.id ?? null}
           notifiedConversationIds={notifiedConversationIds}
           onSelectConversation={handleSelectConversation}
@@ -77,7 +76,7 @@ function ChatLayout({
           → setConversation est appelé
         */}
         <SearchUser
-          session={session}
+          currentUserId={currentUserId}
           onSelectConversation={handleSelectConversation}
         />
       </div>
@@ -89,7 +88,7 @@ function ChatLayout({
            * Si une conversation est sélectionnée :
            * on affiche le composant Chat
            */
-          <Chat session={session} conversation={conversation} />
+          <Chat currentUserId={currentUserId} conversation={conversation} />
         ) : (
           /**
            * Sinon :
