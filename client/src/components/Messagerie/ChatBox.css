@@ -40,3 +40,45 @@
   border-radius: 50%;
   background: rgb(255, 0, 0);
 }
+
+@media screen and (min-width: 431px) and (max-width: 1200px) {
+  .chat-toggle {
+    right: 5%;
+    bottom: 6%;
+    width: 48px;
+    height: 48px;
+    font-size: 23px;
+  }
+
+  .chat-panel-right {
+    top: 28%;
+    right: 3%;
+    width: 70vw;
+    height: 55vh;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .chat-toggle {
+    right: 5%;
+    bottom: 4%;
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .chat-panel-right {
+    top: 18%;
+    right: 2.5%;
+    width: 95%;
+    height: 70vh;
+    border-radius: 10px;
+  }
+
+  .chat-badge {
+    top: 5px;
+    right: 5px;
+    width: 10px;
+    height: 10px;
+  }
+}

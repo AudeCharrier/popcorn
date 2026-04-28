@@ -11,7 +11,6 @@
 }
 
 .chat-header {
-  padding: 16px;
   color: white;
   background: none;
   height: 10%;
@@ -37,8 +36,8 @@
 .chat-empty {
   color: #ffffff;
   background: none;
-  font-size: 17px;
-  padding-left: 19px;
+  font-size: 15px;
+  padding-left: 12px;
 }
 
 .message-row {
@@ -112,4 +111,110 @@
   display: flex;
   border-radius: 14px;
   background: none;
+}
+
+@media screen and (min-width: 431px) and (max-width: 1200px) {
+  .chat-header {
+    padding: 12px;
+    width: 85%;
+  }
+
+  .chat-header h2 {
+    font-size: 20px;
+  }
+
+  .chat-messages {
+    padding: 12px;
+  }
+
+  .chat-empty {
+    font-size: 15px;
+    padding-left: 12px;
+  }
+
+  .message-bubble {
+    max-width: 78%;
+    padding: 8px 12px;
+  }
+
+  .message-bubble p {
+    font-size: 14px;
+  }
+
+  .chat-form {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .chat-form input,
+  .chat-form button {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .chat-wrapper {
+    border-radius: 10px;
+  }
+
+  .chat-header {
+    height: auto;
+    min-height: 42px;
+    padding: 10px;
+    width: 90%;
+  }
+
+  .chat-header h2 {
+    font-size: 17px;
+  }
+
+  .chat-messages {
+    padding: 10px;
+    height: 72%;
+  }
+
+  .chat-empty {
+    font-size: 13px;
+    padding-left: 8px;
+  }
+
+  .message-row {
+    margin-bottom: 8px;
+  }
+
+  .message-bubble {
+    max-width: 86%;
+    padding: 7px 10px;
+    border-radius: 12px;
+  }
+
+  .message-bubble.mine {
+    border-radius: 12px 12px 0 12px;
+  }
+
+  .message-bubble.other {
+    border-radius: 12px 12px 12px 0;
+  }
+
+  .message-bubble p {
+    font-size: 13px;
+  }
+
+  .chat-form {
+    height: auto;
+    min-height: 48px;
+    gap: 5px;
+    padding: 6px;
+  }
+
+  .chat-form input,
+  .chat-form button {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+
+  .chat-form button {
+    border-radius: 12px;
+  }
 }

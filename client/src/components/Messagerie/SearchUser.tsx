@@ -132,7 +132,7 @@ function SearchUser({ currentUserId, onSelectConversation }: Props) {
         type="text"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Rechercher user"
+        placeholder="Rechercher user..."
       />
 
       {/* Bouton pour lancer la recherche */}
