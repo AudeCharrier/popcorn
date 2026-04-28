@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import BadgeWatcher from "../../assets/images/badge_watcher_amateur.png";
-/* import Deconnexion from "../../assets/images/deconnexion.png";
-import Favori from "../../assets/images/favori.png";
-import Paramètres from "../../assets/images/parametres.png"; */
 import Pencil from "../../assets/images/pencil.webp";
 import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
 /* import Profil from "../../assets/images/profil.png";
