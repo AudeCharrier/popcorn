@@ -10,6 +10,7 @@ type CarouselItem = {
   overview: string;
   poster_path: string;
   media_type: "movie" | "tv";
+  type: "movie" | "tv";
 };
 type Style = {
   width: string;
@@ -20,6 +21,7 @@ type CarousselProps = {
   isProfilePage?: boolean;
   onRemoveFav?: (id: number) => void;
   onRemoveWatch?: (id: number) => void;
+  listType?: "favorites" | "watchlist";
   style?: Style;
 };
 
@@ -28,6 +30,7 @@ function CarousselLarge({
   isProfilePage,
   onRemoveFav,
   onRemoveWatch,
+  listType,
   style,
 }: CarousselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -74,7 +77,7 @@ function CarousselLarge({
                 <LittleCard
                   id={item.id}
                   title={item.title}
-                  type={item.media_type}
+                  type={(item.media_type ?? item.type) as "movie" | "tv"}
                   vote_average={item.vote_average}
                   release_date={item.release_date}
                   overview={item.overview}
@@ -82,6 +85,7 @@ function CarousselLarge({
                   isProfilePage={isProfilePage}
                   onRemoveFav={onRemoveFav}
                   onRemoveWatch={onRemoveWatch}
+                  listType={listType}
                 />
               </div>
             ))}

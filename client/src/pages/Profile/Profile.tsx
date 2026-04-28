@@ -14,6 +14,7 @@ type CarouselItem = {
   overview: string;
   poster_path: string;
   media_type: "movie" | "tv";
+  type: "movie" | "tv";
 };
 
 function Profile() {
@@ -137,26 +138,23 @@ function Profile() {
             <CarousselLarge
               items={favorites}
               isProfilePage={true}
+              listType="favorites"
               onRemoveFav={removeFavorite}
-              onRemoveWatch={removeToWatch}
               style={width}
             />
           </div>
         </div>
 
-        <div className="profile-list-wrapper">
-          <h2 className="profile-list-title" id="watch-list">
-            Ma Watch-List
-          </h2>
-          <div className="profile-list">
-            <CarousselLarge
-              items={toWatch}
-              isProfilePage={true}
-              onRemoveFav={removeFavorite}
-              onRemoveWatch={removeToWatch}
-              style={width}
-            />
-          </div>
+      <div className="profile-list-wrapper">
+        <h2 className="profile-list-title">WATCH-LIST</h2>
+        <div className="profile-list">
+          <CarousselLarge
+            items={toWatch}
+            isProfilePage={true}
+            listType="watchlist"
+            onRemoveWatch={removeToWatch}
+            style={width}
+          />
         </div>
       </section>
     </section>
