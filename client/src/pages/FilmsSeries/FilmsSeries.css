@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center;
   .FilmsSeriesDivCinema {
-    width: 60vw;
+    width: 70vw;
     gap: 2rem;
     padding-bottom: 3rem;
     border-radius: 10px;
@@ -139,6 +139,7 @@
   .FilmsSeries {
     margin-top: 0vh;
     .FilmsSeriesDivCinema {
+      width: 80vw;
       .FilmSeriesDivCinemaAllCards {
         display: grid;
         grid-template-columns: 1fr 1fr;
