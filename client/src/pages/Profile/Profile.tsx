@@ -169,24 +169,3 @@ function Profile() {
 export default Profile;
 
 //REFACTO !!
-//raccourcir le trait sous les carousel favorite et watch
-
-/*  <h3>Bio</h3>
-          <div className="profile-infos-pencil">
-            <p className="profile-max-width">
-              Curieuse de tout, souvent touchée par les histoires bien
-              racontées, sans forcément aller chercher le spectaculaire. J’aime
-              prendre le temps de regarder, de comprendre, de ressentir.
-            </p>
-            <button type="button" className="profile-hidden-btn">
-              <img src={Pencil} alt="pencil" className="pencil-img" />
-            </button>
-          </div>
-          <h3>Réplique favorite</h3>
-          <div className="profile-infos-pencil">
-            <p>“Life is like a box of chocolates.”</p>
-            <button type="button" className="profile-hidden-btn">
-              <img src={Pencil} alt="pencil" className="pencil-img" />
-            </button>
-          </div>
- */

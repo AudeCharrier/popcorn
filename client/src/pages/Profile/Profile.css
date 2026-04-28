@@ -18,8 +18,8 @@
   width: 20%;
   min-height: calc(
     100vh -
-    60px
-  ); /*jai enlevé à peu près la hauteur du footer pour régler le pb d'ancre sur watchlist*/
+    62.86px
+  ); /*jai enlevé la hauteur du footer (desktop) pour régler le pb d'ancre sur watchlist*/
   padding: 2rem 1rem 2rem 3rem;
   position: sticky; /*le menu reste en place quand on scroll */
   align-self: flex-start; /*fonctionne avec sticky*/
@@ -207,6 +207,7 @@
   width: 100%;
   .profile-list {
     width: 100%;
+    min-height: 40vh; /*pour que le menu-profile reste affiché au scroll quand les carousels sont vides*/
   }
 }
 
