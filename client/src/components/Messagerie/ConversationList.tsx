@@ -14,6 +14,7 @@ type Conversation = {
   user_2: string;
   created_at: string;
   otherUsername: string;
+  hasNotification?: boolean; // 👈 NEW
 };
 
 /**
@@ -23,16 +24,22 @@ type Conversation = {
  */
 type Props = {
   session: Session;
+  activeConversationId: number | null;
+  notifiedConversationIds: number[];
   onSelectConversation: (c: Conversation) => void;
 };
 
-function ConversationsList({ session, onSelectConversation }: Props) {
+function ConversationsList({
+  session,
+  activeConversationId,
+  notifiedConversationIds,
+  onSelectConversation,
+}: Props) {
   /**
    * conversations = tableau de toutes les conversations
    * de l'utilisateur connecté
    */
   const [conversations, setConversations] = useState<Conversation[]>([]);
-
   /**
    * Petite fonction utilitaire :
    * met la première lettre d'un texte en majuscule
@@ -113,12 +120,98 @@ function ConversationsList({ session, onSelectConversation }: Props) {
        * on met le résultat final dans le state React
        * pour afficher la liste à l'écran
        */
-      setConversations(conversationsWithUsernames);
+      setConversations(
+        conversationsWithUsernames.map((conv) => ({
+          ...conv,
+          hasNotification: notifiedConversationIds.includes(conv.id),
+        })),
+      );
     };
 
     fetchConversations();
-  }, [session.user.id]);
+  }, [notifiedConversationIds, session.user.id]);
+  useEffect(() => {
+    const channel = supabase
+      .channel(`conversation-list-${session.user.id}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+        },
+        async (payload) => {
+          const newMessage = payload.new as {
+            id: number;
+            conversation_id: number;
+            sender_id: string;
+            content: string;
+            created_at: string;
+          };
+          const conversationId = Number(newMessage.conversation_id);
 
+          // Ignore mes propres messages
+          if (newMessage.sender_id === session.user.id) return;
+
+          // Ignore la conversation déjà ouverte
+          if (conversationId === activeConversationId) return;
+
+          const { data: conversation, error } = await supabase
+            .from("conversations")
+            .select("*")
+            .eq("id", conversationId)
+            .maybeSingle();
+
+          if (error || !conversation) return;
+
+          const isParticipant =
+            conversation.user_1 === session.user.id ||
+            conversation.user_2 === session.user.id;
+
+          if (!isParticipant) return;
+
+          const otherId =
+            conversation.user_1 === session.user.id
+              ? conversation.user_2
+              : conversation.user_1;
+
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("username")
+            .eq("id", otherId)
+            .maybeSingle();
+
+          setConversations((prev) => {
+            const alreadyExists = prev.some(
+              (conv) => conv.id === conversation.id,
+            );
+            if (alreadyExists) {
+              return prev.map((conv) =>
+                conv.id === conversation.id
+                  ? { ...conv, hasNotification: true }
+                  : conv,
+              );
+            }
+
+            return [
+              {
+                ...conversation,
+                otherUsername: profile?.username || "Unknown",
+                hasNotification: true,
+              },
+              ...prev,
+            ];
+          });
+        },
+      )
+      .subscribe((status) => {
+        console.log("ConversationList realtime status:", status);
+      });
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [activeConversationId, session.user.id]);
   return (
     <div className="conversation-list">
       {conversations.map((conversation) => (
@@ -126,10 +219,24 @@ function ConversationsList({ session, onSelectConversation }: Props) {
           key={conversation.id}
           type="button"
           className="conversation-item"
-          onClick={() => onSelectConversation(conversation)}
+          onClick={() => {
+            onSelectConversation(conversation);
+
+            setConversations((prev) =>
+              prev.map((conv) =>
+                conv.id === conversation.id
+                  ? { ...conv, hasNotification: false }
+                  : conv,
+              ),
+            );
+          }}
         >
-          {/* On affiche le username de l'autre utilisateur */}
           {capitalize(conversation.otherUsername)}
+
+          {/* 🔴 pastille */}
+          {conversation.hasNotification && (
+            <span className="conversation-badge"></span>
+          )}
         </button>
       ))}
     </div>

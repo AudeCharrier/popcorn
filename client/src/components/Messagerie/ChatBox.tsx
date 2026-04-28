@@ -30,6 +30,9 @@ function ChatBox() {
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [hasNotification, setHasNotification] = useState(false);
+  const [notifiedConversationIds, setNotifiedConversationIds] = useState<
+    number[]
+  >([]);
 
   /**
    * Récupère le profil utilisateur dans la table "profiles"
@@ -149,6 +152,7 @@ function ChatBox() {
             content: string;
             created_at: string;
           };
+          const conversationId = Number(newMessage.conversation_id);
 
           /**
            * Si c'est moi qui envoie le message,
@@ -163,7 +167,7 @@ function ChatBox() {
           const { data: conversation, error } = await supabase
             .from("conversations")
             .select("*")
-            .eq("id", newMessage.conversation_id)
+            .eq("id", conversationId)
             .maybeSingle();
 
           if (error || !conversation) return;
@@ -183,6 +187,10 @@ function ChatBox() {
            */
           if (!isOpen) {
             setHasNotification(true);
+            setNotifiedConversationIds((prev) => {
+              if (prev.includes(conversationId)) return prev;
+              return [...prev, conversationId];
+            });
           }
         },
       )
@@ -244,7 +252,16 @@ function ChatBox() {
              * Si tout est prêt (session + profil),
              * on affiche la vraie messagerie.
              */
-            <ChatLayout session={session} username={profile.username} />
+            <ChatLayout
+              session={session}
+              username={profile.username}
+              notifiedConversationIds={notifiedConversationIds}
+              onClearConversationNotification={(conversationId) => {
+                setNotifiedConversationIds((prev) =>
+                  prev.filter((id) => id !== conversationId),
+                );
+              }}
+            />
           )}
         </aside>
       )}

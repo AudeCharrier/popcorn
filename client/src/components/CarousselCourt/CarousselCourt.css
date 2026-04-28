@@ -3,7 +3,7 @@
   /* margin: 20vh; */
   height: 50vh;
   color: white;
-  width: 40vw;
+  width: 35vw;
 }
 
 .caroussel-court-wrapper {
@@ -55,7 +55,7 @@
 .carousselseconde-container {
   position: relative;
   display: inline-block;
-  padding-bottom: 30px;
+  height: 70%;
 }
 
 .carousselseconde-container::after {

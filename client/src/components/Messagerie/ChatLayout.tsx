@@ -26,14 +26,25 @@ type Conversation = {
 type ChatLayoutProps = {
   session: Session;
   username: string;
+  notifiedConversationIds: number[];
+  onClearConversationNotification: (conversationId: number) => void;
 };
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-function ChatLayout({ session, username }: ChatLayoutProps) {
+function ChatLayout({
+  session,
+  username,
+  notifiedConversationIds,
+  onClearConversationNotification,
+}: ChatLayoutProps) {
   /**
    * conversation = conversation actuellement sélectionnée
    * null = aucune conversation sélectionnée
    */
   const [conversation, setConversation] = useState<Conversation | null>(null);
+  const handleSelectConversation = (selectedConversation: Conversation) => {
+    setConversation(selectedConversation);
+    onClearConversationNotification(selectedConversation.id);
+  };
 
   return (
     /**
@@ -56,14 +67,19 @@ function ChatLayout({ session, username }: ChatLayoutProps) {
         */}
         <ConversationsList
           session={session}
-          onSelectConversation={setConversation}
+          activeConversationId={conversation?.id ?? null}
+          notifiedConversationIds={notifiedConversationIds}
+          onSelectConversation={handleSelectConversation}
         />
         {/* 
           Composant pour rechercher un utilisateur par username.
           Quand un user est trouvé → crée/ouvre une conversation
           → setConversation est appelé
         */}
-        <SearchUser session={session} onSelectConversation={setConversation} />
+        <SearchUser
+          session={session}
+          onSelectConversation={handleSelectConversation}
+        />
       </div>
 
       {/* === PARTIE DROITE (chat actif) === */}

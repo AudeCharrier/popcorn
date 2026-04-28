@@ -47,16 +47,19 @@
   border: 2px solid #d4183d;
   border-radius: 10px;
   background-color: #0b0b0b;
+  width: 72%;
+  display: flex;
 }
 
 .nav-sch {
   font-family: "Source Sans 3", sans-serif;
   padding-left: 5px;
-  font-size: 20px;
+  font-size: 15px;
   border: none;
   outline: none;
   background-color: #0b0b0b;
   color: white;
+  width: 100%;
 }
 
 .nav-button {
@@ -71,8 +74,8 @@
   display: none;
 }
 .nav-search-item {
-  justify-content: space-between;
   display: flex;
+  justify-content: center;
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
