@@ -33,3 +33,35 @@
   border-radius: 14px;
   background: none;
 }
+
+@media screen and (min-width: 431px) and (max-width: 1200px) {
+  .search-user {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .search-user input,
+  .search-user button {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .search-user {
+    height: auto;
+    min-height: 48px;
+    gap: 5px;
+    padding: 6px;
+  }
+
+  .search-user input,
+  .search-user button {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+
+  .search-user button {
+    border-radius: 12px;
+  }
+}

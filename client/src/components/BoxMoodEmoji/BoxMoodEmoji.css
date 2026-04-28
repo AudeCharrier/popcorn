@@ -1,28 +1,28 @@
 /* ===== CONTAINER ===== */
 
 .mood-container {
-  margin-top: 40px;
   width: 100%;
+  margin-top: 40px;
+  padding: 0 15px;
 }
 
 /* ===== TITLE ===== */
 
 .mood-title {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 
-  margin: 0 auto 18px auto;
   width: fit-content;
+  margin: 0 auto 18px;
 }
 
 .mood-logo {
   width: 55px;
   height: 55px;
   object-fit: contain;
-  display: block;
-  margin-right: -9px;
+  margin-right: -8px;
 }
 
 .mood-red-bar {
@@ -33,169 +33,132 @@
 }
 
 .mood-title h3 {
+  margin: 0;
+
   color: white;
   text-transform: uppercase;
   font-family: var(--second-font);
   font-size: 22px;
   font-weight: 700;
-  margin: 0;
   line-height: 1;
-  letter-spacing: 0;
 }
 
 /* ===== BOX ===== */
 
 .mood-box {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 30px;
-
-  padding: 30px 60px;
-
-  background: rgba(0, 0, 0, 0.8);
-  border-radius: 25px;
+  justify-content: center;
+  gap: 24px;
 
   width: fit-content;
   margin: 0 auto;
+  padding: 24px 40px;
+
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 25px;
 
   backdrop-filter: blur(10px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
 }
 
-/* ===== CIRCLE ===== */
+/* ===== BUTTON / CIRCLE ===== */
 
 .mood-circle {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
-  cursor: pointer;
-  transition: all 0.3s ease;
+  width: 5.5vw;
+  height: 5.5vw;
+
+  min-width: 4vw;
+  min-height: 4vw;
+
+  max-width: 7vw;
+  max-height: 7vw;
 
   border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .mood-circle img {
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
+  width: 85%;
+  height: 85%;
   object-fit: cover;
+  border-radius: 50%;
 }
 
 /* ===== HOVER ===== */
 
 .mood-circle:hover {
-  transform: scale(1.2) translateY(-5px);
+  transform: scale(1.15) translateY(-5px);
 }
 
 /* ===== ACTIVE ===== */
 
 .mood-circle.active {
-  transform: scale(1.3);
+  transform: scale(1.2);
   box-shadow:
     0 0 10px white,
-    0 0 10px currentColor;
+    0 0 14px currentColor;
 }
-/* ===== PROF SPECIAL ===== */
 
-.mood-special {
+/* ===== SPECIAL ===== */
+
+.mood-special,
+.mood-chef {
   position: relative;
-  border-radius: 50%;
   z-index: 2;
-
-  box-shadow: none;
 }
+
+/* ===== PROF ===== */
 
 .mood-special img {
   height: 90%;
-  object-fit: cover;
-  border-radius: 50%;
 }
 
 .mood-special:hover {
-  transform: scale(1.3) translateY(-6px);
-
+  transform: scale(1.2) translateY(-5px);
   box-shadow:
     0 0 10px #c0c0c0,
-    0 0 10px #c0c0c0,
-    0 0 10px #c0c0c0;
+    0 0 15px #c0c0c0;
 }
 
-/* ===== CHEF SPECIAL ===== */
-
-.mood-chef {
-  position: relative;
-  border-radius: 50%;
-  z-index: 2;
-
-  box-shadow:
-    0 0 10px #eee3a3,
-    0 0 10px #eee3a3,
-    0 0 10px #eee3a3,;
-}
+/* ===== CHEF ===== */
 
 .mood-chef img {
   position: absolute;
-  bottom: -20px;
-  height: 115%;
-  object-fit: cover;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
+  bottom: -15px;
+  height: 112%;
 }
 
 .mood-chef:hover {
-  transform: scale(1.3) translateY(-6px);
+  transform: scale(1.2) translateY(-5px);
 
   box-shadow:
     0 0 10px #eee3a3,
-    0 0 10px #eee3a3,
-    0 0 10px #eee3a3;
+    0 0 15px #eee3a3,
+    0 0 20px #eee3a3;
 }
 
-/* ===== ANIMATION ===== */
-
-@keyframes sparkle {
-  from {
-    transform: translate(60%, -60%) scale(1);
-  }
-  to {
-    transform: translate(60%, -60%) scale(1.25);
-  }
-}
-
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIVE TABLETTE ===== */
 
 @media (max-width: 1024px) {
   .mood-box {
-    gap: 20px;
-    padding: 20px 30px;
-    flex-wrap: wrap;
-  }
-
-  .mood-circle {
-    width: 90px;
-    height: 90px;
-  }
-
-  .mood-circle img {
-    width: 80px;
-    height: 80px;
-  }
-}
-
-@media (max-width: 768px) {
-  .mood-box {
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 15px;
-    padding: 15px;
-    width: 100%;
+
+    gap: 18px;
+    padding: 20px;
   }
 
   .mood-box::-webkit-scrollbar {
@@ -203,18 +166,118 @@
   }
 
   .mood-circle {
-    flex: 0 0 auto;
-    width: 70px;
-    height: 70px;
+    width: 7vw;
+    height: 7vw;
+
+    min-width: 6vw;
+    min-height: 6vw;
+
+    max-width: 8vw;
+    max-height: 8vw;
+  }
+}
+
+.mood-chef {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.mood-chef img {
+  position: absolute;
+
+  width: 110%;
+  height: 110%;
+
+  top: 56%;
+  left: 52%;
+
+  transform: translate(-50%, -50%);
+
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* ===== RESPONSIVE MOBILE ===== */
+
+@media (max-width: 768px) {
+  .mood-container {
+    margin-top: 30px;
+  }
+
+  .mood-title {
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .mood-logo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .mood-red-bar {
+    width: 4px;
+    height: 14px;
+  }
+
+  .mood-title h3 {
+    font-size: 16px;
+  }
+
+  .mood-box {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    justify-items: center;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 18px 12px;
+
+    overflow: visible;
+  }
+
+  .mood-box::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mood-circle {
+    width: 18vw;
+    height: 18vw;
+
+    min-width: 16vw;
+    min-height: 16vw;
+
+    max-width: 20vw;
+    max-height: 20vw;
   }
 
   .mood-circle img {
-    width: 60px;
-    height: 60px;
+    width: 82%;
+    height: 82%;
   }
 
+  .mood-circle:hover,
   .mood-special:hover,
   .mood-chef:hover {
-    transform: scale(1.3);
+    transform: scale(1.08);
+  }
+
+  .mood-chef {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mood-chef img {
+    width: 105%;
+    height: 105%;
+
+    top: 55%;
+    left: 50%;
+
+    transform: translate(-50%, -48%);
   }
 }

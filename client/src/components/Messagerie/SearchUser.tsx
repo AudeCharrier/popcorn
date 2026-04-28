@@ -1,4 +1,3 @@
-import type { Session } from "@supabase/supabase-js";
 import { useState } from "react";
 import { supabase } from "../../lib/supabase";
 
@@ -22,11 +21,11 @@ type Conversation = {
  *   est trouvée ou créée, pour l'ouvrir dans le composant parent
  */
 type Props = {
-  session: Session;
+  currentUserId: string;
   onSelectConversation: (c: Conversation) => void;
 };
 
-function SearchUser({ session, onSelectConversation }: Props) {
+function SearchUser({ currentUserId, onSelectConversation }: Props) {
   /**
    * search = valeur tapée dans l'input
    * sert à rechercher un user par son username
@@ -42,7 +41,7 @@ function SearchUser({ session, onSelectConversation }: Props) {
    * Sinon → on la crée puis on la retourne
    */
   const getOrCreateConversation = async (otherId: string) => {
-    const myId = session.user.id;
+    const myId = currentUserId;
 
     /**
      * On cherche une conversation déjà existante
@@ -69,7 +68,8 @@ function SearchUser({ session, onSelectConversation }: Props) {
       .insert([{ user_1: myId, user_2: otherId }])
       .select()
       .single();
-
+    console.log("user connecté :", currentUserId);
+    console.log("user trouvé :", otherId);
     if (error) {
       console.error("Erreur création conversation :", error.message);
       return null;
@@ -107,7 +107,7 @@ function SearchUser({ session, onSelectConversation }: Props) {
     if (!data) return;
 
     // Empêche l'utilisateur de se rechercher lui-même
-    if (data.id === session.user.id) return;
+    if (data.id === currentUserId) return;
 
     /**
      * On récupère ou on crée la conversation avec cet utilisateur
@@ -133,7 +133,7 @@ function SearchUser({ session, onSelectConversation }: Props) {
         type="text"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Rechercher user"
+        placeholder="Rechercher user..."
       />
 
       {/* Bouton pour lancer la recherche */}
