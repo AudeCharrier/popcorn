@@ -156,6 +156,7 @@ function Profile() {
             style={width}
           />
         </div>
+        </div>
       </section>
     </section>
   );
