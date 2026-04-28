@@ -16,7 +16,7 @@
 
 .neon-logo {
   display: block;
-  width: 55vw;
+  width: 50vw;
   min-width: 450px;
   max-width: 950px;
   height: auto;
@@ -130,16 +130,11 @@
   z-index: 3;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1200px) {
-  .seances-content {
-    width: 85%;
-  }
-
-  .neon-logo {
-    width: 58vw;
-  }
-}
+/* ===================================== */
+/* RESPONSIVE MOBILE */
+/* max 768px */
+/* Swipe + sans flèches */
+/* ===================================== */
 
 @media (max-width: 768px) {
   .seances-header {
@@ -168,5 +163,93 @@
   .section-icon {
     width: 38px;
     height: 38px;
+  }
+
+  .carousel-container {
+    overflow: hidden;
+  }
+
+  .carousel-container .caroussel-overflow {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .carousel-container .caroussel-overflow::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-container .caroussel-center {
+    gap: 14px;
+    width: max-content;
+    transform: none;
+  }
+
+  .carousel-container .caroussel-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .carousel-container .caroussel-item:hover {
+    transform: none;
+  }
+
+  .carousel-container .arrow,
+  .carousel-container .prev,
+  .carousel-container .next,
+  .carousel-container .carousel-arrow {
+    display: none;
+  }
+
+  /* ===================================== */
+  /* TABLETTE */
+  /* 769px → 1024px */
+  /* Swipe + flèches visibles */
+  /* ===================================== */
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .seances-content {
+      width: 90%;
+    }
+
+    .neon-logo {
+      width: 70vw;
+      min-width: unset;
+    }
+
+    .carousel-container {
+      overflow: visible;
+    }
+
+    .carousel-container .caroussel-wrapper {
+      overflow: visible;
+    }
+
+    .carousel-container .caroussel-overflow {
+      overflow-x: scroll;
+      overflow-y: hidden;
+      touch-action: pan-x;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      cursor: grab;
+    }
+
+    .carousel-container .caroussel-overflow::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-container .caroussel-center {
+      display: inline-flex;
+      gap: 18px;
+      min-width: max-content;
+      transform: none;
+    }
+
+    .carousel-container .caroussel-item {
+      flex: 0 0 auto;
+      width: 180px;
+    }
   }
 }
