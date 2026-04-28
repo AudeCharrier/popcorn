@@ -1,4 +1,3 @@
-import type { Session } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 
@@ -35,11 +34,11 @@ type Message = {
  * - conversation = conversation actuellement ouverte
  */
 type ChatProps = {
-  session: Session;
+  currentUserId: string;
   conversation: Conversation;
 };
 
-function Chat({ session, conversation }: ChatProps) {
+function Chat({ currentUserId, conversation }: ChatProps) {
   /**
    * messages = tous les messages de la conversation ouverte
    * newMessage = valeur actuelle de l'input texte
@@ -140,7 +139,7 @@ function Chat({ session, conversation }: ChatProps) {
       .insert([
         {
           conversation_id: conversation.id,
-          sender_id: session.user.id,
+          sender_id: currentUserId,
           content,
         },
       ])
@@ -190,7 +189,7 @@ function Chat({ session, conversation }: ChatProps) {
              * a été envoyé par moi ou par l'autre utilisateur.
              * Utile pour le style droite / gauche.
              */
-            const isMine = message.sender_id === session.user.id;
+            const isMine = message.sender_id === currentUserId;
 
             return (
               <div
