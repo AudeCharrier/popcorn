@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import "./SortFilter.css";
+import Logo from "../../assets/images/filtre.png";
 import type { Filters, SearchResult } from "../../contexts/SearchContext";
 import SearchContext from "../../contexts/SearchContext";
 
@@ -230,8 +231,7 @@ function SortFilter({ moodId }: Props) {
           setIsOverlay(false);
         }}
       >
-        <p className="overlay-title">Trier</p>
-        <p className="overlay-title">Filtrer</p>
+        <img src={Logo} className="overlay-title" alt="Filtre" />
       </button>
 
       <aside
@@ -288,7 +288,7 @@ function SortFilter({ moodId }: Props) {
           <div className="filter-options-container">
             <input
               type="text"
-              placeholder="Rechercher par titre..."
+              placeholder="Mots-clés..."
               id="search-input"
               value={activeFilters.keyword}
               onChange={(e) => updateKeyword(e.target.value)}

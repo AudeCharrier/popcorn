@@ -24,7 +24,7 @@
 .logo-footer {
   max-width: 40px;
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .footer {
     flex-direction: column;
   }
