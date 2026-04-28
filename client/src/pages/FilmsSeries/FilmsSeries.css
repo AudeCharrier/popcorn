@@ -139,7 +139,7 @@
   .FilmsSeries {
     margin-top: 0vh;
     .FilmsSeriesDivCinema {
-      width: 80vw;
+      width: 90vw;
       .FilmSeriesDivCinemaAllCards {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -162,7 +162,16 @@
       }
     }
     .trailer-container {
-      width: 80vw;
+      width: 70vw;
+    }
+  }
+}
+@media (max-width: 640px) {
+  .FilmsSeries {
+    .FilmsSeriesDivCinema {
+      .FilmSeriesDivCinemaAllCards {
+        grid-template-columns: 1fr;
+      }
     }
   }
 }

@@ -53,12 +53,22 @@
 @media (max-width: 1024px) {
   .cinema-card {
     display: flex;
-    width: 30vw;
+    width: 35vw;
     flex-direction: column;
     justify-content: space-between;
+    padding-bottom: 0rem;
   }
   .cinema-card img {
-    width: 30vw;
-    height: 30vw;
+    width: 35vw;
+    height: 35vw;
+  }
+}
+@media (max-width: 640px) {
+  .cinema-card {
+    width: 60vw;
+  }
+  .cinema-card img {
+    width: 60vw;
+    height: 60vw;
   }
 }
