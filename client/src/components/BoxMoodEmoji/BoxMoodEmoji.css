@@ -82,7 +82,9 @@
   border-radius: 50%;
 
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .mood-circle img {
@@ -142,22 +144,22 @@
   box-shadow:
     0 0 10px #eee3a3,
     0 0 15px #eee3a3,
-    0 0 20px #eee3a3
+    0 0 20px #eee3a3;
 }
 
 /* ===== RESPONSIVE TABLETTE ===== */
 
 @media (max-width: 1024px) {
- .mood-box{
-  width:95%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:nowrap;
+  .mood-box {
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
 
-  gap:18px;
-  padding:20px;
-}
+    gap: 18px;
+    padding: 20px;
+  }
 
   .mood-box::-webkit-scrollbar {
     display: none;
@@ -175,26 +177,26 @@
   }
 }
 
- .mood-chef {
-    position: relative;
-    overflow: hidden;
-    border-radius: 50%;
-  }
+.mood-chef {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
 
-  .mood-chef img {
-    position: absolute;
+.mood-chef img {
+  position: absolute;
 
-    width: 110%;
-    height: 110%;
+  width: 110%;
+  height: 110%;
 
-    top: 56%;
-    left: 52%;
+  top: 56%;
+  left: 52%;
 
-    transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 
-    object-fit: cover;
-    border-radius: 50%;
-  }
+  object-fit: cover;
+  border-radius: 50%;
+}
 
 /* ===== RESPONSIVE MOBILE ===== */
 
@@ -264,12 +266,12 @@
     transform: scale(1.08);
   }
 
- .mood-chef {
-  position: relative;
-  overflow: hidden;
-}
+  .mood-chef {
+    position: relative;
+    overflow: hidden;
+  }
 
- .mood-chef img {
+  .mood-chef img {
     width: 105%;
     height: 105%;
 
