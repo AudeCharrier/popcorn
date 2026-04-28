@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ReactPlayer from "react-player";
 import { useParams } from "react-router";
 import "./FilmsSeries.css";
 import BigCard from "../../components/BigCard/BigCard";
@@ -26,7 +27,7 @@ function FilmsSeries({ type }: { type: "movie" | "tv" }) {
   const [providers, setProviders] = useState<Provider[]>([]);
   const [isAtCinema, setIsAtCinema] = useState(false);
   const [cinema, setCinema] = useState<Cinema[]>([]);
-
+  const [trailer, setTrailer] = useState<string>("");
   useEffect(() => {
     if (!movieId) return;
 
@@ -43,6 +44,17 @@ function FilmsSeries({ type }: { type: "movie" | "tv" }) {
         Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
       },
     };
+    fetch(
+      `https://api.themoviedb.org/3/${type}/${movieId}/videos?language=fr-FR`,
+      options,
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.results && res.results.length > 0) {
+          setTrailer(res.results[0].key);
+        }
+      })
+      .catch((err) => console.error(err));
 
     if (type === "movie") {
       fetch(
@@ -91,7 +103,22 @@ function FilmsSeries({ type }: { type: "movie" | "tv" }) {
     <div className="FilmsSeries">
       <div className="BaniereFilmsSeries"></div>
       <BigCard movieId={movieId} type={type} />
-
+      {trailer.length > 0 ? (
+        <div className="trailer-container">
+          <h2>Bandes-annonces</h2>
+          <div className="player-wrapper">
+            <ReactPlayer
+              className="react-player"
+              src={`https://www.youtube.com/watch?v=${trailer}`}
+              controls={true}
+              width="100%"
+              height="100%"
+            />
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
       {isAtCinema ? (
         <div className="FilmsSeriesDivCinema">
           <h2>Actuellement au cinéma</h2>
