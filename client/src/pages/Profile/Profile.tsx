@@ -24,7 +24,6 @@ function Profile() {
     width: "60vw",
   };
 
-  const [activeLink, setActiveLink] = useState<string>("");
   const [favorites, setFavorites] = useState<CarouselItem[]>([]);
 
   /*recuperer la liste favorites*/
@@ -55,57 +54,42 @@ function Profile() {
   return (
     <section className="profile-general-wrapper">
       <aside className="profile-menu">
-        <p className="profile-menu-titles profile-menu-my-profile">
-          Mon Profil
-        </p>
         <ul className="profile-menu-list">
+          <li className="profile-menu-titles profile-menu-my-profile">
+            NinaRichard
+          </li>
           <li>
-            {/*biome-ignore lint/a11y/useValidAnchor : lien de navigation a pour une ancre*/}
-            <a
-              href="#compte"
-              className={`profile-menu-titles ${activeLink === "compte" ? "profile-menu-selected" : ""}`}
-              id="mon-compte"
-              onClick={() => setActiveLink("compte")}
-            >
+            <a href="#compte" className="profile-menu-titles" id="mon-compte">
               Mon Compte
             </a>
           </li>
           <li>
-            {/*biome-ignore lint/a11y/useValidAnchor : lien de navigation a pour une ancre*/}
-            <a
-              href="#favoris"
-              className={`profile-menu-titles ${activeLink === "favoris" ? "profile-menu-selected" : ""}`}
-              id="mes-favoris"
-              onClick={() => setActiveLink("favoris")}
-            >
+            <a href="#favoris" className="profile-menu-titles" id="mes-favoris">
               Mes Favoris
             </a>
           </li>
           <li>
-            {/*biome-ignore lint/a11y/useValidAnchor : lien de navigation a pour une ancre*/}
             <a
               href="#watch-list"
-              className={`profile-menu-titles ${activeLink === "watch-list" ? "profile-menu-selected" : ""}`}
+              className="profile-menu-titles"
               id="ma-watch-list"
-              onClick={() => setActiveLink("watch-list")}
             >
               Ma Watch-List
             </a>
           </li>
           <li>
-            {/*biome-ignore lint/a11y/useValidAnchor : lien de navigation a pour une ancre*/}
-            <a href="" className="profile-menu-titles" id="mes-parametres">
+            <a
+              href="#compte"
+              className="profile-menu-titles"
+              id="mes-parametres"
+            >
               Paramètres
             </a>
           </li>
           <li>
-            <button
-              type="button"
-              className="profile-menu-titles"
-              id="deconnexion"
-            >
+            <p className="profile-menu-titles" id="deconnexion">
               Déconnexion
-            </button>
+            </p>
           </li>
         </ul>
       </aside>
@@ -117,7 +101,7 @@ function Profile() {
           <div className="profile-my-account">
             <h3>Pseudo</h3>
             <div className="profile-infos-pencil">
-              <p>Ninadanslombre</p>
+              <p>NinaRichard</p>
               <button type="button" className="profile-hidden-btn">
                 <img src={Pencil} alt="pencil" className="pencil-img" />
               </button>

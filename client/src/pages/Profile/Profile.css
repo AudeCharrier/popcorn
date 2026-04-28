@@ -4,6 +4,7 @@
   justify-content: space-between;
   align-items: stretch;
   gap: 1.6rem;
+  min-height: 100vh;
 }
 
 /* partie de gauche : menu du profil*/
@@ -11,41 +12,61 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 1rem;
-  background: linear-gradient(to left, black, transparent);
+  background: linear-gradient(to left, rgb(32, 32, 31), transparent);
   width: 20%;
-  padding: 2rem 2rem 2rem 3.6rem;
+  min-height: calc(
+    100vh -
+    60px
+  ); /*jai enlevé à peu près la hauteur du footer pour régler le pb d'ancre sur watchlist*/
+  padding: 2rem 1rem 2rem 3rem;
   position: sticky; /*le menu reste en place quand on scroll */
   align-self: flex-start; /*fonctionne avec sticky*/
-  top: 0;
-}
-
-.profile-menu-list {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
-.profile-menu-my-profile {
-  padding-bottom: 2rem;
+  top: 0px;
+  overflow-y: auto;
+  .profile-menu-list {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 80%;
+    li {
+      width: 100%;
+    }
+  }
 }
 .profile-menu-titles {
+  display: block;
+  font-size: clamp(0.6rem, 2vw, 0.9rem);
   color: white;
-  background-color: transparent;
-  border: none;
   text-decoration: none;
   text-transform: uppercase;
-  font-size: clamp(0.6rem, 2vw, 0.9rem); /*marche pas pour button deconnexion */
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  padding: 6px 0;
   &:hover {
     color: red;
     cursor: pointer;
   }
 }
 
+.profile-menu-my-profile {
+  display: block;
+  text-align: left;
+  font-weight: bold;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  border-left: 5px solid red;
+  border-radius: 2px;
+  padding: 0 0 0 8px;
+  margin: 0 0 1.6rem 2.2rem;
+  height: auto;
+}
+
+/*logo devant titre*/
 .profile-menu-titles::before {
   content: "";
   display: inline-block;
@@ -54,16 +75,16 @@
   filter: invert(1);
   background-size: contain;
   background-repeat: no-repeat;
-  vertical-align: middle; /***attention pas bien centré*/
-  margin-right: 1rem;
+  vertical-align: middle;
+  margin: 0 1rem;
   &:hover {
     color: red;
   }
 }
-/* .profile-menu-titles:hover::before {
-  filter: brightness(0) saturate(100%) invert(21%) sepia(96%) saturate(6257%)
-    hue-rotate(356deg) brightness(102%) contrast(118%);
-} */
+.profile-menu-my-profile::before {
+  display: none; /* supprime le pseudo-élément */
+}
+
 #mon-compte.profile-menu-titles::before {
   background-image: url("../../assets/images/profil.png");
 }
@@ -77,13 +98,9 @@
   background-image: url("../../assets/images/parametres.png");
 }
 #deconnexion.profile-menu-titles::before {
-  background-image: url("../../assets/images/deconnnexion.png");
+  background-image: url("../../assets/images/deconnexion.png");
 }
 
-.profile-menu-selected {
-  background-color: brown;
-  border-left: 2px solid red;
-}
 /* partie de droite : mon compte, favoris, watch-list*/
 .profile-layout {
   color: white;
@@ -106,7 +123,7 @@
   justify-content: space-between;
   align-items: stretch;
   width: 100%;
-  /* height: auto; */
+
   gap: 1rem;
   padding-right: 2rem;
   .profile-my-account {
@@ -133,7 +150,6 @@
     border: 1px solid rgb(121, 2, 2);
     border-radius: 3px;
     text-align: center;
-
     padding: 1rem;
 
     .profile-badge {
