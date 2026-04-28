@@ -7,6 +7,24 @@ import ChatLayout from "./ChatLayout";
 import ProfileForm from "./ProfileForm";
 import "./ChatBox.css";
 
+const PROFILE_STORAGE_KEY = "messagerie_profile_id";
+
+const getSavedProfileId = () => {
+  try {
+    return localStorage.getItem(PROFILE_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+};
+
+const saveProfileId = (profileId: string) => {
+  try {
+    localStorage.setItem(PROFILE_STORAGE_KEY, profileId);
+  } catch {
+    // Le stockage peut etre indisponible en navigation privee.
+  }
+};
+
 /**
  * Type d'un profil utilisateur.
  * Chaque profil est lié à un user Supabase Auth via son id.
@@ -50,10 +68,11 @@ function ChatBox() {
 
     if (error) {
       console.error("Erreur fetch profile :", error.message);
-      return;
+      return null;
     }
 
     setProfile(data);
+    return data;
   }, []);
 
   useEffect(() => {
@@ -81,8 +100,16 @@ function ChatBox() {
          */
         if (data.session) {
           setSession(data.session);
+          const savedProfileId = getSavedProfileId();
+          const savedProfile = savedProfileId
+            ? await fetchProfile(savedProfileId)
+            : null;
+
+          if (!savedProfile) {
+            await fetchProfile(data.session.user.id);
+          }
+
           setLoading(false);
-          await fetchProfile(data.session.user.id);
           return;
         }
 
@@ -111,8 +138,16 @@ function ChatBox() {
          * Si aucun profil n'existe encore, on affichera ProfileForm.
          */
         setSession(anonData.session);
+        const savedProfileId = getSavedProfileId();
+        const savedProfile = savedProfileId
+          ? await fetchProfile(savedProfileId)
+          : null;
+
+        if (!savedProfile) {
+          await fetchProfile(anonData.session.user.id);
+        }
+
         setLoading(false);
-        await fetchProfile(anonData.session.user.id);
       } catch (error) {
         console.error("Erreur inattendue :", error);
         setLoading(false);
@@ -131,9 +166,9 @@ function ChatBox() {
      * La notif est gérée ici dans ChatBox, et non dans Chat.tsx,
      * car ChatBox reste monté même quand le panneau est fermé.
      */
-    if (!session) return;
+    if (!profile) return;
 
-    const userId = session.user.id;
+    const userId = profile.id;
 
     const channel = supabase
       .channel(`chat-notifications-${userId}`)
@@ -206,7 +241,7 @@ function ChatBox() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [session, isOpen]);
+  }, [profile, isOpen]);
 
   return (
     <>
@@ -243,8 +278,9 @@ function ChatBox() {
              */
             <ProfileForm
               session={session}
-              onProfileCreated={async () => {
-                await fetchProfile(session.user.id);
+              onProfileReady={async (selectedProfile) => {
+                saveProfileId(selectedProfile.id);
+                setProfile(selectedProfile);
               }}
             />
           ) : (
@@ -253,7 +289,7 @@ function ChatBox() {
              * on affiche la vraie messagerie.
              */
             <ChatLayout
-              session={session}
+              currentUserId={profile.id}
               username={profile.username}
               notifiedConversationIds={notifiedConversationIds}
               onClearConversationNotification={(conversationId) => {
