@@ -1,31 +1,31 @@
 .FilmsSeries {
+  margin-top: 2vh;
+  margin-bottom: 5vh;
+  gap: 3rem;
+  color: var(--text-color-main);
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
-  gap: 3rem;
-  color: var(--text-color-main);
   .FilmsSeriesDivCinema {
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    width: 60vw;
-    justify-content: center;
+    width: 70vw;
     gap: 2rem;
     padding-bottom: 3rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     h2 {
-      display: flex;
-      justify-content: center;
       margin-top: 2rem;
       font-family: var(--second-font);
+      padding-left: 10px;
+      display: flex;
+      justify-content: center;
       width: fit-content;
       margin-left: auto;
       margin-right: auto;
       position: relative;
       align-items: center;
-      padding-left: 10px;
       text-transform: uppercase;
     }
     h2::before {
@@ -41,31 +41,31 @@
     }
 
     .FilmSeriesDivCinemaAllCards {
+      margin-left: 4rem;
+      margin-right: 4rem;
+      gap: 4rem;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       justify-items: center;
-      gap: 4rem;
-      margin-left: 4rem;
-      margin-right: 4rem;
     }
   }
   .FilmsSeriesDivStream {
-    display: grid;
-    border-radius: 10px;
     width: 50vw;
-    justify-content: center;
+    border-radius: 10px;
     gap: 2rem;
+    display: grid;
+    justify-content: center;
     h2 {
+      font-family: var(--second-font);
+      margin-top: 2rem;
+      padding-left: 10px;
       display: flex;
       justify-content: center;
-      margin-top: 2rem;
-      font-family: var(--second-font);
       width: fit-content;
       margin-left: auto;
       margin-right: auto;
       position: relative;
       align-items: center;
-      padding-left: 10px;
       text-transform: uppercase;
     }
     h2::before {
@@ -93,10 +93,53 @@
       }
     }
   }
+  .trailer-container {
+    width: 50vw;
+    margin: 20px auto;
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 10px;
+      display: flex;
+      justify-content: center;
+      font-family: var(--second-font);
+      width: fit-content;
+      position: relative;
+      align-items: center;
+      text-transform: uppercase;
+    }
+    h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 60%;
+      background-color: rgba(255, 0, 0);
+      border-radius: 2px;
+    }
+  }
+  .player-wrapper {
+    position: relative;
+    padding-top: 56.25%;
+    background-color: #000;
+  }
+
+  .react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }
+
 @media (max-width: 1024px) {
   .FilmsSeries {
+    margin-top: 0vh;
     .FilmsSeriesDivCinema {
+      width: 90vw;
       .FilmSeriesDivCinemaAllCards {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -107,10 +150,27 @@
       .FilmsSeriesDivStreamIcon {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        .provider-icon {
+          display: flex;
+          justify-content: center;
+        }
+
         p {
           grid-column: 1 / -1;
           text-align: center;
         }
+      }
+    }
+    .trailer-container {
+      width: 80vw;
+    }
+  }
+}
+@media (max-width: 640px) {
+  .FilmsSeries {
+    .FilmsSeriesDivCinema {
+      .FilmSeriesDivCinemaAllCards {
+        grid-template-columns: 1fr;
       }
     }
   }

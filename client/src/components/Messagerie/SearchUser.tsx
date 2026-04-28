@@ -68,7 +68,8 @@ function SearchUser({ currentUserId, onSelectConversation }: Props) {
       .insert([{ user_1: myId, user_2: otherId }])
       .select()
       .single();
-
+    console.log("user connecté :", currentUserId);
+    console.log("user trouvé :", otherId);
     if (error) {
       console.error("Erreur création conversation :", error.message);
       return null;
@@ -132,7 +133,7 @@ function SearchUser({ currentUserId, onSelectConversation }: Props) {
         type="text"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Rechercher user"
+        placeholder="Rechercher user..."
       />
 
       {/* Bouton pour lancer la recherche */}
