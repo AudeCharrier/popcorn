@@ -1,3 +1,90 @@
+.profile-general-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1.6rem;
+}
+
+/* partie de gauche : menu du profil*/
+.profile-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+  background: linear-gradient(to left, black, transparent);
+  width: 20%;
+  padding: 2rem 2rem 2rem 3.6rem;
+  position: sticky; /*le menu reste en place quand on scroll */
+  align-self: flex-start; /*fonctionne avec sticky*/
+  top: 0;
+}
+
+.profile-menu-list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.profile-menu-my-profile {
+  padding-bottom: 2rem;
+}
+.profile-menu-titles {
+  color: white;
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: clamp(0.6rem, 2vw, 0.9rem); /*marche pas pour button deconnexion */
+  &:hover {
+    color: red;
+    cursor: pointer;
+  }
+}
+
+.profile-menu-titles::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle; /***attention pas bien centré*/
+  margin-right: 1rem;
+  &:hover {
+    color: red;
+  }
+}
+/* .profile-menu-titles:hover::before {
+  filter: brightness(0) saturate(100%) invert(21%) sepia(96%) saturate(6257%)
+    hue-rotate(356deg) brightness(102%) contrast(118%);
+} */
+#mon-compte.profile-menu-titles::before {
+  background-image: url("../../assets/images/profil.png");
+}
+#mes-favoris.profile-menu-titles::before {
+  background-image: url("../../assets/images/favori.png");
+}
+#ma-watch-list.profile-menu-titles::before {
+  background-image: url("../../assets/images/enregistrer.png");
+}
+#mes-parametres.profile-menu-titles::before {
+  background-image: url("../../assets/images/parametres.png");
+}
+#deconnexion.profile-menu-titles::before {
+  background-image: url("../../assets/images/deconnnexion.png");
+}
+
+.profile-menu-selected {
+  background-color: brown;
+  border-left: 2px solid red;
+}
+/* partie de droite : mon compte, favoris, watch-list*/
 .profile-layout {
   color: white;
   display: flex;
@@ -6,17 +93,19 @@
   align-items: flex-end;
   gap: 2rem;
   padding: 4rem 2rem;
+  width: 80%;
 }
 
+/* mon compte*/
 .profile-account-title {
-  width: 70%;
+  width: 100%;
 }
 .profile-account-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: stretch;
-  width: 70%;
+  width: 100%;
   /* height: auto; */
   gap: 1rem;
   padding-right: 2rem;
@@ -83,18 +172,23 @@
   }
   .pencil-img {
     transform: rotate(90deg);
-    filter: invert(1);
+    filter: invert(1); /*inverse les couleurs de l'image*/
     width: 100%;
     height: auto;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
+
+/* favoris et watch-list*/
 .profile-list-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-start;
   padding: 2rem 0 2rem 0;
-  width: 70%;
+  width: 100%;
   .profile-list {
     width: 100%;
   }
