@@ -17,7 +17,7 @@
   background: linear-gradient(to left, rgb(32, 32, 31), transparent);
   width: 20%;
   height: 100vh;
-  padding: 4rem 1rem 2rem 3rem;
+  padding: 3.6rem 1rem 2rem 3rem;
   position: sticky; /*le menu reste en place quand on scroll */
   align-self: flex-start; /*fonctionne avec sticky*/
   top: 0px;
@@ -97,6 +97,12 @@
 #deconnexion.profile-menu-titles::before {
   background-image: url("../../assets/images/deconnexion.png");
 }
+.profile-desktop {
+  display: block;
+}
+.profile-mobile {
+  display: none;
+}
 
 /* partie de droite : mon compte, favoris, watch-list*/
 .profile-layout {
@@ -120,7 +126,6 @@
   justify-content: space-between;
   align-items: stretch;
   width: 100%;
-
   gap: 1rem;
   padding-right: 2rem;
   .profile-my-account {
@@ -157,6 +162,7 @@
 }
 
 .profile-mdp-btn {
+  font-size: clamp(0.8rem, 2vw, 1rem);
   padding: 1rem 2rem;
 }
 
@@ -223,4 +229,140 @@
   margin: 0;
   font-weight: 800;
   line-height: 1;
+}
+
+@media screen and (max-width: 1024px) {
+  .navbar {
+    z-index: 1;
+  }
+  .profile-general-wrapper {
+    justify-content: flex-end;
+    padding-right: 0.6rem;
+  }
+  .profile-menu {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    padding-left: 1.5rem;
+    padding-top: 8.2rem;
+    z-index: 0;
+    .profile-menu-list {
+      width: 100%;
+      li {
+        width: 100%;
+      }
+    }
+  }
+
+  .profile-menu-titles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .profile-menu-my-profile {
+    margin: 0 0 1.6rem 0.4rem;
+  }
+  .profile-menu-my-profile::before {
+    display: none; /* supprime le pseudo-élément */
+  }
+
+  .profile-account-wrapper {
+    padding-right: 0;
+    .profile-my-account {
+      width: 65%;
+    }
+    .profile-member-status {
+      width: 35%;
+    }
+  }
+  .profile-mdp-btn {
+    padding: 1rem;
+    width: 70%;
+  }
+
+  .profile-list-wrapper {
+    padding: 2rem 0 2rem 0;
+    width: 100%;
+    .profile-list {
+      min-height: 20vh; /*pour que le menu-profile reste affiché au scroll quand les carousels sont vides*/
+      > div {
+        padding: 1.4rem 0;
+      }
+    }
+  }
+  .profile-desktop {
+    display: block;
+  }
+  .profile-mobile {
+    display: none;
+  }
+
+  /*swipe sans boutons*/
+  .profile-list .caroussel-overflow {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .profile-list .caroussel-overflow::-webkit-scrollbar {
+    display: none;
+  }
+
+  .profile-list .caroussel-center {
+    gap: 14px;
+    width: max-content;
+    transform: none;
+  }
+
+  .profile-list .caroussel-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .profile-list .caroussel-item:hover {
+    transform: none;
+  }
+
+  .profile-list .caroussel-button,
+  .profile-list .caroussel-button {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 428px) {
+  .profile-account-wrapper {
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .profile-my-account {
+      padding: 1rem;
+      width: 100%;
+    }
+    .profile-member-status {
+      width: 100%;
+    }
+  }
+  .profile-menu {
+    padding-left: 1.2rem;
+    padding-top: 6rem;
+  }
+  .profile-desktop {
+    display: none;
+  }
+  .profile-mobile {
+    display: block;
+    overflow: hidden;
+  }
+  .profile-avatar-nina {
+    width: 44px;
+    aspect-ratio: 1 / 1;
+  }
 }

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import BadgeWatcher from "../../assets/images/badge_watcher_amateur.png";
+import Nina from "../../assets/images/Nina.png";
 import Pencil from "../../assets/images/pencil.webp";
 import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
-/* import Profil from "../../assets/images/profil.png";
-import Watch from "../../assets/images/enregistrer.png"; */
 import "./Profile.css";
 
 type CarouselItem = {
@@ -18,8 +17,10 @@ type CarouselItem = {
 };
 
 function Profile() {
-  const width = {
-    width: "60vw",
+  const carouselLarge = {
+    width: "65vw",
+    paddingLeft: "1.4rem",
+    paddingRight: "0.4rem",
   };
 
   const [favorites, setFavorites] = useState<CarouselItem[]>([]);
@@ -53,8 +54,11 @@ function Profile() {
     <section className="profile-general-wrapper">
       <aside className="profile-menu">
         <ul className="profile-menu-list">
-          <li className="profile-menu-titles profile-menu-my-profile">
+          <li className="profile-menu-titles profile-menu-my-profile profile-desktop">
             NinaRichard
+          </li>
+          <li className="profile-menu-titles profile-mobile">
+            <img src={Nina} alt="avatar-nina" className="profile-avatar-nina" />
           </li>
           <li>
             <a href="#compte" className="profile-menu-titles" id="mon-compte">
@@ -91,10 +95,8 @@ function Profile() {
           </li>
         </ul>
       </aside>
-      <section className="profile-layout">
-        <h2 className="profile-account-title profile-list-title" id="compte">
-          Mon compte
-        </h2>
+      <section className="profile-layout" id="compte">
+        <h2 className="profile-account-title profile-list-title">Mon compte</h2>
         <div className="profile-account-wrapper">
           <div className="profile-my-account">
             <h3>Pseudo</h3>
@@ -122,40 +124,36 @@ function Profile() {
             <p className="profile-bold">Watcher amateur</p>
             <p>Prochain rang : Serial Watcher</p>
             <p className="profile-italic">
-              Ajoute encore 10 films en favoris
-              <br />
-              pour passer au rang supérieur !
+              Ajoute encore 10 films en favoris pour passer au rang supérieur !
             </p>
             <p> Membre depuis le 24/04/26</p>
           </div>
         </div>
 
-        <div className="profile-list-wrapper">
-          <h2 className="profile-list-title" id="favoris">
-            Mes favoris
-          </h2>
+        <div className="profile-list-wrapper" id="favoris">
+          <h2 className="profile-list-title">Mes favoris</h2>
           <div className="profile-list">
             <CarousselLarge
               items={favorites}
               isProfilePage={true}
               listType="favorites"
               onRemoveFav={removeFavorite}
-              style={width}
+              style={carouselLarge}
             />
           </div>
         </div>
 
-      <div className="profile-list-wrapper">
-        <h2 className="profile-list-title">WATCH-LIST</h2>
-        <div className="profile-list">
-          <CarousselLarge
-            items={toWatch}
-            isProfilePage={true}
-            listType="watchlist"
-            onRemoveWatch={removeToWatch}
-            style={width}
-          />
-        </div>
+        <div className="profile-list-wrapper" id="watch-list">
+          <h2 className="profile-list-title">WATCH-LIST</h2>
+          <div className="profile-list">
+            <CarousselLarge
+              items={toWatch}
+              isProfilePage={true}
+              listType="watchlist"
+              onRemoveWatch={removeToWatch}
+              style={carouselLarge}
+            />
+          </div>
         </div>
       </section>
     </section>
