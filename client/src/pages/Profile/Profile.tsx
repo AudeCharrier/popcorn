@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import BadgeWatcher from "../../assets/images/badge_watcher_amateur.png";
+import Nina from "../../assets/images/Nina.png";
 import Pencil from "../../assets/images/pencil.webp";
 import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
 import "./Profile.css";
@@ -19,6 +20,7 @@ function Profile() {
   const carouselLarge = {
     width: "65vw",
     paddingLeft: "1.4rem",
+    paddingRight: "0.4rem",
   };
 
   const [favorites, setFavorites] = useState<CarouselItem[]>([]);
@@ -52,8 +54,11 @@ function Profile() {
     <section className="profile-general-wrapper">
       <aside className="profile-menu">
         <ul className="profile-menu-list">
-          <li className="profile-menu-titles profile-menu-my-profile">
+          <li className="profile-menu-titles profile-menu-my-profile profile-desktop">
             NinaRichard
+          </li>
+          <li className="profile-menu-titles profile-mobile">
+            <img src={Nina} alt="avatar-nina" className="profile-avatar-nina" />
           </li>
           <li>
             <a href="#compte" className="profile-menu-titles" id="mon-compte">
@@ -119,9 +124,7 @@ function Profile() {
             <p className="profile-bold">Watcher amateur</p>
             <p>Prochain rang : Serial Watcher</p>
             <p className="profile-italic">
-              Ajoute encore 10 films en favoris
-              <br />
-              pour passer au rang supérieur !
+              Ajoute encore 10 films en favoris pour passer au rang supérieur !
             </p>
             <p> Membre depuis le 24/04/26</p>
           </div>

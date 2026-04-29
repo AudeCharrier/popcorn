@@ -17,7 +17,7 @@
   background: linear-gradient(to left, rgb(32, 32, 31), transparent);
   width: 20%;
   height: 100vh;
-  padding: 4rem 1rem 2rem 3rem;
+  padding: 3.6rem 1rem 2rem 3rem;
   position: sticky; /*le menu reste en place quand on scroll */
   align-self: flex-start; /*fonctionne avec sticky*/
   top: 0px;
@@ -97,6 +97,12 @@
 #deconnexion.profile-menu-titles::before {
   background-image: url("../../assets/images/deconnexion.png");
 }
+.profile-desktop {
+  display: block;
+}
+.profile-mobile {
+  display: none;
+}
 
 /* partie de droite : mon compte, favoris, watch-list*/
 .profile-layout {
@@ -156,6 +162,7 @@
 }
 
 .profile-mdp-btn {
+  font-size: clamp(0.8rem, 2vw, 1rem);
   padding: 1rem 2rem;
 }
 
@@ -249,6 +256,7 @@
     align-items: center;
     text-align: center;
     gap: 8px;
+    width: 100%;
   }
 
   .profile-menu-my-profile {
@@ -278,5 +286,40 @@
     .profile-list {
       min-height: 20vh; /*pour que le menu-profile reste affiché au scroll quand les carousels sont vides*/
     }
+  }
+  .profile-desktop {
+    display: block;
+  }
+  .profile-mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 428px) {
+  .profile-account-wrapper {
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .profile-my-account {
+      padding: 1rem;
+      width: 100%;
+    }
+    .profile-member-status {
+      width: 100%;
+    }
+  }
+  .profile-menu {
+    padding-top: 2rem;
+  }
+  .profile-desktop {
+    display: none;
+  }
+  .profile-mobile {
+    display: block;
+  }
+  .profile-avatar-nina {
+    width: 48px;
+    aspect-ratio: 1 / 1;
   }
 }
