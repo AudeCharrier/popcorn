@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import Profil from "../../assets/images/Nina.png";
 import Logo from "../../assets/images/Logo.png";
+import Profil from "../../assets/images/Nina.png";
 import "./Navbar.css";
 
 function Navbar() {
@@ -38,13 +38,19 @@ function Navbar() {
           <ul className={`nav-ul ${open ? "active" : ""}`}>
             <div className="nav-links-row">
               <li>
-                <Link to="/rechercher/1" className="nav-li">FILMS</Link>
+                <Link to="/rechercher/1" className="nav-li">
+                  FILMS
+                </Link>
               </li>
               <li>
-                <Link to="/rechercher/2" className="nav-li">SERIES</Link>
+                <Link to="/rechercher/2" className="nav-li">
+                  SERIES
+                </Link>
               </li>
               <li>
-                <Link to="/seances" className="nav-li">SEANCES</Link>
+                <Link to="/seances" className="nav-li">
+                  SEANCES
+                </Link>
               </li>
             </div>
 
@@ -56,7 +62,9 @@ function Navbar() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                <button type="submit" className="nav-button">🔍︎</button>
+                <button type="submit" className="nav-button">
+                  🔍︎
+                </button>
               </form>
             </li>
           </ul>

@@ -120,7 +120,7 @@
   .nav-ul {
     gap: 24px;
   }
-  
+
   .nav-sch {
     font-size: 14px;
   }
@@ -190,13 +190,11 @@
     width: 100%;
     margin: 0;
     padding: 0;
-   background-color: rgb(0, 0, 0);
+    background-color: rgb(0, 0, 0);
   }
 
   .nav-ul.active {
     display: flex;
-    
-   
   }
 
   .nav-links-row {
@@ -207,7 +205,6 @@
     width: 100%;
     padding: 14px 0;
     list-style: none;
-   
   }
 
   .nav-li {
