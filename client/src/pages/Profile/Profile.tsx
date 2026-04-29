@@ -145,17 +145,17 @@ function Profile() {
           </div>
         </div>
 
-      <div className="profile-list-wrapper">
-        <h2 className="profile-list-title">WATCH-LIST</h2>
-        <div className="profile-list">
-          <CarousselLarge
-            items={toWatch}
-            isProfilePage={true}
-            listType="watchlist"
-            onRemoveWatch={removeToWatch}
-            style={width}
-          />
-        </div>
+        <div className="profile-list-wrapper">
+          <h2 className="profile-list-title">WATCH-LIST</h2>
+          <div className="profile-list">
+            <CarousselLarge
+              items={toWatch}
+              isProfilePage={true}
+              listType="watchlist"
+              onRemoveWatch={removeToWatch}
+              style={width}
+            />
+          </div>
         </div>
       </section>
     </section>
