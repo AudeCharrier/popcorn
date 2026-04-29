@@ -290,12 +290,48 @@
     width: 100%;
     .profile-list {
       min-height: 20vh; /*pour que le menu-profile reste affiché au scroll quand les carousels sont vides*/
+      > div {
+        padding: 1.4rem 0;
+      }
     }
   }
   .profile-desktop {
     display: block;
   }
   .profile-mobile {
+    display: none;
+  }
+
+  /*swipe sans boutons*/
+  .profile-list .caroussel-overflow {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .profile-list .caroussel-overflow::-webkit-scrollbar {
+    display: none;
+  }
+
+  .profile-list .caroussel-center {
+    gap: 14px;
+    width: max-content;
+    transform: none;
+  }
+
+  .profile-list .caroussel-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .profile-list .caroussel-item:hover {
+    transform: none;
+  }
+
+  .profile-list .caroussel-button,
+  .profile-list .caroussel-button {
     display: none;
   }
 }
@@ -315,6 +351,7 @@
     }
   }
   .profile-menu {
+    padding-left: 1.2rem;
     padding-top: 6rem;
   }
   .profile-desktop {
@@ -322,9 +359,10 @@
   }
   .profile-mobile {
     display: block;
+    overflow: hidden;
   }
   .profile-avatar-nina {
-    width: 48px;
+    width: 44px;
     aspect-ratio: 1 / 1;
   }
 }
