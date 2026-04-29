@@ -172,8 +172,8 @@
 
   .filter-res {
     position: fixed;
-    top: 13%;
-    z-index: 1000;
+    top: 9%;
+    z-index: 1;
   }
 
   .title-page {
