@@ -34,8 +34,10 @@ type RevealOnScrollProps = {
 function RevealOnScroll({ children, delay = 0 }: RevealOnScrollProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
+  const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 
   useEffect(() => {
+    if (isMobile) return; // pas d'observer sur mobile
     const currentRef = ref.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -50,7 +52,11 @@ function RevealOnScroll({ children, delay = 0 }: RevealOnScrollProps) {
     return () => {
       if (currentRef) observer.unobserve(currentRef);
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) {
+    return <div>{children}</div>; // div simple, pas de transform
+  }
 
   return (
     <div
@@ -256,7 +262,7 @@ function Rechercher() {
       </RevealOnScroll>
 
       {rawResults.length === 0 ? (
-        <p>Aucun film ou série trouvé.</p>
+        <p className="error-rech">Aucun film ou série trouvé.</p>
       ) : (
         <>
           <section className="container">
@@ -270,13 +276,17 @@ function Rechercher() {
                   setActiveFilters,
                 }}
               >
-                <SortFilter moodId={id} />
+                <div className="filter-res">
+                  <SortFilter moodId={id} />
+                </div>
               </SearchContext.Provider>
             </RevealOnScroll>
 
             <div className="Rechercher">
               {affichage.length === 0 ? (
-                <p>Aucun média trouvé pour ces filtres.</p>
+                <p className="error-rech">
+                  Aucun média trouvé pour ces filtres.
+                </p>
               ) : (
                 affichage.map((item, index) => (
                   <RevealOnScroll

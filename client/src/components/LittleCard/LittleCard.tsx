@@ -13,6 +13,7 @@ type CinemaProps = {
   isProfilePage?: boolean;
   onRemoveFav?: (id: number) => void;
   onRemoveWatch?: (id: number) => void;
+  listType?: "favorites" | "watchlist";
 };
 
 function LittleCard({
@@ -23,7 +24,7 @@ function LittleCard({
   release_date,
   overview,
   poster_path,
-  isProfilePage,
+  listType,
   onRemoveFav,
   onRemoveWatch,
 }: CinemaProps) {
@@ -103,13 +104,6 @@ function LittleCard({
     setWatch(watches.some((w: CinemaProps) => w.id === id));
   };
 
-  const displayNoneFavBtn = {
-    display: isProfilePage && watch ? "none" : "inline",
-  };
-  const displayNoneWatchBtn = {
-    display: isProfilePage && favorite ? "none" : "inline",
-  };
-
   return (
     <div className="card">
       <div className="card__side card__side--front card__side--front-1">
@@ -128,34 +122,36 @@ function LittleCard({
       </div>
       <div className="card__side card__side--back card__side--back-1">
         <div className="card__description">
-          <button
-            style={displayNoneFavBtn}
-            className="favorite-btn"
-            type="button"
-            onClick={() => {
-              if (isProfilePage && onRemoveFav) {
-                onRemoveFav(id);
-              } else {
-                toggleFavorite();
-              }
-            }}
-          >
-            {isProfilePage ? "🗑️" : favorite ? "💖" : "🤍"}
-          </button>
-          <button
-            style={displayNoneWatchBtn}
-            className="watch-btn"
-            type="button"
-            onClick={() => {
-              if (isProfilePage && onRemoveWatch) {
-                onRemoveWatch(id);
-              } else {
-                toggleWatch();
-              }
-            }}
-          >
-            {isProfilePage ? "🗑️" : watch ? "🤓" : "😑"}
-          </button>
+          {listType !== "watchlist" && (
+            <button
+              className="favorite-btn"
+              type="button"
+              onClick={() => {
+                if (listType === "favorites" && onRemoveFav) {
+                  onRemoveFav(id);
+                } else {
+                  toggleFavorite();
+                }
+              }}
+            >
+              {listType === "favorites" ? "🗑️" : favorite ? "💖" : "🤍"}
+            </button>
+          )}
+          {listType !== "favorites" && (
+            <button
+              className="watch-btn"
+              type="button"
+              onClick={() => {
+                if (listType === "watchlist" && onRemoveWatch) {
+                  onRemoveWatch(id);
+                } else {
+                  toggleWatch();
+                }
+              }}
+            >
+              {listType === "watchlist" ? "🗑️" : watch ? "🤓" : "😑"}
+            </button>
+          )}
           <p>{overview}</p>
           <p>Date de sortie: {release_date}</p>
           <button
