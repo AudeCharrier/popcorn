@@ -232,6 +232,9 @@
 }
 
 @media screen and (max-width: 1024px) {
+  .navbar {
+    z-index: 1;
+  }
   .profile-general-wrapper {
     justify-content: flex-end;
     padding-right: 0.6rem;
@@ -239,8 +242,10 @@
   .profile-menu {
     position: fixed;
     left: 0;
-    top: 75px;
+    height: 100%;
     padding-left: 1.5rem;
+    padding-top: 8.2rem;
+    z-index: 0;
     .profile-menu-list {
       width: 100%;
       li {
@@ -310,7 +315,7 @@
     }
   }
   .profile-menu {
-    padding-top: 2rem;
+    padding-top: 6rem;
   }
   .profile-desktop {
     display: none;
