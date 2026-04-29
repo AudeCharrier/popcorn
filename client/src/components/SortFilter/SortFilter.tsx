@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import "./SortFilter.css";
+import Logo from "../../assets/images/filtre.png";
 import type { Filters, SearchResult } from "../../contexts/SearchContext";
 import SearchContext from "../../contexts/SearchContext";
 
@@ -8,19 +9,17 @@ type Props = {
 };
 
 const genres = [
-  { id: 28, name: "Action" },
-  { id: 10759, name: "Action & Adventure" },
+  { id: 28, name: "Action", alias: [10759] },
+  { id: 12, name: "Aventure", alias: [10759] },
   { id: 16, name: "Animation" },
-  { id: 12, name: "Aventure" },
   { id: 35, name: "Comédie" },
   { id: 18, name: "Drame" },
   { id: 10751, name: "Familial" },
-  { id: 14, name: "Fantastique" },
+  { id: 14, name: "Fantastique", alias: [10765] },
+  { id: 878, name: "Science-Fiction", alias: [10765] },
   { id: 10752, name: "Guerre" },
   { id: 27, name: "Horreur" },
   { id: 10749, name: "Romance" },
-  { id: 878, name: "Science-Fiction" },
-  { id: 10765, name: "Science-Fiction & Fantastique" },
   { id: 53, name: "Thriller" },
 ];
 
@@ -130,12 +129,17 @@ function SortFilter({ moodId }: Props) {
       const byGenre =
         filters.genres.length === 0
           ? byType
-          : byType.filter(
-              (item) =>
-                item.genre_ids?.some((id) => filters.genres.includes(id)) ??
-                false,
+          : byType.filter((item) =>
+              item.genre_ids?.some((id) =>
+                filters.genres.some((selectedId) => {
+                  const genre = genres.find((g) => g.id === selectedId);
+                  if (!genre) return false;
+                  if (selectedId === id) return true;
+                  if (genre.alias?.includes(id)) return true;
+                  return false;
+                }),
+              ),
             );
-
       const byKeyword =
         filters.keyword.trim() === ""
           ? byGenre
@@ -169,8 +173,14 @@ function SortFilter({ moodId }: Props) {
 
     setActiveFilters(newFilters);
 
-    applyFilters(results, newFilters, sortConfig);
-  }, [moodId, results, sortConfig, setActiveFilters, applyFilters]);
+    // applyFilters(results, newFilters, sortConfigRef.current);
+  }, [moodId, results, setActiveFilters]);
+
+  useEffect(() => {
+    if (!results) return;
+
+    applyFilters(results, activeFilters, sortConfig);
+  }, [results, activeFilters, sortConfig, applyFilters]);
 
   function updateFiltersCheck(
     categorie: "mediaTypes" | "genres",
@@ -221,8 +231,7 @@ function SortFilter({ moodId }: Props) {
           setIsOverlay(false);
         }}
       >
-        <p className="overlay-title">Trier</p>
-        <p className="overlay-title">Filtrer</p>
+        <img src={Logo} className="overlay-title" alt="Filtre" />
       </button>
 
       <aside
@@ -279,7 +288,7 @@ function SortFilter({ moodId }: Props) {
           <div className="filter-options-container">
             <input
               type="text"
-              placeholder="Rechercher par titre..."
+              placeholder="Mots-clés..."
               id="search-input"
               value={activeFilters.keyword}
               onChange={(e) => updateKeyword(e.target.value)}
