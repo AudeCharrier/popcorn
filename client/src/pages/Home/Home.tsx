@@ -26,6 +26,7 @@ type MovieDetails = {
   release_date: string;
   overview: string;
   runtime: number;
+  poster_path: string;
 };
 
 type CarousselProps = {
@@ -40,8 +41,6 @@ function Home({ items }: CarousselProps) {
   const [featuredMovie, setFeaturedMovie] = useState<MovieDetails | null>(null);
   const [currentMovie, setCurrentMovie] = useState<CarouselItem[]>([]);
   const [upcomingMovie, setUpcomingMovie] = useState<CarouselItem[]>([]);
-  const [trailerUrl, setTrailerUlr] = useState<string | null>(null);
-  const [hasTrailer, setHasTrailer] = useState(false);
 
   console.log(items);
 
@@ -67,7 +66,6 @@ function Home({ items }: CarousselProps) {
 
         setCurrentMovie(moviesWithImages);
       });
-
     fetch(
       "https://api.themoviedb.org/3/movie/upcoming?language=fr-FR&page=2",
       options,
@@ -111,17 +109,8 @@ function Home({ items }: CarousselProps) {
           release_date: movieDetails.release_date,
           overview: movieDetails.overview,
           runtime: movieDetails.runtime,
+          poster_path: `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`,
         });
-        const trailer = movieDetails.videos.results.find(
-          (video: { site: string; type: string; key: string }) =>
-            video.site === "YouTube" && video.type === "Trailer",
-        );
-        if (trailer) {
-          setTrailerUlr(`https://www.youtube.com/watch?v=${trailer.key}`);
-          setHasTrailer(true);
-        } else {
-          setHasTrailer(false);
-        }
       });
   }, []);
 
@@ -130,11 +119,17 @@ function Home({ items }: CarousselProps) {
   return (
     <div className="wrapper">
       <div className="Banniere-picture">
-        <div className="texte-bloc">
-          {featuredMovie && (
-            <div className="featured-film">
+        {featuredMovie && (
+          <div className="featured-film">
+            <div className="featured-container">
+              <img
+                className="featured-poster"
+                src={featuredMovie.poster_path}
+                alt={featuredMovie.title}
+              />
+            </div>
+            <div className="featured-heart">
               <div className="featured-badge">COUP DE CŒUR DE LA SEMAINE</div>
-
               <h2 className="featured-title">{featuredMovie.title}</h2>
 
               <div className="featured-infos">
@@ -155,21 +150,10 @@ function Home({ items }: CarousselProps) {
                 >
                   VOIR LE FILM
                 </button>
-                {hasTrailer && (
-                  <button
-                    type="button"
-                    className="btn-bande"
-                    onClick={() =>
-                      trailerUrl && window.open(trailerUrl, "_blank")
-                    }
-                  >
-                    ▶ BANDE-ANNONCE
-                  </button>
-                )}
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
       {/* MOOD */}
       <div className="home-mood">
@@ -191,7 +175,7 @@ function Home({ items }: CarousselProps) {
           <div className="home-current__block">
             <div className="home-title">
               <img
-                src={logoCalendrier}
+                src={logoPopcorn}
                 alt="Calendrier"
                 className="home-title-icon"
               />
@@ -205,7 +189,7 @@ function Home({ items }: CarousselProps) {
           <div className="home-current__block">
             <div className="home-title">
               <img
-                src={logoPopcorn}
+                src={logoCalendrier}
                 alt="Popcorn"
                 className="home-title-icon"
               />
