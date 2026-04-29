@@ -16,8 +16,9 @@ type CarouselItem = {
 };
 
 function Profile() {
-  const width = {
-    width: "60vw",
+  const carouselLarge = {
+    width: "65vw",
+    paddingLeft: "1.4rem",
   };
 
   const [favorites, setFavorites] = useState<CarouselItem[]>([]);
@@ -134,7 +135,7 @@ function Profile() {
               isProfilePage={true}
               listType="favorites"
               onRemoveFav={removeFavorite}
-              style={width}
+              style={carouselLarge}
             />
           </div>
         </div>
@@ -147,7 +148,7 @@ function Profile() {
               isProfilePage={true}
               listType="watchlist"
               onRemoveWatch={removeToWatch}
-              style={width}
+              style={carouselLarge}
             />
           </div>
         </div>

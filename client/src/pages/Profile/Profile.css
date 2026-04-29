@@ -279,7 +279,4 @@
       min-height: 20vh; /*pour que le menu-profile reste affiché au scroll quand les carousels sont vides*/
     }
   }
-  .profile-list > div {
-    padding-left: 1.4rem;
-  }
 }
