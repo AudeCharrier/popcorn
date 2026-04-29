@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import BadgeWatcher from "../../assets/images/badge_watcher_amateur.png";
 import Pencil from "../../assets/images/pencil.webp";
 import CarousselLarge from "../../components/CarousselLarge/CarousselLarge";
-/* import Profil from "../../assets/images/profil.png";
-import Watch from "../../assets/images/enregistrer.png"; */
 import "./Profile.css";
 
 type CarouselItem = {
@@ -91,10 +89,8 @@ function Profile() {
           </li>
         </ul>
       </aside>
-      <section className="profile-layout">
-        <h2 className="profile-account-title profile-list-title" id="compte">
-          Mon compte
-        </h2>
+      <section className="profile-layout" id="compte">
+        <h2 className="profile-account-title profile-list-title">Mon compte</h2>
         <div className="profile-account-wrapper">
           <div className="profile-my-account">
             <h3>Pseudo</h3>
@@ -130,10 +126,8 @@ function Profile() {
           </div>
         </div>
 
-        <div className="profile-list-wrapper">
-          <h2 className="profile-list-title" id="favoris">
-            Mes favoris
-          </h2>
+        <div className="profile-list-wrapper" id="favoris">
+          <h2 className="profile-list-title">Mes favoris</h2>
           <div className="profile-list">
             <CarousselLarge
               items={favorites}
@@ -145,17 +139,17 @@ function Profile() {
           </div>
         </div>
 
-      <div className="profile-list-wrapper">
-        <h2 className="profile-list-title">WATCH-LIST</h2>
-        <div className="profile-list">
-          <CarousselLarge
-            items={toWatch}
-            isProfilePage={true}
-            listType="watchlist"
-            onRemoveWatch={removeToWatch}
-            style={width}
-          />
-        </div>
+        <div className="profile-list-wrapper" id="watch-list">
+          <h2 className="profile-list-title">WATCH-LIST</h2>
+          <div className="profile-list">
+            <CarousselLarge
+              items={toWatch}
+              isProfilePage={true}
+              listType="watchlist"
+              onRemoveWatch={removeToWatch}
+              style={width}
+            />
+          </div>
         </div>
       </section>
     </section>

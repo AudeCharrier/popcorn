@@ -120,7 +120,6 @@
   justify-content: space-between;
   align-items: stretch;
   width: 100%;
-
   gap: 1rem;
   padding-right: 2rem;
   .profile-my-account {
@@ -223,4 +222,64 @@
   margin: 0;
   font-weight: 800;
   line-height: 1;
+}
+
+@media screen and (max-width: 1024px) {
+  .profile-general-wrapper {
+    justify-content: flex-end;
+    padding-right: 0.6rem;
+  }
+  .profile-menu {
+    position: fixed;
+    left: 0;
+    top: 75px;
+    padding-left: 1.5rem;
+    .profile-menu-list {
+      width: 100%;
+      li {
+        width: 100%;
+      }
+    }
+  }
+
+  .profile-menu-titles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .profile-menu-my-profile {
+    margin: 0 0 1.6rem 0.4rem;
+  }
+  .profile-menu-my-profile::before {
+    display: none; /* supprime le pseudo-élément */
+  }
+
+  .profile-account-wrapper {
+    padding-right: 0;
+    .profile-my-account {
+      width: 65%;
+    }
+    .profile-member-status {
+      width: 35%;
+    }
+  }
+  .profile-mdp-btn {
+    padding: 1rem;
+    width: 70%;
+  }
+
+  .profile-list-wrapper {
+    padding: 2rem 0 2rem 0;
+    width: 100%;
+    .profile-list {
+      min-height: 20vh; /*pour que le menu-profile reste affiché au scroll quand les carousels sont vides*/
+    }
+  }
+  .profile-list > div {
+    padding-left: 1.4rem;
+  }
 }
