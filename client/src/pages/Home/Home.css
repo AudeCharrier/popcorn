@@ -188,6 +188,68 @@ body {
   font-size: 1.5rem;
 }
 
+.home-heart__block .caroussel-overflow {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.home-heart__block .caroussel-overflow::-webkit-scrollbar {
+  display: none;
+}
+
+.home-heart__block .caroussel-center {
+  gap: 14px;
+  width: max-content;
+  transform: none;
+}
+
+.home-heart__block .caroussel-item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.home-heart__block .caroussel-item:hover {
+  transform: none;
+}
+
+.home-heart__block .arrow,
+.home-heart__block .prev,
+.home-heart__block .next,
+.home-heart__block .carousel-arrow {
+  display: none;
+}
+
+.home-current__block .caroussel-court-overflow {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  width: 100%;
+}
+
+.home-current__block .caroussel-court-overflow::-webkit-scrollbar {
+  display: none;
+}
+
+.home-current__block .caroussel-court-center {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+}
+
+.home-current__block .caroussel-court-item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.home-current__block .caroussel-court-item:hover {
+  transform: none;
+}
+
 /* RESPONSIVE */
 
 @media (max-width: 1024px) {
@@ -270,6 +332,21 @@ body {
   .card img {
     height: 86%;
   }
+
+  /* Large */
+  .caroussel-button {
+    display: none;
+  }
+
+  .caroussel-button-right {
+    display: none;
+  }
+  .caroussel-court-button-left {
+    display: none;
+  }
+  .caroussel-court-button {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
@@ -323,5 +400,16 @@ body {
 
   .caroussel-court-container {
     height: fit-content;
+  }
+
+  .caroussel-court-button-left {
+    display: none;
+  }
+  .caroussel-court-button {
+    display: none;
+  }
+
+  .caroussel-button-right {
+    display: none;
   }
 }
