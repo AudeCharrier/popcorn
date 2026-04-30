@@ -164,7 +164,7 @@ function Home({ items }: CarousselProps) {
         <div className="home-heart__block">
           <div className="home-title">
             <img src={logoCoeur} alt="Coeur" className="home-title-icon" />
-            <h2 className="titre-coup">COUP DE COEUR</h2>
+            <h2 className="titre-coup">COUPS DE COEUR</h2>
           </div>
 
           <CarousselLarge items={movieLike} />

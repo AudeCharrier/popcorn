@@ -73,6 +73,9 @@
     width: 86vw;
     height: auto;
   }
+  .caroussel-court-button {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {

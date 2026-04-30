@@ -317,8 +317,7 @@ body {
 
 @media (max-width: 768px) {
   .featured-title {
-    font-size: 1rem;
-    display: none;
+    font-size: 2rem;
   }
 
   .featured-description {
@@ -328,7 +327,9 @@ body {
   .featured-heart {
     height: auto;
   }
-
+  .featured-infos {
+    display: none;
+  }
   .card img {
     height: 86%;
   }
@@ -337,7 +338,9 @@ body {
   .caroussel-button {
     display: none;
   }
-
+  .btn-voir {
+    padding: 0.6rem 1.25rem;
+  }
   .caroussel-button-right {
     display: none;
   }

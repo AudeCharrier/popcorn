@@ -77,3 +77,9 @@
   width: 100%;
   margin: auto;
 }
+
+@media (max-width: 1024px) {
+  .caroussel-button {
+    display: none;
+  }
+}
