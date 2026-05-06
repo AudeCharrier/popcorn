@@ -131,6 +131,8 @@
     flex-wrap: nowrap;
     padding: 6px 12px;
     align-items: center;
+    z-index: 2;
+    position: relative;
   }
 
   .nav-title {
