@@ -84,7 +84,7 @@ function FilmsSeries({ type }: { type: "movie" | "tv" }) {
 
   useEffect(() => {
     if (isAtCinema) {
-      fetch("http://localhost:3310/")
+      fetch(`${import.meta.env.VITE_API_URL}/`)
         .then((response) => response.json())
         .then((data) => {
           const results = Array.isArray(data) ? data : data.cinemaData;
