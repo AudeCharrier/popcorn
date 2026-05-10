@@ -1,391 +1,157 @@
-# Js-Crew-vert-wildwalker-P2-G2
-
-Ce projet est un monorepo JS, suivant l'architecture React-Express-MySQL telle qu'enseignée à la Wild Code School (v7.2.4) :
-
-```mermaid
-sequenceDiagram
-    box Web Client
-    participant React as React
-    participant Fetcher as Fetcher
-    end
-    box Web Server
-    participant Express as Express
-    participant Module as Module
-    end
-    box DB Server
-    participant DB as MySQL Server
-    end
-
-    React-)Fetcher: event
-    activate Fetcher
-    Fetcher-)Express: requête (HTTP)
-    activate Express
-    Express-)Module: appel
-    activate Module
-    Module-)DB: requête SQL
-    activate DB
-    DB--)Module: données
-    deactivate DB
-    Module--)Express: json
-    deactivate Module
-    Express--)Fetcher: réponse HTTP
-    deactivate Express
-    Fetcher--)React: render
-    deactivate Fetcher
-```
-
-Il est pré-configuré avec un ensemble d'outils pour aider les étudiants à produire du code de qualité industrielle, tout en restant un outil pédagogique :
-
-- **Concurrently** : Permet d'exécuter plusieurs commandes simultanément dans le même terminal.
-- **Vite** : Alternative à _Create-React-App_, offrant une expérience plus fluide avec moins d'outils.
-- **Biome** : Alternative à _ESlint_ et _Prettier_, assurant la qualité du code selon des règles choisies.
-- **Supertest** : Bibliothèque pour tester les serveurs HTTP en node.js.
-
-## Table des Matières
-
-- [Js-Crew-vert-wildwalker-P2-G2](#name)
-  - [Table des Matières](#table-des-matières)
-  - [Installation \& Utilisation](#installation--utilisation)
-  - [Les choses à retenir](#les-choses-à-retenir)
-    - [Commandes de Base](#commandes-de-base)
-    - [Structure des Dossiers](#structure-des-dossiers)
-    - [Mettre en place la base de données](#mettre-en-place-la-base-de-données)
-    - [Développer la partie back-end](#développer-la-partie-back-end)
-    - [REST](#rest)
-    - [Autres Bonnes Pratiques](#autres-bonnes-pratiques)
-  - [FAQ](#faq)
-    - [Installation avec Docker](#installation-avec-docker)
-      - [Mode développement](#mode-développement)
-      - [Installation de nouvelles dépendances](#installation-de-nouvelles-dépendances)
-      - [Accéder à la base de données](#accéder-à-la-base-de-données)
-    - [Déploiement avec Traefik](#déploiement-avec-traefik)
-    - [Variables d'environnement spécifiques](#variables-denvironnement-spécifiques)
-    - [Logs](#logs)
-    - [Contribution](#contribution)
-
-## Installation & Utilisation
-
-1. Installez le plugin **Biome** dans VSCode et configurez-le.
-2. Clonez ce dépôt, puis accédez au répertoire cloné.
-3. Exécutez la commande `npm install`.
-4. Créez des fichiers d'environnement (`.env`) dans les répertoires `server` et `client` : vous pouvez copier les fichiers `.env.sample` comme modèles (**ne les supprimez pas**).
-
-## Les choses à retenir
-
-### Commandes de Base
-
-| Commande               | Description                                                                 |
-|------------------------|-----------------------------------------------------------------------------|
-| `npm install`          | Installe les dépendances pour le client et le serveur                       |
-| `npm run db:migrate`   | Met à jour la base de données à partir d'un schéma défini                   |
-| `npm run dev`          | Démarre les deux serveurs (client et serveur) dans un seul terminal         |
-| `npm run check`        | Exécute les outils de validation (linting et formatage)                     |
-| `npm run test`         | Exécute les tests unitaires et d'intégration                                |
-
-### Structure des Dossiers
-
-```plaintext
-my-project/
-│
-├── server/
-│   ├── app/
-│   │   ├── modules/
-│   │   │   ├── item/
-│   │   │   │   ├── itemActions.ts
-│   │   │   │   └── itemRepository.ts
-│   │   │   └── ...
-│   │   ├── app.ts
-│   │   ├── main.ts
-│   │   └── router.ts
-│   ├── database/
-│   │   ├── client.ts
-│   │   └── schema.sql
-│   ├── tests/
-│   ├── .env
-│   └── .env.sample
-│
-└── client/
-    ├── src/
-    │   ├── components/
-    │   ├── pages/
-    │   └── App.tsx
-    ├── .env
-    └── .env.sample
-```
+# 🎬 Popcorn
 
-### Mettre en place la base de données
+Application web de découverte de films et séries inspirée des plateformes de streaming, permettant d’explorer des contenus via une navigation classique et une approche par “humeur”, avec une interface immersive type cinéma.
 
-**Créer et remplir le fichier `.env`** dans le dossier `server` :
+👉 Démo : [Netlify - cine-popcorn](https://cine-popcorn.netlify.app) <br>
+👉 Front : [GitHub - Popcorn](https://github.com/audecharrier/popcorn) <br>
+👉 API : [GitHub - API-Popcorn](https://github.com/audecharrier/api-popcorn)<br>
 
-```plaintext
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=not_root
-DB_PASSWORD=password
-DB_NAME=my_database
-```
+👉 La base de données Supabase n'est pas encore déployée sur Netlify/Render, ni intégrée à ce ReadMe.
+<br>
 
-**Les variables sont utilisés** dans `server/database/client.ts` :
+## Contexte
 
-```typescript
-const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
+Projet réalisé en équipe dans le cadre d’une formation en développement web.
 
-import mysql from "mysql2/promise";
+Il s’agit de notre premier projet utilisant React et l’intégration d’API externes, avec pour objectif de passer d’un site statique à une application dynamique basée sur des données réelles.
 
-const client = mysql.createPool({
-  host: DB_HOST,
-  port: DB_PORT as number | undefined,
-  user: DB_USER,
-  password: DB_PASSWORD,
-  database: DB_NAME,
-});
+<br>
 
-export default client;
-```
+## Fonctionnalités
 
-**Créer une table** dans `server/database/schema.sql` :
+- Recherche de films et séries via API TMDB
+- Affichage d’un catalogue dynamique
+- Filtres par genres et types
+- Exploration par “humeur” (emojis reliés à des genres)
+- Page détail film / série :
+  - synopsis
+  - bande-annonce
+  - redirection vers plateformes de streaming
+- Page “séances” :
+  - films actuellement au cinéma
+  - API de cinémas (développée en interne)
+- Chat communautaire (fonctionnel, avec bugs connus)
+- Système de favoris et watchlist
+- Interface responsive inspirée des plateformes de streaming
 
-```sql
-CREATE TABLE item (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  user_id INT NOT NULL,
-  FOREIGN KEY(user_id) REFERENCES user(id)
-);
-```
+<br>
 
-**Insérer des données** dans `server/database/schema.sql` :
+## Stack technique
 
-```sql
-INSERT INTO item (title, user_id) VALUES
-  ('Sample Item 1', 1),
-  ('Sample Item 2', 2);
-```
+- React
+- JavaScript (ES6+)
+- TypeScript
+- HTML5 / CSS3 (Flexbox / Grid)
+- API externe : TMDB
+- API REST personnalisée
+- React Router (navigation dynamique avec paramètres)
+- Context API (gestion des données globales)
+- LocalStorage (persistance côté client)
+- Supabase (utilisateurs du chat)
+- Git / GitHub (travail collaboratif)
 
-**Synchroniser la BDD avec le schema** :
+<br>
 
-```sh
-npm run db:migrate
-```
+## Ma contribution
 
-### Développer la partie back-end
+### Filtrage et logique utilisateur
 
-**Créer une route** dans `server/app/router.ts` :
+- Développement d’un composant de tri et filtrage responsive
+- Implémentation de la logique de filtrage par genres et types
+- Gestion d’un state objet regroupant plusieurs filtres pour éviter la multiplication des états locaux
+- Intégration avec les données issues de l’API TMDB via Context API
 
-```typescript
-// ...
+<br>
 
-/* ************************************************************************* */
-// Define Your API Routes Here
-/* ************************************************************************* */
+### Gestion des données (API & Context)
 
-// Define item-related routes
-import itemActions from "./modules/item/itemActions";
+- Mise en place du Context API pour centraliser les données issues de l’API
+- Transmission des données aux composants de filtrage sans props drilling
+- Participation aux appels API de la page d’accueil
 
-router.get("/api/items", itemActions.browse);
+<br>
 
-/* ************************************************************************* */
+### UX / navigation
 
-// ...
-```
+- Proposition d’une navigation unifiée pour films et séries sur une même page dynamique
+- Adaptation du comportement de la page selon le point d’entrée utilisateur
+- Contribution à l’écran d’accueil avec mise en avant des affiches et informations films
 
-**Définir une action** dans `server/app/modules/item/itemActions.ts` :
+<br>
 
-```typescript
-import type { RequestHandler } from "express";
+### Interface utilisateur
 
-import itemRepository from "./itemRepository";
+- Développement de la page profil (UI responsive)
+- Adaptation d’un composant carrousel existant
+- Intégration et adaptation des systèmes de watchlist et favoris
+- Amélioration de la navigation globale et de la lisibilité de l’interface
 
-const browse: RequestHandler = async (req, res, next) => {
-  try {
-    const items = await itemRepository.readAll();
+<br>
 
-    res.json(items);
-  } catch (err) {
-    next(err);
-  }
-};
+## Limites du projet
 
-export default { browse };
-```
+- Chat fonctionnel mais instable (gestion des utilisateurs à revoir)
+- Absence de backend et d’authentification
+- Certaines données encore gérées côté front uniquement
+- Prototype d’espace personnel (non finalisé)
 
-**Accéder aux données** dans `server/app/modules/item/itemRepository.ts` :
+<br>
 
-```typescript
-import databaseClient from "../../../database/client";
+## Améliorations possibles
 
-import type { Result, Rows } from "../../../database/client";
+- Intégration d’une API de cinémas en France avec recherche par ville
+- Génération dynamique des genres directement depuis l’API TMDB (suppression du tableau statique)
+- Mise en place d’un système d’authentification complet (connexion / déconnexion)
+- Création d’une base de données utilisateurs pour la gestion des profils
+- Correction du chat communautaire (gestion des utilisateurs à améliorer)
 
-interface Item {
-  id: number;
-  title: string;
-  user_id: number;
-}
+<br>
 
-class ItemRepository {
-  async readAll() {
-    const [rows] = await databaseClient.query<Rows>("select * from item");
+## Travail en équipe
 
-    return rows as Item[];
-  }
-}
+- Projet réalisé à 6 avec méthodologie agile
+- Première utilisation de React en environnement collaboratif
+- Bonnes pratiques Git
+- Gestion des conflits de code et apprentissage des workflows d’équipe
+- Gestion des différents formats d’écrans entre les collaborateurs
+- Amélioration de la cohérence UI en fin de projet
 
-export default new ItemRepository();
-```
+<br>
 
-**Ajouter un middleware** 
+## 📂 Installation
 
-```typescript
-// ...
+### Backend (API)
 
-/* ************************************************************************* */
-// Define Your API Routes Here
-/* ************************************************************************* */
-
-// Define item-related routes
-import itemActions from "./modules/item/itemActions";
-
-const foo: RequestHandler = (req, res, next) => {
-  req.message = "hello middleware";
-
-  next();
-}
-
-router.get("/api/items", foo, itemActions.browse);
-
-/* ************************************************************************* */
-
-// ...
-```
-
-`req.message` sera disponible dans `itemActions.browse`.
-
-⚠️ La propriété `message` doit être ajoutée dans `src/types/express/index.d.ts` :
-
-```diff
-// to make the file a module and avoid the TypeScript error
-export type {};
-
-declare global {
-  namespace Express {
-    export interface Request {
-      /* ************************************************************************* */
-      // Add your custom properties here, for example:
-      //
-      // user?: { ... };
-      /* ************************************************************************* */
-+      message: string;
-    }
-  }
-}
-```
-
-### REST
-
-| Opération | Méthode | Chemin d'URL | Corps de la requête | SQL    | Réponse (Succès)               | Réponse (Erreur)                                                       |
-|-----------|---------|--------------|---------------------|--------|--------------------------------|------------------------------------------------------------------------|
-| Browse    | GET     | /items       |                     | SELECT | 200 (OK), liste des items.     |                                                                        |
-| Read      | GET     | /items/:id   |                     | SELECT | 200 (OK), un item.             | 404 (Not Found), si id invalide.                                       |
-| Add       | POST    | /items       | Données de l'item   | INSERT | 201 (Created), id d'insertion. | 400 (Bad Request), si corps invalide.                                  |
-| Edit      | PUT     | /items/:id   | Données de l'item   | UPDATE | 204 (No Content).              | 400 (Bad Request), si corps invalide. 404 (Not Found), si id invalide. |
-| Destroy   | DELETE  | /items/:id   |                     | DELETE | 204 (No Content).              | 404 (Not Found), si id invalide.                                       |
-
-### Autres Bonnes Pratiques
-
-- **Sécurité** :
-  - Validez et échappez toujours les entrées des utilisateurs.
-  - Utilisez HTTPS pour toutes les communications réseau.
-  - Stockez les mots de passe de manière sécurisée en utilisant des hash forts (ex : argon2).
-  - Revoyez et mettez à jour régulièrement les dépendances.
-
-- **Code** :
-  - Suivez les principes SOLID pour une architecture de code propre et maintenable.
-  - Utilisez TypeScript pour bénéficier de la vérification statique des types.
-  - Adoptez un style de codage cohérent avec Biome.
-  - Écrivez des tests pour toutes les fonctionnalités critiques.
-
-## FAQ
-
-### Installation avec Docker
-> ⚠️ Prérequis : Vous devez avoir installé Docker et Docker Compose sur votre machine.  
-> Suivez les instructions ici : [Docker Installation](https://docs.docker.com/get-docker/).
-
-Lorsque Docker est installé et démarré, exécutez la commande suivante pour construire l'image Docker et démarrer les conteneurs :
 ```bash
-docker compose up -d --build
-```
-La partie _client_ de l'application sera accessible à l'adresse http://localhost:3000 et la partie _serveur_ à l'adresse http://localhost:3310.  
-Pour arrêter et supprimer les conteneurs, exécutez :
-```bash
-docker compose down
-```
-
-#### Mode développement
-Les dépendances (du dossier `node_modules`) sont installées dans le conteneur Docker et ne seront pas visibles directement. Si vous utilisez un IDE comme VSCode et que vous souhaitez modifier des fichiers de votre application, vous devez installer les dépendances localement pour prévenir toute erreur de fichiers manquants.  
-```bash
+git clone https://github.com/audecharrier/api-popcorn
+cd api-popcorn
 npm install
 ```
 
-#### Installation de nouvelles dépendances
-Pour installer de nouvelles dépendances, procédez en local comme d'habitude avec `npm install <package-name>`, puis, synchronisez les dépendances dans le conteneur Docker avec la commande suivante :
+### Configuration du backend
+
+Le projet peut nécessiter un fichier .env basé sur le .env.sample présent dans le repository.
+
+### Lancement du backend
+
 ```bash
-docker compose exec web sh -c "npm install"
+node index.js
 ```
 
-#### Accéder à la base de données
-Pour vous connecter à la base de données avec votre terminal, exécutez la commande suivante :
+### Frontend
+
 ```bash
-docker compose exec database sh -c "mysql -uuser -ppassword js_template_fullstack"
+git clone https://github.com/audecharrier/popcorn
+cd popcorn
+npm install
 ```
 
-### Déploiement avec Traefik
+### Configuration du frontend
 
-> ⚠️ Prérequis : Vous devez avoir installé et configuré Traefik sur votre VPS au préalable. Suivez les instructions ici : [VPS Traefik Starter Kit](https://github.com/WildCodeSchool/vps-traefik-starter-kit/).
+Le projet peut nécessiter un fichier .env basé sur le .env.sample présent dans le repository.
 
-Pour le déploiement, ajoutez les secrets suivants dans la section `secrets` → `actions` du dépôt GitHub :
+### Lancement du frontend
 
-- `SSH_HOST` : Adresse IP de votre VPS
-- `SSH_USER` : Identifiant SSH pour votre VPS
-- `SSH_PASSWORD` : Mot de passe de connexion SSH pour votre VPS
-
-Et une variable publique dans `/settings/variables/actions` :
-
-- `PROJECT_NAME` : Le nom du projet utilisé pour créer le sous-domaine.
-
-> ⚠️ Avertissement : Les underscores ne sont pas autorisés car ils peuvent causer des problèmes avec le certificat Let's Encrypt.
-
-L'URL de votre projet sera `https://${PROJECT-NAME}.${subdomain}.wilders.dev/`.
-
-### Variables d'environnement spécifiques
-
-Les étudiants doivent utiliser le modèle fourni dans le fichier `*.env.sample*` en suivant la convention `<PROJECT_NAME><SPECIFIC_NAME>=<THE_VARIABLE>`.
-
-> ⚠️ **Avertissement:** Le `PROJECT_NAME` doit correspondre à celui utilisé dans la variable publique Git.
-
-Pour l'ajouter lors du déploiement, suivez ces deux étapes :
-
-1. Ajoutez la variable correspondante dans le fichier `docker-compose.prod.yml` (comme montré dans l'exemple : `PROJECT_NAME_SPECIFIC_NAME: ${PROJECT_NAME_SPECIFIC_NAME}`).
-2. Connectez-vous à votre serveur via SSH. Ouvrez le fichier `.env` global dans Traefik (`nano ./traefik/data/.env`). Ajoutez la variable avec la valeur correcte et sauvegardez le fichier.
-
-Après cela, vous pouvez lancer le déploiement automatique. Docker ne sera pas rafraîchi pendant ce processus.
-
-### Logs
-
-Pour accéder aux logs de votre projet en ligne (pour suivre le déploiement ou surveiller les erreurs), connectez-vous à votre VPS (`ssh user@host`). Ensuite, allez dans votre projet spécifique et exécutez `docker compose logs -t -f`.
-
-### Contribution
-
-Nous accueillons avec plaisir les contributions ! Veuillez suivre ces étapes pour contribuer :
-
-1. **Fork** le dépôt.
-2. **Clone** votre fork sur votre machine locale.
-3. Créez une nouvelle branche pour votre fonctionnalité ou bug fix (`git switch -c feature/your-feature-name`).
-4. **Commit** vos modifications (`git commit -m 'Add some feature'`).
-5. **Push** vers votre branche (`git push origin feature/your-feature-name`).
-6. Créez une **Pull Request** sur le dépôt principal.
-
-**Guide de Contribution** :
-
-- Assurez-vous que votre code respecte les standards de codage en exécutant `npm run check` avant de pousser vos modifications.
-- Ajoutez des tests pour toute nouvelle fonctionnalité ou correction de bug.
-- Documentez clairement vos modifications dans la description de la pull request.
+```bash
+npm run dev
+```
